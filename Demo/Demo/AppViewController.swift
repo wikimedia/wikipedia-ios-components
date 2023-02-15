@@ -27,6 +27,7 @@ class AppViewController: UITabBarController, Themeable {
         let rootNavigationController = UINavigationController(rootViewController: self)
         window.rootViewController = rootNavigationController
         window.makeKeyAndVisible()
+        updateUserInterfaceStyleOfViewControllerForCurrentTheme(rootNavigationController)
         loadMainUI()
     }
     
