@@ -12,9 +12,9 @@ class FeatureFetcher {
                 let items = [FeatureItemViewModel(title: "Item 1"), FeatureItemViewModel(title: "Item 2")]
                 
                 // Adjust comments to trigger empty and error states
-                //completion(.success(items))
+                completion(.success(items))
                 //completion(.success([]))
-                completion(.failure(NSError(domain: "org.wikimedia.wikipedia.ios.ui.components.demo", code: 0)))
+                //completion(.failure(NSError(domain: "org.wikimedia.wikipedia.ios.ui.components.demo", code: 0)))
             }
         }
     }
