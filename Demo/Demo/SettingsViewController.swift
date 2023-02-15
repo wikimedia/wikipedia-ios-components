@@ -1,7 +1,13 @@
 import UIKit
+import UIComponents
 
-class SettingsViewController: UIViewController {
-    
+struct ThemeButtonViewModel {
+    let title: String
+    let themeID: String
+}
+
+class SettingsViewController: UIViewController, Themeable {
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -16,6 +22,14 @@ class SettingsViewController: UIViewController {
         stackView.alignment = .fill
         return stackView
     }()
+    
+    private let viewModels = [
+        ThemeButtonViewModel(title: CommonStrings.defaultThemeDisplayName, themeID: Theme.defaultThemeName),
+        ThemeButtonViewModel(title: Theme.light.displayName, themeID: Theme.light.name),
+        ThemeButtonViewModel(title: Theme.sepia.displayName, themeID: Theme.sepia.name),
+        ThemeButtonViewModel(title: Theme.dark.displayName, themeID: Theme.dark.name),
+        ThemeButtonViewModel(title: Theme.black.displayName, themeID: Theme.black.name)
+    ]
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -45,51 +59,42 @@ class SettingsViewController: UIViewController {
     
     private func addThemeButtons() {
         
-        let defaultButton = UIButton(type: .system)
-        defaultButton.setTitle("Default", for: .normal)
-        defaultButton.addTarget(self, action: #selector(tappedDefault), for: .touchUpInside)
+        for (index, viewModel) in viewModels.enumerated() {
+            let button = UIButton(type: .system)
+            button.setTitle(viewModel.title, for: .normal)
+            button.tag = index
+            button.addTarget(self, action: #selector(tappedButton(_:)), for: .touchUpInside)
+            stackView.addArrangedSubview(button)
+        }
         
-        let lightButton = UIButton(type: .system)
-        lightButton.setTitle("Light", for: .normal)
-        lightButton.addTarget(self, action: #selector(tappedLight), for: .touchUpInside)
-        
-        let sepiaButton = UIButton(type: .system)
-        sepiaButton.setTitle("Sepia", for: .normal)
-        sepiaButton.addTarget(self, action: #selector(tappedSepia), for: .touchUpInside)
-        
-        let darkButton = UIButton(type: .system)
-        darkButton.setTitle("Dark", for: .normal)
-        darkButton.addTarget(self, action: #selector(tappedDark), for: .touchUpInside)
-        
-        let blackButton = UIButton(type: .system)
-        blackButton.setTitle("Black", for: .normal)
-        blackButton.addTarget(self, action: #selector(tappedBlack), for: .touchUpInside)
-        
-        stackView.addArrangedSubview(defaultButton)
-        stackView.addArrangedSubview(lightButton)
-        stackView.addArrangedSubview(sepiaButton)
-        stackView.addArrangedSubview(darkButton)
-        stackView.addArrangedSubview(blackButton)
+        updateButtonSelectedStates()
     }
             
-    @objc private func tappedDefault() {
-        
+    @objc private func tappedButton(_ sender : UIButton) {
+        let viewModel = viewModels[sender.tag]
+        let userInfo: [String: Any] = [NSNotification.UserInfoKeys.WMFUserDidSelectThemeNotificationThemeNameKey: viewModel.themeID]
+        NotificationCenter.default.post(name: Notification.Name.WMFUserDidSelectThemeNotification, object: nil, userInfo: userInfo)
+        updateButtonSelectedStates()
     }
     
-    @objc private func tappedLight() {
+    func updateButtonSelectedStates() {
+        let currentAppTheme = UserDefaults.standard.themeName
         
+        for (subview, theme) in zip(stackView.arrangedSubviews, viewModels) {
+            if let button = subview as? UIButton {
+                button.isSelected = theme.themeID == currentAppTheme
+            }
+        }
     }
     
-    @objc private func tappedSepia() {
+    func apply(theme: Theme) {
+        view.backgroundColor = theme.colors.baseBackground
         
-    }
-    
-    @objc private func tappedDark() {
-        
-    }
-    
-    @objc private func tappedBlack() {
-        
+        for subview in stackView.arrangedSubviews {
+            if let button = subview as? UIButton {
+                button.tintColor = theme.colors.link
+            }
+        }
     }
 }
 

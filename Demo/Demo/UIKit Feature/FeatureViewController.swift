@@ -1,7 +1,8 @@
 import UIKit
+import UIComponents
 
-class FeatureViewController: UIViewController {
-    
+class FeatureViewController: UIViewController, Themeable {
+
     let viewModel: FeatureViewModel
     
     lazy var loadingView: LoadingView = {
@@ -41,7 +42,7 @@ class FeatureViewController: UIViewController {
             switch result {
             case .success:
                 // Same idea here as calling collectionView.reloadData from the view controller, I just didn't want to bother with a collection view for mock UI.
-                self.featureView.dataView.configure(items: self.viewModel.items)
+                self.featureView.dataView.configure(items: self.viewModel.items, theme: self.viewModel.theme)
                 self.featureView.updateEmptyView(isVisible: self.viewModel.items.isEmpty)
             default:
                 break
@@ -62,5 +63,9 @@ class FeatureViewController: UIViewController {
             view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: loadingView.trailingAnchor)
         ])
     }
+    
+    func apply(theme: Theme) {
+        featureView.apply(theme: theme)
+        loadingView.apply(theme: theme)
+    }
 }
-

@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+import UIComponents
 
-class EmptyView: UIView {
+class EmptyView: UIView, Themeable {
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -28,5 +29,10 @@ class EmptyView: UIView {
             trailingAnchor.constraint(equalTo: label.trailingAnchor)
         ])
         label.text = "No items"
+    }
+    
+    func apply(theme: Theme) {
+        backgroundColor = theme.colors.baseBackground
+        label.textColor = theme.colors.text
     }
 }

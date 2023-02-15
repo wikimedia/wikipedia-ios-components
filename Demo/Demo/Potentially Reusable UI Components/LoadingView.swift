@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+import UIComponents
 
-class LoadingView: UIView {
+class LoadingView: UIView, Themeable {
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -34,5 +35,10 @@ class LoadingView: UIView {
     func stop() {
         spinner.stopAnimating()
         isHidden = true
+    }
+    
+    func apply(theme: Theme) {
+        backgroundColor = theme.colors.baseBackground
+        spinner.color = theme.colors.text
     }
 }

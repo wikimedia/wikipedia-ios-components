@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+import UIComponents
 
-class DataView: UIView {
+class DataView: UIView, Themeable {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -44,13 +45,25 @@ class DataView: UIView {
         ])
     }
     
-    func configure(items: [FeatureItemViewModel]) {
+    func configure(items: [FeatureItemViewModel], theme: Theme) {
         
         for item in items {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
             label.text = item.title
             stackView.addArrangedSubview(label)
+        }
+        
+        apply(theme: theme)
+    }
+    
+    func apply(theme: Theme) {
+        backgroundColor = theme.colors.baseBackground
+        
+        for subview in stackView.arrangedSubviews {
+            if let label = subview as? UILabel {
+                label.textColor = theme.colors.text
+            }
         }
     }
 }

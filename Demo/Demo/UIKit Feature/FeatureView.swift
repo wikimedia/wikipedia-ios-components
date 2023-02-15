@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+import UIComponents
 
-class FeatureView: UIView {
+class FeatureView: UIView, Themeable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
@@ -58,5 +59,12 @@ class FeatureView: UIView {
     
     func updateErrorView(isVisible: Bool) {
         errorView.isHidden = !isVisible
+    }
+    
+    func apply(theme: Theme) {
+        backgroundColor = theme.colors.baseBackground
+        dataView.apply(theme: theme)
+        emptyView.apply(theme: theme)
+        errorView.apply(theme: theme)
     }
 }

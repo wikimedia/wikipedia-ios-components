@@ -1,7 +1,8 @@
 import Foundation
 import UIKit
+import UIComponents
 
-class ErrorView: UIView {
+class ErrorView: UIView, Themeable {
     
     private lazy var label: UILabel = {
         let label = UILabel()
@@ -28,5 +29,10 @@ class ErrorView: UIView {
             trailingAnchor.constraint(equalTo: label.trailingAnchor)
         ])
         label.text = "There has been an error"
+    }
+    
+    func apply(theme: Theme) {
+        backgroundColor = theme.colors.baseBackground
+        label.textColor = theme.colors.text
     }
 }
