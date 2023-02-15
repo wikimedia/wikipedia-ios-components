@@ -6,7 +6,5 @@ class SettingsViewController: UIViewController {
         super.viewDidLoad()
         view.backgroundColor = .white
     }
-
-
 }
 

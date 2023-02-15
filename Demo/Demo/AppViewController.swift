@@ -4,7 +4,8 @@ import UIKit
 class AppViewController: UITabBarController {
     
     lazy var firstVC: UIViewController = {
-        let vc = FeatureViewController(nibName: nil, bundle: nil)
+        let viewModel = FeatureViewModel()
+        let vc = FeatureViewController(viewModel: viewModel)
         vc.title = "Feature"
         vc.tabBarItem.image = UIImage(systemName: "lightbulb")
         return vc
