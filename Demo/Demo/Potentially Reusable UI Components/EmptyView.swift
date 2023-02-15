@@ -7,6 +7,7 @@ class EmptyView: UIView, Themeable {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         return label
     }()
@@ -29,6 +30,16 @@ class EmptyView: UIView, Themeable {
             trailingAnchor.constraint(equalTo: label.trailingAnchor)
         ])
         label.text = "No items"
+        updateFonts()
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateFonts()
+    }
+    
+    private func updateFonts() {
+        label.font = UIFont.wmf_font(.georgiaTitle3, compatibleWithTraitCollection: traitCollection)
     }
     
     func apply(theme: Theme) {

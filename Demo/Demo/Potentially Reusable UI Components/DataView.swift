@@ -50,11 +50,22 @@ class DataView: UIView, Themeable {
         for item in items {
             let label = UILabel()
             label.translatesAutoresizingMaskIntoConstraints = false
+            label.adjustsFontForContentSizeCategory = true
             label.text = item.title
             stackView.addArrangedSubview(label)
         }
         
         apply(theme: theme)
+        updateFonts()
+    }
+    
+    func updateFonts() {
+        
+        for subview in stackView.arrangedSubviews {
+            if let label = subview as? UILabel {
+                label.font = UIFont.wmf_scaledSystemFont(forTextStyle: .body, weight: .bold, size: 14, maximumPointSize: 32)
+            }
+        }
     }
     
     func apply(theme: Theme) {

@@ -61,12 +61,14 @@ class SettingsViewController: UIViewController, Themeable {
         
         for (index, viewModel) in viewModels.enumerated() {
             let button = UIButton(type: .system)
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
             button.setTitle(viewModel.title, for: .normal)
             button.tag = index
             button.addTarget(self, action: #selector(tappedButton(_:)), for: .touchUpInside)
             stackView.addArrangedSubview(button)
         }
         
+        updateFonts()
         updateButtonSelectedStates()
     }
             
@@ -83,6 +85,19 @@ class SettingsViewController: UIViewController, Themeable {
         for (subview, theme) in zip(stackView.arrangedSubviews, viewModels) {
             if let button = subview as? UIButton {
                 button.isSelected = theme.themeID == currentAppTheme
+            }
+        }
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateFonts()
+    }
+    
+    func updateFonts() {
+        for subview in stackView.arrangedSubviews {
+            if let button = subview as? UIButton {
+                button.titleLabel?.font = UIFont.wmf_font(.italicBody, compatibleWithTraitCollection: traitCollection)
             }
         }
     }

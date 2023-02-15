@@ -54,6 +54,11 @@ class FeatureViewController: UIViewController, Themeable {
         view.backgroundColor = .white
     }
     
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        featureView.dataView.updateFonts()
+    }
+    
     private func setupLoadingView() {
         view.addSubview(loadingView)
         NSLayoutConstraint.activate([

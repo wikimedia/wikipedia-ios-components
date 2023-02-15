@@ -7,6 +7,7 @@ class ErrorView: UIView, Themeable {
     private lazy var label: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
         label.textAlignment = .center
         return label
     }()
@@ -29,6 +30,15 @@ class ErrorView: UIView, Themeable {
             trailingAnchor.constraint(equalTo: label.trailingAnchor)
         ])
         label.text = "There has been an error"
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        updateFonts()
+    }
+    
+    private func updateFonts() {
+        label.font = UIFont.wmf_font(.boldTitle1, compatibleWithTraitCollection: traitCollection)
     }
     
     func apply(theme: Theme) {
