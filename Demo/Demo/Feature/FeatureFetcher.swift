@@ -1,7 +1,7 @@
 import Foundation
 
 class FeatureFetcher {
-    func fetchItems(completion: @escaping (Result<[FeatureItemViewModel], Error>) -> Void) {
+    func fetchItems(completion: @escaping (Result<[Feature1ItemViewModel], Error>) -> Void) {
         DispatchQueue.global(qos: .userInitiated).async {
             
             // Pretend we're actually fetching stuff from the network here.
@@ -9,7 +9,7 @@ class FeatureFetcher {
             
             DispatchQueue.main.async {
                 
-                let items = [FeatureItemViewModel(title: "Item 1"), FeatureItemViewModel(title: "Item 2")]
+                let items = [Feature1ItemViewModel(title: "Item 1"), Feature1ItemViewModel(title: "Item 2")]
                 
                 // Adjust comments to trigger empty and error states
                 completion(.success(items))

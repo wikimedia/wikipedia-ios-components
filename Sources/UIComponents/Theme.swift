@@ -82,6 +82,14 @@ public class Theme {
         return [.foregroundColor: colors.link]
     }()
     
+    public lazy var navigationBarTitleTextAttributes: [NSAttributedString.Key: Any] = {
+        return [.foregroundColor: colors.text]
+    }()
+    
+    public lazy var navigationBarBackgroundImage: UIImage? = {
+        return UIImage.wmf_imageFromColor(colors.paperBackground)
+    }()
+    
     public static func withName(_ name: String?) -> Theme? {
         guard let name = name else {
             return nil

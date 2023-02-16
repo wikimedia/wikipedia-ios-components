@@ -1,12 +1,12 @@
 import Foundation
 import UIComponents
 
-class FeatureViewModel {
+class Feature1ViewModel {
     
     private let fetcher = FeatureFetcher()
-    let theme: Theme
+    var theme: Theme
     
-    private(set) var items: [FeatureItemViewModel] = []
+    private(set) var items: [Feature1ItemViewModel] = []
     private(set) var error: Error?
     
     init(theme: Theme) {

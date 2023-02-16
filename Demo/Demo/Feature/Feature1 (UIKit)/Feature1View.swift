@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
-class FeatureView: UIView, Themeable {
+class Feature1View: UIView, Themeable {
     
     override init(frame: CGRect) {
         super.init(frame: frame)

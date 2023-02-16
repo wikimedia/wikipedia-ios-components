@@ -1,6 +1,6 @@
 import Foundation
 
-class FeatureItemViewModel {
+class Feature1ItemViewModel {
     let title: String
     
     init(title: String) {

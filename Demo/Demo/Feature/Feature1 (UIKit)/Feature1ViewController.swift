@@ -1,9 +1,9 @@
 import UIKit
 import UIComponents
 
-class FeatureViewController: UIViewController, Themeable {
+class Feature1ViewController: UIViewController, Themeable {
 
-    let viewModel: FeatureViewModel
+    let viewModel: Feature1ViewModel
     
     lazy var loadingView: LoadingView = {
         let loadingView = LoadingView()
@@ -11,11 +11,11 @@ class FeatureViewController: UIViewController, Themeable {
         return loadingView
     }()
     
-    var featureView: FeatureView {
-        return view as! FeatureView
+    var featureView: Feature1View {
+        return view as! Feature1View
     }
     
-    init(viewModel: FeatureViewModel) {
+    init(viewModel: Feature1ViewModel) {
         self.viewModel = viewModel
         super.init(nibName: nil, bundle: nil)
     }
@@ -25,7 +25,7 @@ class FeatureViewController: UIViewController, Themeable {
     }
     
     override func loadView() {
-        let featureView = FeatureView()
+        let featureView = Feature1View()
         view = featureView
     }
     
@@ -51,7 +51,7 @@ class FeatureViewController: UIViewController, Themeable {
             self.featureView.updateErrorView(isVisible: self.viewModel.error != nil)
         }
         
-        view.backgroundColor = .white
+        apply(theme: viewModel.theme)
     }
     
     override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
@@ -70,6 +70,7 @@ class FeatureViewController: UIViewController, Themeable {
     }
     
     func apply(theme: Theme) {
+        viewModel.theme = theme
         featureView.apply(theme: theme)
         loadingView.apply(theme: theme)
     }

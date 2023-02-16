@@ -2,11 +2,10 @@ import Foundation
 import UIKit
 import UIComponents
 
-class AppViewController: UITabBarController, Themeable {
+class AppViewController: UITabBarController, Themeable, ThemeableNavigationControllerDelegate {
 
-    lazy var featureVC: FeatureViewController = {
-        let viewModel = FeatureViewModel(theme: theme)
-        let vc = FeatureViewController(viewModel: viewModel)
+    lazy var featureStartVC: FeatureStartViewController = {
+        let vc = FeatureStartViewController(theme: theme)
         vc.title = "Feature"
         vc.tabBarItem.image = UIImage(systemName: "lightbulb")
         return vc
@@ -24,7 +23,8 @@ class AppViewController: UITabBarController, Themeable {
     // MARK: Lifecycle
     
     func launchApp(in window: UIWindow) {
-        let rootNavigationController = UINavigationController(rootViewController: self)
+        let rootNavigationController = ThemeableNavigationController(theme: theme, rootViewController: self)
+        rootNavigationController.themeableNavigationControllerDelegate = self
         window.rootViewController = rootNavigationController
         window.makeKeyAndVisible()
         updateUserInterfaceStyleOfViewControllerForCurrentTheme(rootNavigationController)
@@ -37,7 +37,7 @@ class AppViewController: UITabBarController, Themeable {
     }
     
     private func configureTabController() {
-        self.viewControllers = [featureVC, settingsVC]
+        self.viewControllers = [featureStartVC, settingsVC]
     }
     
     override func viewDidLoad() {
@@ -45,12 +45,6 @@ class AppViewController: UITabBarController, Themeable {
         
         self.theme = UserDefaults.standard.theme(compatibleWith: traitCollection)
         NotificationCenter.default.addObserver(self, selector: #selector(userDidChangeTheme), name: Notification.Name.WMFUserDidSelectThemeNotification, object: nil)
-    }
-    
-    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
-        super.traitCollectionDidChange(previousTraitCollection)
-        
-        updateAppThemeIfNecessary()
     }
     
     // MARK: Notifications
@@ -94,8 +88,51 @@ class AppViewController: UITabBarController, Themeable {
     func apply(theme: Theme) {
         self.theme = theme
         view.backgroundColor = theme.colors.baseBackground
-        featureVC.apply(theme: theme)
+        featureStartVC.apply(theme: theme)
         settingsVC.apply(theme: theme)
+        apply(theme: theme, to: allNavigationControllers())
         tabBar.apply(theme: theme)
+    }
+    
+    func traitCollectionDidChange(_ themeableNavigationController: ThemeableNavigationController) {
+        updateAppThemeIfNecessary()
+    }
+    
+    func allNavigationControllers() -> [UINavigationController] {
+        if let navVC = navigationController {
+            return [navVC]
+        }
+        
+        return []
+    }
+    
+    func apply(theme: Theme, to navigationControllers: [UINavigationController]) {
+        
+        var foundNavigationControllers: Set<UINavigationController> = []
+        
+        for navVC in navigationControllers {
+            for vc in navVC.viewControllers {
+                if let themeableVC = vc as? Themeable,
+                   vc != self {
+                    themeableVC.apply(theme: theme)
+                }
+                
+                if let presentedNavVC = vc.presentedViewController as? UINavigationController {
+                    foundNavigationControllers.insert(presentedNavVC)
+                }
+            }
+            
+            if let presentedNavVC = navVC.presentedViewController as? UINavigationController {
+                foundNavigationControllers.insert(presentedNavVC)
+            }
+            
+            if let themeableNavVC = navVC as? Themeable {
+                themeableNavVC.apply(theme: theme)
+            }
+        }
+        
+        if foundNavigationControllers.count > 0 {
+            apply(theme: theme, to: Array(foundNavigationControllers))
+        }
     }
 }

@@ -45,7 +45,7 @@ class DataView: UIView, Themeable {
         ])
     }
     
-    func configure(items: [FeatureItemViewModel], theme: Theme) {
+    func configure(items: [Feature1ItemViewModel], theme: Theme) {
         
         for item in items {
             let label = UILabel()
