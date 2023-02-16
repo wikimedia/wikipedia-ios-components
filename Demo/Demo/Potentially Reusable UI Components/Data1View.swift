@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
-class DataView: UIView, Themeable {
+class Data1View: UIView, Themeable {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()

@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
-class EmptyView: UIView, Themeable {
+class Empty1View: UIView, Themeable {
     
     private lazy var label: UILabel = {
         let label = UILabel()

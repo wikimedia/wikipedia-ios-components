@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
-class LoadingView: UIView, Themeable {
+class Loading1View: UIView, Themeable {
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView()
         spinner.translatesAutoresizingMaskIntoConstraints = false

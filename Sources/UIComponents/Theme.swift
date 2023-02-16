@@ -111,3 +111,12 @@ extension Theme: Equatable {
         return lhs.name == rhs.name
     }
 }
+
+// Use for SwiftUI environment objects
+public final class ObservableTheme: ObservableObject {
+    @Published public var theme: Theme
+
+    public init(theme: Theme) {
+        self.theme = theme
+    }
+}

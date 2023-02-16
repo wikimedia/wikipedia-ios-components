@@ -5,8 +5,8 @@ class Feature1ViewController: UIViewController, Themeable {
 
     let viewModel: Feature1ViewModel
     
-    lazy var loadingView: LoadingView = {
-        let loadingView = LoadingView()
+    lazy var loadingView: Loading1View = {
+        let loadingView = Loading1View()
         loadingView.translatesAutoresizingMaskIntoConstraints = false
         return loadingView
     }()

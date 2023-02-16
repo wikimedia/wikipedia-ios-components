@@ -13,21 +13,21 @@ class Feature1View: UIView, Themeable {
         fatalError("init(coder:) has not been implemented")
     }
     
-    private(set) lazy var dataView: DataView = {
-        let dataView = DataView()
+    private(set) lazy var dataView: Data1View = {
+        let dataView = Data1View()
         dataView.translatesAutoresizingMaskIntoConstraints = false
         return dataView
     }()
     
-    private lazy var errorView: ErrorView = {
-        let errorView = ErrorView()
+    private lazy var errorView: Error1View = {
+        let errorView = Error1View()
         errorView.translatesAutoresizingMaskIntoConstraints = false
         errorView.isHidden = true
         return errorView
     }()
     
-    private lazy var emptyView: EmptyView = {
-        let emptyView = EmptyView()
+    private lazy var emptyView: Empty1View = {
+        let emptyView = Empty1View()
         emptyView.translatesAutoresizingMaskIntoConstraints = false
         emptyView.isHidden = true
         return emptyView

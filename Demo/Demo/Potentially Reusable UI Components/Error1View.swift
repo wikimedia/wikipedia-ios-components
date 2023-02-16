@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 import UIComponents
 
-class ErrorView: UIView, Themeable {
+class Error1View: UIView, Themeable {
     
     private lazy var label: UILabel = {
         let label = UILabel()

@@ -84,9 +84,8 @@ class FeatureStartViewController: UIViewController, Themeable {
     }
     
     @objc func tappedFeature2() {
-//        let viewModel = Feature1ViewModel(theme: theme)
-//        let vc = Feature1ViewController(viewModel: viewModel)
-//        navigationController?.pushViewController(vc, animated: true)
+        let vc = Feature2ViewController(theme: theme)
+        navigationController?.pushViewController(vc, animated: true)
     }
     
     func updateFonts() {
