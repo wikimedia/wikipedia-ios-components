@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 extension UITabBarAppearance {
     static func appearanceForTheme(_ theme: Theme) -> UITabBarAppearance {

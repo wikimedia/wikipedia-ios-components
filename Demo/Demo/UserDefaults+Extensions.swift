@@ -1,5 +1,5 @@
 import Foundation
-import UIComponents
+import Components
 import UIKit
 
 extension UserDefaults {

@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 class Empty1View: UIView, Themeable {
     

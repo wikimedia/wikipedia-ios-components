@@ -1,5 +1,5 @@
 import UIKit
-import UIComponents
+import Components
 
 class Feature1ViewController: UIViewController, Themeable {
 

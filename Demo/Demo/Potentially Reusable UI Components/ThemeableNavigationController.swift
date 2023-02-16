@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 protocol ThemeableNavigationControllerDelegate: AnyObject {
     func traitCollectionDidChange(_ themeableNavigationController: ThemeableNavigationController)

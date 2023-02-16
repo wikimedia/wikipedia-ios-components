@@ -1,5 +1,5 @@
 import UIKit
-import UIComponents
+import Components
 
 struct ThemeButtonViewModel {
     let title: String

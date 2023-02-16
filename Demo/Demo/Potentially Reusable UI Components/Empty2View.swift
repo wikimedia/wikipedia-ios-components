@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import Components
 
 struct Empty2View: View {
     

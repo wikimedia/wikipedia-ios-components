@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 class Data1View: UIView, Themeable {
     

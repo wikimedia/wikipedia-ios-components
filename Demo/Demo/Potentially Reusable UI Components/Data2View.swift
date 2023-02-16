@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import Components
 
 struct Data2View: View {
     

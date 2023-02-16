@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 class Loading1View: UIView, Themeable {
     private lazy var spinner: UIActivityIndicatorView = {

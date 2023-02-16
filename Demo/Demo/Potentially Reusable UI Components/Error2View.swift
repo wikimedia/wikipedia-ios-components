@@ -1,5 +1,5 @@
 import SwiftUI
-import UIComponents
+import Components
 
 struct Error2View: View {
     

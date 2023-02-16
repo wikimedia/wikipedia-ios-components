@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 class FeatureStartViewController: UIViewController, Themeable {
     private lazy var scrollView: UIScrollView = {

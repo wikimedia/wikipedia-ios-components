@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 import SwiftUI
-import UIComponents
+import Components
 
 class Feature2ViewController: UIViewController, Themeable {
     

@@ -1,6 +1,6 @@
 import Foundation
 import UIKit
-import UIComponents
+import Components
 
 extension UITabBar: Themeable {
     public func apply(theme: Theme) {
