@@ -53,10 +53,10 @@ public class Colors {
 public class Theme {
     
     public static let standard = Theme.light
-    public static let light = Theme(colors: .light, name: "light", displayName: "Light")
-    public static let sepia = Theme(colors: .sepia, name: "sepia", displayName: "Sepia")
-    public static let dark = Theme(colors: .dark, name: "dark", displayName: "Dark")
-    public static let black = Theme(colors: .black, name: "black", displayName: "Black")
+    public static let light = Theme(colors: .light, name: "light", displayName: "Light", isDark: false)
+    public static let sepia = Theme(colors: .sepia, name: "sepia", displayName: "Sepia", isDark: false)
+    public static let dark = Theme(colors: .dark, name: "dark", displayName: "Dark", isDark: true)
+    public static let black = Theme(colors: .black, name: "black", displayName: "Black", isDark: true)
     
     private static let themesByName = [Theme.light.name: Theme.light, Theme.dark.name: Theme.dark, Theme.sepia.name: Theme.sepia, Theme.black.name: Theme.black]
     
@@ -67,11 +67,13 @@ public class Theme {
     public let colors: Colors
     public let name: String
     public let displayName: String
+    private let isDark: Bool
     
-    init(colors: Colors, name: String, displayName: String) {
+    init(colors: Colors, name: String, displayName: String, isDark: Bool) {
         self.colors = colors
         self.name = name
         self.displayName = displayName
+        self.isDark = isDark
     }
     
     public lazy var tabBarTitleTextAttributes: [NSAttributedString.Key: Any] = {
@@ -89,6 +91,10 @@ public class Theme {
     public lazy var navigationBarBackgroundImage: UIImage? = {
         return UIImage.wmf_imageFromColor(colors.paperBackground)
     }()
+    
+    public var preferredStatusBarStyle: UIStatusBarStyle {
+        return isDark ? .lightContent : .default
+    }
     
     public static func withName(_ name: String?) -> Theme? {
         guard let name = name else {

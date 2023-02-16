@@ -55,8 +55,8 @@ class AppViewController: UITabBarController, Themeable, ThemeableNavigationContr
         }
         
         UserDefaults.standard.themeName = themeName
-        updateAppThemeIfNecessary()
         updateUserInterfaceStyleOfViewControllerForCurrentTheme(navigationController)
+        updateAppThemeIfNecessary()
     }
     
     // MARK: Theming

@@ -8,7 +8,7 @@ protocol ThemeableNavigationControllerDelegate: AnyObject {
 
 class ThemeableNavigationController: UINavigationController, Themeable {
     
-    let theme: Theme
+    var theme: Theme
     weak var themeableNavigationControllerDelegate: ThemeableNavigationControllerDelegate?
     
     init(theme: Theme, rootViewController: UIViewController) {
@@ -25,7 +25,12 @@ class ThemeableNavigationController: UINavigationController, Themeable {
         themeableNavigationControllerDelegate?.traitCollectionDidChange(self)
     }
     
+    override var preferredStatusBarStyle: UIStatusBarStyle {
+        return theme.preferredStatusBarStyle
+    }
+    
     func apply(theme: Theme) {
+        self.theme = theme
         navigationBar.isTranslucent = false
         navigationBar.tintColor = theme.colors.text
         let appearance = UINavigationBarAppearance.appearanceForTheme(theme)
