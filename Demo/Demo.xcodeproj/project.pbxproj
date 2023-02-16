@@ -17,7 +17,6 @@
 		6751A43B299DDD88008D120F /* UINavigationBarAppearance+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A43A299DDD88008D120F /* UINavigationBarAppearance+Extensions.swift */; };
 		6751A43F299DE54C008D120F /* Feature2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A43E299DE54C008D120F /* Feature2View.swift */; };
 		6751A441299DE5B6008D120F /* Feature2HostingController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A440299DE5B6008D120F /* Feature2HostingController.swift */; };
-		6751A443299DE757008D120F /* NavigationBarHidingHostingViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A442299DE757008D120F /* NavigationBarHidingHostingViewController.swift */; };
 		6751A445299DF109008D120F /* Data2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A444299DF109008D120F /* Data2View.swift */; };
 		6751A447299DF163008D120F /* Error2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A446299DF163008D120F /* Error2View.swift */; };
 		6751A449299DF19C008D120F /* Empty2View.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6751A448299DF19C008D120F /* Empty2View.swift */; };
@@ -51,7 +50,6 @@
 		6751A43A299DDD88008D120F /* UINavigationBarAppearance+Extensions.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UINavigationBarAppearance+Extensions.swift"; sourceTree = "<group>"; };
 		6751A43E299DE54C008D120F /* Feature2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature2View.swift; sourceTree = "<group>"; };
 		6751A440299DE5B6008D120F /* Feature2HostingController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Feature2HostingController.swift; sourceTree = "<group>"; };
-		6751A442299DE757008D120F /* NavigationBarHidingHostingViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavigationBarHidingHostingViewController.swift; sourceTree = "<group>"; };
 		6751A444299DF109008D120F /* Data2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Data2View.swift; sourceTree = "<group>"; };
 		6751A446299DF163008D120F /* Error2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Error2View.swift; sourceTree = "<group>"; };
 		6751A448299DF19C008D120F /* Empty2View.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Empty2View.swift; sourceTree = "<group>"; };
@@ -178,7 +176,6 @@
 				6751A448299DF19C008D120F /* Empty2View.swift */,
 				67C8E9E0299D5CBD00B28440 /* Loading1View.swift */,
 				6751A44A299DF1DA008D120F /* Loading2View.swift */,
-				6751A442299DE757008D120F /* NavigationBarHidingHostingViewController.swift */,
 			);
 			path = "Potentially Reusable UI Components";
 			sourceTree = "<group>";
@@ -270,7 +267,6 @@
 				6751A436299DDB11008D120F /* FeatureFetcher.swift in Sources */,
 				6751A433299DDB07008D120F /* Feature1ViewModel.swift in Sources */,
 				6751A430299DDB07008D120F /* Feature1View.swift in Sources */,
-				6751A443299DE757008D120F /* NavigationBarHidingHostingViewController.swift in Sources */,
 				6751A43B299DDD88008D120F /* UINavigationBarAppearance+Extensions.swift in Sources */,
 				67C8E9E9299D7CC500B28440 /* Notification+Extensions.swift in Sources */,
 				6751A431299DDB07008D120F /* Feature1ItemViewModel.swift in Sources */,

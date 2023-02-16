@@ -19,30 +19,23 @@ class Feature2ViewController: UIViewController, Themeable {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        let childHostingVC: UIViewController
-        
         let rootView = Feature2View()
             .environmentObject(observableTheme)
-
-        if #available(iOS 16, *) {
-            childHostingVC = UIHostingController(rootView: rootView)
-        } else {
-            childHostingVC = NavigationBarHidingHostingViewController(rootView: rootView)
-        }
+        let hostingVC = UIHostingController(rootView: rootView)
         
-        childHostingVC.view.translatesAutoresizingMaskIntoConstraints = false
-        view.addSubview(childHostingVC.view)
+        hostingVC.view.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(hostingVC.view)
 
         NSLayoutConstraint.activate([
-            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: childHostingVC.view.topAnchor),
-            view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: childHostingVC.view.leadingAnchor),
-            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: childHostingVC.view.trailingAnchor),
-            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: childHostingVC.view.bottomAnchor)
+            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: hostingVC.view.topAnchor),
+            view.safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: hostingVC.view.leadingAnchor),
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: hostingVC.view.trailingAnchor),
+            view.safeAreaLayoutGuide.bottomAnchor.constraint(equalTo: hostingVC.view.bottomAnchor)
         ])
         
-        addChild(childHostingVC)
-        childHostingVC.didMove(toParent: self)
-        childHostingVC.view.backgroundColor = .clear
+        addChild(hostingVC)
+        hostingVC.didMove(toParent: self)
+        hostingVC.view.backgroundColor = .clear
         
         apply(theme: observableTheme.theme)
     }
