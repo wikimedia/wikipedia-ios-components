@@ -29,8 +29,8 @@ public extension UIColor {
 	static let beige100 = UIColor(0xF8F1E3)
 	static let taupe600 = UIColor(0x646059)
 	static let taupe200 = UIColor(0xCBC8C1)
-	static let purpleWiki = UIColor(0x6b4ba1)
-	static let orangeWiki = UIColor(0xFF9500)
+	static let purple600 = UIColor(0x6b4ba1)
+	static let orange600 = UIColor(0xFF9500)
 	static let darkSearchFieldBackground = UIColor(0x8E8E93, alpha: 0.12)
 	static let lightSearchFieldBackground = UIColor(0xFFFFFF, alpha: 0.15)
 }
