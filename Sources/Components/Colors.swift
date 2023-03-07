@@ -1,18 +1,17 @@
 import UIKit
 
 public extension UIColor {
-    
+
     static let gray800 = UIColor(0x101418)
     static let gray700 = UIColor(0x202122)
     static let gray675 = UIColor(0x27292D)
     static let gray650 = UIColor(0x2E3136)
     static let gray600 = UIColor(0x54595D)
     static let gray500 = UIColor(0x72777D)
-    static let gray450 = UIColor(0x8E8E93)
-    static let gray150 = UIColor(0xEEF2FB)
     static let gray400 = UIColor(0xA2A9B1)
     static let gray300 = UIColor(0xC8CCD1)
     static let gray200 = UIColor(0xEAECF0)
+    static let gray150 = UIColor(0xEEF2FB)
     static let gray100 = UIColor(0xF8F9FA)
     static let blue700 = UIColor(0x2A4B8D)
     static let blue600 = UIColor(0x3366CC)
@@ -42,7 +41,7 @@ private extension UIColor {
         let b = CGFloat(hex & 0xFF) / 255.0
         self.init(red: r, green: g, blue: b, alpha: alpha)
     }
-    
+
     convenience init(_ hex: Int) {
         self.init(hex, alpha: 1)
     }
