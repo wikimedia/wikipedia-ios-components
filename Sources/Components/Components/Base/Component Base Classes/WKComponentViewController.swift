@@ -34,7 +34,7 @@ open class WKComponentViewController: UIViewController {
 
 	private func subscribeToAppEnvironmentChanges() {
 		WKAppEnvironment.publisher
-			.sink(receiveValue: { _ in self.appEnvironmentDidChange() })
+			.sink(receiveValue: { [weak self] _ in self?.appEnvironmentDidChange() })
 			.store(in: &cancellables)
 	}
 

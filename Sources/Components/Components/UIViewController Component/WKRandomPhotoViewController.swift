@@ -35,10 +35,16 @@ public class WKRandomPhotoViewController: WKComponentViewController {
 
 	private func loadImage() {
 		customView.activityIndicator.startAnimating()
-		viewModel.loadImage(completion: { image in
+        let configuration = viewModel.configuration
+		viewModel.loadImage(completion: { [weak self] image in
 			DispatchQueue.main.async {
+                
+                guard let self = self else {
+                    return
+                }
+                
 				self.customView.activityIndicator.stopAnimating()
-				self.customView.update(configuration: self.viewModel.configuration, image: image)
+				self.customView.update(configuration: configuration, image: image)
 			}
 		})
 	}

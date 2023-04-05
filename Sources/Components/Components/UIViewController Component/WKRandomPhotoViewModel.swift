@@ -39,17 +39,17 @@ public class WKRandomPhotoViewModel {
 	public func loadImage(completion: @escaping (UIImage) -> Void) {
 		switch configuration {
 		case .cats:
-			let task = URLSession.shared.dataTask(with: Configuration.cats.api) { data, _, _ in
+			let task = URLSession.shared.dataTask(with: Configuration.cats.api) { [weak self] data, _, _ in
 
 				if let data = data, let cat = try? JSONDecoder().decode(Cat.self, from: data) {
-					self.fetchPhoto(cat.file, completion: completion)
+					self?.fetchPhoto(cat.file, completion: completion)
 				}
 			}
 			task.resume()
 		case .dogs:
-			let task = URLSession.shared.dataTask(with: Configuration.dogs.api) { data, _, _ in
+			let task = URLSession.shared.dataTask(with: Configuration.dogs.api) { [weak self] data, _, _ in
 				if let data = data, let dog = try? JSONDecoder().decode(Dog.self, from: data) {
-					self.fetchPhoto(dog.message, completion: completion)
+					self?.fetchPhoto(dog.message, completion: completion)
 				}
 			}
 			task.resume()

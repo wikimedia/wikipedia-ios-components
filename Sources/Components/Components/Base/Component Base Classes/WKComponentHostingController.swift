@@ -39,7 +39,7 @@ open class WKComponentHostingController<HostedView: View>: UIHostingController<H
 
 	private func subscribeToAppEnvironmentChanges() {
 		WKAppEnvironment.publisher
-			.sink(receiveValue: { _ in self.appEnvironmentDidChange() })
+			.sink(receiveValue: { [weak self] _ in self?.appEnvironmentDidChange() })
 			.store(in: &cancellables)
 	}
 
