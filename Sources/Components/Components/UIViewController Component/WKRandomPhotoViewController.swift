@@ -32,7 +32,6 @@ public class WKRandomPhotoViewController: WKComponentViewController {
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 		loadImage()
-        let textStorage = WKSourceEditorTextStorage()
 	}
 
 	private func loadImage() {
