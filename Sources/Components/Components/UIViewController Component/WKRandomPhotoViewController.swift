@@ -1,4 +1,5 @@
 import UIKit
+import ComponentsObjC
 
 public class WKRandomPhotoViewController: WKComponentViewController {
 
@@ -31,6 +32,7 @@ public class WKRandomPhotoViewController: WKComponentViewController {
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 		loadImage()
+        let textStorage = WKSourceEditorTextStorage()
 	}
 
 	private func loadImage() {
