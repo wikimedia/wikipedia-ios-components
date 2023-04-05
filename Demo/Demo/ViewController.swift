@@ -21,6 +21,10 @@ class FeatureNavigationController: WKCanvasViewController, WKFeatureNavigationHo
 			present(RandomPhotoController(), animated: true)
 		case .sayHello:
 			present(WKUICommunicationViewController(), animated: true)
+        case .sourceEditor:
+            let viewModel = WKSourceEditorViewModel(configuration: .full, wikitext: "Hello World!")
+            let viewController = WKSourceEditorViewController(viewModel: viewModel)
+            present(viewController, animated: true)
 		}
 	}
 
