@@ -47,13 +47,16 @@ class WKStandardEditToolbarView: WKEditToolbarView {
     @IBOutlet weak var cursorLeftButton: WKEditToolbarButton!
     @IBOutlet weak var cursorRightButton: WKEditToolbarButton!
     
-    @IBOutlet weak var expandButton: WKEditExpandToolbarButton!
+    @IBOutlet weak var expandButton: WKEditToolbarNavigatorButton!
     
     override func awakeFromNib() {
         super.awakeFromNib()
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        
         expandButton.isAccessibilityElement = false
+        expandButton.setImage(WKIcon.chevonRightCircleFill, for: .normal)
+        expandButton.addTarget(self, action: #selector(revealMoreActions), for: .touchUpInside)
         
         formatTextButton.setImage(WKIcon.textFormatting, for: .normal)
         formatTextButton.addTarget(self, action: #selector(formatText), for: .touchUpInside)
@@ -99,8 +102,6 @@ class WKStandardEditToolbarView: WKEditToolbarView {
         
         cursorRightButton.setImage(WKIcon.chevonRight, for: .normal)
         cursorRightButton.addTarget(self, action: #selector(moveCursorRight), for: .touchUpInside)
-        
-        expandButton.addTarget(self, action: #selector(revealMoreActions), for: .touchUpInside)
     }
 
     // MARK: Button actions

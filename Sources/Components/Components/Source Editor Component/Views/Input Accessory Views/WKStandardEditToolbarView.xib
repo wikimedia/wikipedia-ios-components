@@ -189,7 +189,7 @@
                                 </mask>
                             </variation>
                         </scrollView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLt-zh-HFv" customClass="WKEditExpandToolbarButton" customModule="Components">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLt-zh-HFv" customClass="WKEditToolbarNavigatorButton" customModule="Components">
                             <rect key="frame" x="291" y="10" width="30" height="24"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>

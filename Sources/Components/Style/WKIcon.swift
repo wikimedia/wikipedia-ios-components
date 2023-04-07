@@ -3,6 +3,7 @@ import UIKit
 
 enum WKIcon {
     static let chevonRightCircleFill = UIImage(systemName: "chevron.right.circle.fill")
+    static let plusCircleFill = UIImage(systemName: "plus.circle.fill")
     static let chevonRight = UIImage(systemName: "chevron.right")
     static let chevonDown = UIImage(systemName: "chevron.down")
     static let chevonLeft = UIImage(systemName: "chevron.left")

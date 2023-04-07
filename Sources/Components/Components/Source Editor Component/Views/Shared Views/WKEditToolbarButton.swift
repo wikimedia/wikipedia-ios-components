@@ -1,19 +1,25 @@
 import Foundation
 import UIKit
 
-class WKEditExpandToolbarButton: WKComponentView {
-
+class WKEditToolbarButton: WKComponentView {
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        layer.cornerRadius = 4
+        clipsToBounds = true
+    }
+    
     private lazy var button: UIButton = {
         let button = UIButton(type: .custom)
         return button
     }()
     
-    public override init(frame: CGRect) {
+    override init(frame: CGRect) {
         super.init(frame: frame)
         setup()
     }
 
-    public required init?(coder: NSCoder) {
+    required init?(coder: NSCoder) {
         super.init(coder: coder)
         setup()
     }
@@ -28,17 +34,23 @@ class WKEditExpandToolbarButton: WKComponentView {
             button.topAnchor.constraint(equalTo: topAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
-        
-        button.setImage(WKIcon.chevonRightCircleFill, for: .normal)
-        
-        button.imageView?.contentMode = .scaleAspectFit
     }
     
-    public func addTarget(_ target: Any?, action: Selector, for controlEvent: UIControl.Event) {
+    func setImage(_ image: UIImage?, for state: UIControl.State) {
+        button.setImage(image, for: state)
+    }
+    
+    func addTarget(_ target: Any?, action: Selector, for controlEvent: UIControl.Event) {
         button.addTarget(target, action: action, for: controlEvent)
     }
 
-    public func removeTarget(_ target: Any?, action: Selector?, for controlEvent: UIControl.Event) {
+    func removeTarget(_ target: Any?, action: Selector?, for controlEvent: UIControl.Event) {
         button.removeTarget(target, action: action, for: controlEvent)
+    }
+
+    override open var intrinsicContentSize: CGSize {
+        // Increase touch targets & make widths more consistent
+        let superSize = super.intrinsicContentSize
+        return CGSize(width: max(superSize.width, 36), height: max(superSize.height, 36))
     }
 }
