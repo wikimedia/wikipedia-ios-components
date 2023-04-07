@@ -6,6 +6,19 @@ class WKSourceEditorView: WKComponentView {
     
     public typealias Configuration = WKSourceEditorViewModel.Configuration
     
+    // MARK: Nested Types
+    
+    enum InputViewType {
+        case textFormatting
+        case textStyle
+    }
+    
+    enum InputAccessoryViewType {
+        case standard
+        case highlight
+        case findInPage
+    }
+    
     // MARK: - UI Elements
     
     lazy var textView: UITextView = {
@@ -31,9 +44,123 @@ class WKSourceEditorView: WKComponentView {
         return textView
     }()
     
+    lazy var standardAccessoryView: UIView = {
+        let view = UINib(nibName: "WKStandardEditToolbarView", bundle: Bundle.module).instantiate(withOwner: nil).first as! WKStandardEditToolbarView
+        
+        return view
+    }()
+    
+    lazy var highlightAccessoryView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 44))
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Highlight"
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            view.topAnchor.constraint(equalTo: label.topAnchor),
+            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
+        ])
+        
+        return view
+    }()
+    
+    lazy var findInPageAccessoryView: UIView = {
+        let view = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 44))
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Find in page"
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            view.topAnchor.constraint(equalTo: label.topAnchor),
+            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
+        ])
+        
+        return view
+    }()
+    
+    lazy var formattingInputView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Formatting"
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            view.topAnchor.constraint(equalTo: label.topAnchor),
+            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
+        ])
+        
+        return view
+    }()
+    
+    lazy var styleInputView: UIView = {
+        let view = UIView()
+        view.translatesAutoresizingMaskIntoConstraints = false
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        label.text = "Style"
+        view.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            view.topAnchor.constraint(equalTo: label.topAnchor),
+            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
+        ])
+        
+        return view
+    }()
+    
     // MARK: - Properties
     
     private let configuration: Configuration
+    var inputViewType: InputViewType? = nil {
+        didSet {
+            guard let inputViewType else {
+                textView.inputView = nil
+                return
+            }
+            
+            switch inputViewType {
+            case .textFormatting:
+                textView.inputView = formattingInputView
+            case .textStyle:
+                textView.inputView = styleInputView
+            }
+            
+            textView.inputAccessoryView = nil
+            textView.reloadInputViews()
+        }
+    }
+    var inputAccessoryViewType: InputAccessoryViewType? = nil {
+        didSet {
+            guard let inputAccessoryViewType else {
+                textView.inputAccessoryView = nil
+                return
+            }
+            
+            switch inputAccessoryViewType {
+            case .standard:
+                textView.inputAccessoryView = standardAccessoryView
+            case .highlight:
+                textView.inputAccessoryView = highlightAccessoryView
+            case .findInPage:
+                textView.inputAccessoryView = findInPageAccessoryView
+            }
+            
+            textView.inputView = nil
+            textView.reloadInputViews()
+        }
+    }
     
     // MARK: - Lifecycle
 
