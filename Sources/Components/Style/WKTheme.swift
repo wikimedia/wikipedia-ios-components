@@ -35,5 +35,4 @@ public struct WKTheme: Equatable {
 		prominentText: WKColor.teal,
 		secondaryProminentText: WKColor.cyan
 	)
-
 }
