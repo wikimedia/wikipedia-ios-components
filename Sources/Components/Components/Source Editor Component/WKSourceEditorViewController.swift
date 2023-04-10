@@ -53,20 +53,20 @@ public class WKSourceEditorViewController: WKComponentViewController {
     }
     
     @objc func tapped() {
-        let random = Int.random(in: 1...5)
-        switch random {
-        case 1:
-            customView.inputAccessoryViewType = .standard
-        case 2:
-            customView.inputAccessoryViewType = .highlight
-        case 3:
-            customView.inputAccessoryViewType = .findInPage
-        case 4:
-            customView.inputViewType = .textFormatting
-        case 5:
-            customView.inputViewType = .textStyle
-        default:
-            print("blah")
-        }
+//        let random = Int.random(in: 1...5)
+//        switch random {
+//        case 1:
+//            customView.inputAccessoryViewType = .standard
+//        case 2:
+//            customView.inputAccessoryViewType = .highlight
+//        case 3:
+//            customView.inputAccessoryViewType = .findInPage
+//        case 4:
+            customView.inputViewType = .main
+//        case 5:
+//            customView.inputViewType = .headerSelect
+//        default:
+//            print("blah")
+//        }
     }
 }

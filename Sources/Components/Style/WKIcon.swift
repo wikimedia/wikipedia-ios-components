@@ -9,6 +9,7 @@ enum WKIcon {
     static let chevonLeft = UIImage(systemName: "chevron.left")
     static let chevonUp = UIImage(systemName: "chevron.up")
     static let photo = UIImage(systemName: "photo")
+    static let exclamation = UIImage(systemName: "exclamationmark.circle.fill")
     
     static let addCitation = UIImage(named: "add-citation", in: .module, with: nil)
     static let bold = UIImage(named: "bold", in: .module, with: nil)

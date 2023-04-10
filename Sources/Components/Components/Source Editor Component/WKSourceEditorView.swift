@@ -9,8 +9,8 @@ class WKSourceEditorView: WKComponentView {
     // MARK: Nested Types
     
     enum InputViewType {
-        case textFormatting
-        case textStyle
+        case main
+        case headerSelect
     }
     
     enum InputAccessoryViewType {
@@ -73,41 +73,37 @@ class WKSourceEditorView: WKComponentView {
         return view
     }()
     
-    lazy var formattingInputView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Formatting"
-        view.addSubview(label)
+    private var _mainInputView: UIView?
+    private var mainInputView: UIView {
         
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            view.topAnchor.constraint(equalTo: label.topAnchor),
-            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
-        ])
+        if let _mainInputView {
+            return _mainInputView
+        }
         
-        return view
-    }()
+        let inputViewController = WKEditorInputViewController(configuration: .rootMain)
+        inputViewController.delegate = self
+        inputViewController.loadViewIfNeeded()
+        
+        _mainInputView = inputViewController.view
+       
+        return inputViewController.view
+    }
     
-    lazy var styleInputView: UIView = {
-        let view = UIView()
-        view.translatesAutoresizingMaskIntoConstraints = false
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Style"
-        view.addSubview(label)
+    private var _headerSelectionInputView: UIView?
+    private var headerSelectionInputView: UIView {
         
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            view.topAnchor.constraint(equalTo: label.topAnchor),
-            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
-        ])
+        if let _headerSelectionInputView {
+            return _headerSelectionInputView
+        }
         
-        return view
-    }()
+        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
+        inputViewController.delegate = self
+        inputViewController.loadViewIfNeeded()
+        
+        _headerSelectionInputView = inputViewController.view
+        
+       return inputViewController.view
+    }
     
     // MARK: - Properties
     
@@ -116,14 +112,15 @@ class WKSourceEditorView: WKComponentView {
         didSet {
             guard let inputViewType else {
                 textView.inputView = nil
+                textView.reloadInputViews()
                 return
             }
             
             switch inputViewType {
-            case .textFormatting:
-                textView.inputView = formattingInputView
-            case .textStyle:
-                textView.inputView = styleInputView
+            case .main:
+                textView.inputView = mainInputView
+            case .headerSelect:
+                textView.inputView = headerSelectionInputView
             }
             
             textView.inputAccessoryView = nil
@@ -134,6 +131,7 @@ class WKSourceEditorView: WKComponentView {
         didSet {
             guard let inputAccessoryViewType else {
                 textView.inputAccessoryView = nil
+                textView.reloadInputViews()
                 return
             }
             
@@ -203,5 +201,21 @@ class WKSourceEditorView: WKComponentView {
     private func updateInsets(keyboardHeight: CGFloat) {
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
         textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    }
+}
+
+extension WKSourceEditorView: WKEditorInputViewDelegate {
+    func tappedClose() {
+        if let inputViewType {
+            switch inputViewType {
+            case .main:
+                _mainInputView = nil
+            case .headerSelect:
+                _headerSelectionInputView = nil
+            }
+        }
+        
+        textView.resignFirstResponder()
+        textView.inputView = nil
     }
 }
