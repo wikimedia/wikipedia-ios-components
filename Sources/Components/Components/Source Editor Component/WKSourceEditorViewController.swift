@@ -5,7 +5,8 @@ public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Properties
     
-    let viewModel: WKSourceEditorViewModel
+    private let viewModel: WKSourceEditorViewModel
+    private let strings: WKEditorLocalizedStrings
     
     var customView: WKSourceEditorView {
         return view as! WKSourceEditorView
@@ -21,8 +22,9 @@ public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Lifecycle
     
-    public init(viewModel: WKSourceEditorViewModel) {
+    public init(viewModel: WKSourceEditorViewModel, strings: WKEditorLocalizedStrings) {
         self.viewModel = viewModel
+        self.strings = strings
         super.init()
     }
 
@@ -31,7 +33,7 @@ public class WKSourceEditorViewController: WKComponentViewController {
     }
     
     public override func loadView() {
-        self.view = WKSourceEditorView(configuration: viewModel.configuration)
+        self.view = WKSourceEditorView(strings: strings)
     }
     
     public override func viewDidLoad() {
@@ -49,7 +51,7 @@ public class WKSourceEditorViewController: WKComponentViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        customView.inputAccessoryViewType = .standard
+        customView.inputAccessoryViewType = .expanding
     }
     
     @objc func tapped() {

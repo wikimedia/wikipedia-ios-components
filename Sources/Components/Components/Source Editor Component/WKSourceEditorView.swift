@@ -4,8 +4,6 @@ import ComponentsObjC
 
 class WKSourceEditorView: WKComponentView {
     
-    public typealias Configuration = WKSourceEditorViewModel.Configuration
-    
     // MARK: Nested Types
     
     enum InputViewType {
@@ -14,7 +12,7 @@ class WKSourceEditorView: WKComponentView {
     }
     
     enum InputAccessoryViewType {
-        case standard
+        case expanding
         case highlight
         case findInPage
     }
@@ -44,14 +42,14 @@ class WKSourceEditorView: WKComponentView {
         return textView
     }()
     
-    lazy var standardAccessoryView: UIView = {
-        let view = UINib(nibName: String(describing: WKStandardEditToolbarView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
+    lazy var expandingAccessoryView: UIView = {
+        let view = UINib(nibName: String(describing: WKEditorToolbarExpandingView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
         
         return view
     }()
     
     lazy var highlightAccessoryView: UIView = {
-        let view = UINib(nibName: String(describing: WKContextualHighlightEditToolbarView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
+        let view = UINib(nibName: String(describing: WKEditorToolbarContextualHighlightView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
         
         return view
     }()
@@ -80,7 +78,7 @@ class WKSourceEditorView: WKComponentView {
             return _mainInputView
         }
         
-        let inputViewController = WKEditorInputViewController(configuration: .rootMain)
+        let inputViewController = WKEditorInputViewController(configuration: .rootMain, strings: strings)
         inputViewController.delegate = self
         inputViewController.loadViewIfNeeded()
         
@@ -96,7 +94,7 @@ class WKSourceEditorView: WKComponentView {
             return _headerSelectionInputView
         }
         
-        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
+        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect, strings: strings)
         inputViewController.delegate = self
         inputViewController.loadViewIfNeeded()
         
@@ -107,7 +105,8 @@ class WKSourceEditorView: WKComponentView {
     
     // MARK: - Properties
     
-    private let configuration: Configuration
+    private let strings: WKEditorLocalizedStrings
+    
     var inputViewType: InputViewType? = nil {
         didSet {
             guard let inputViewType else {
@@ -136,8 +135,8 @@ class WKSourceEditorView: WKComponentView {
             }
             
             switch inputAccessoryViewType {
-            case .standard:
-                textView.inputAccessoryView = standardAccessoryView
+            case .expanding:
+                textView.inputAccessoryView = expandingAccessoryView
             case .highlight:
                 textView.inputAccessoryView = highlightAccessoryView
             case .findInPage:
@@ -151,8 +150,8 @@ class WKSourceEditorView: WKComponentView {
     
     // MARK: - Lifecycle
 
-    required init(configuration: Configuration) {
-        self.configuration = configuration
+    required init(strings: WKEditorLocalizedStrings) {
+        self.strings = strings
         super.init(frame: .zero)
         setup()
     }

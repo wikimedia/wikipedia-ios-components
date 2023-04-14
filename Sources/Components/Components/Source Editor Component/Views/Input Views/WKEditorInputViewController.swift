@@ -24,24 +24,26 @@ class WKEditorInputViewController: UIViewController {
         return navigationController
     }()
     
-    private lazy var headerSelectionTableViewController: WKHeaderSelectionTableViewController = {
-        let vc = WKHeaderSelectionTableViewController()
+    private lazy var headerSelectViewController: WKEditorInputHeaderSelectViewController = {
+        let vc = WKEditorInputHeaderSelectViewController(strings: strings)
         vc.delegate = delegate
         return vc
     }()
     
-    private lazy var mainTableViewController: WKMainTableViewController = {
-        let vc = WKMainTableViewController()
+    private lazy var mainViewController: WKEditorInputMainViewController = {
+        let vc = WKEditorInputMainViewController(strings: strings)
         vc.delegate = delegate
         return vc
     }()
     
     private let configuration: Configuration
+    private let strings: WKEditorLocalizedStrings
     
     weak var delegate: WKEditorInputViewDelegate?
     
-    init(configuration: Configuration) {
+    init(configuration: Configuration, strings: WKEditorLocalizedStrings) {
         self.configuration = configuration
+        self.strings = strings
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -84,9 +86,9 @@ class WKEditorInputViewController: UIViewController {
 
         switch configuration {
         case .rootMain:
-            viewController = mainTableViewController
+            viewController = mainViewController
         case .rootHeaderSelect:
-            viewController = headerSelectionTableViewController
+            viewController = headerSelectViewController
         }
         return viewController
     }

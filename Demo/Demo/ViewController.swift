@@ -23,7 +23,7 @@ class FeatureNavigationController: WKCanvasViewController, WKFeatureNavigationHo
 			present(WKUICommunicationViewController(), animated: true)
         case .sourceEditor:
             let viewModel = WKSourceEditorViewModel(configuration: .full, wikitext: "Hello World!")
-            let viewController = WKSourceEditorViewController(viewModel: viewModel)
+            let viewController = WKSourceEditorViewController(viewModel: viewModel, strings: WKEditorLocalizedStrings.editorStrings)
             present(viewController, animated: true)
 		}
 	}
@@ -77,4 +77,21 @@ class RandomPhotoController: WKCanvasViewController {
 		addComponent(randomPhotoController, pinToEdges: true, respectSafeArea: true)
 	}
 	
+}
+
+extension WKEditorLocalizedStrings {
+    
+    static var editorStrings: WKEditorLocalizedStrings {
+        return WKEditorLocalizedStrings(
+            inputViewTextFormatting: "Text formatting",
+            inputViewStyle: "Style",
+            inputViewClearFormatting: "Clear formatting",
+            inputViewParagraph: "Paragraph",
+            inputViewHeading: "Header",
+            inputViewSubheading1: "Sub-heading 1",
+            inputViewSubheading2: "Sub-heading 2",
+            inputViewSubheading3: "Sub-heading 3",
+            inputViewSubheading4: "Sub-heading 4"
+        )
+    }
 }
