@@ -292,7 +292,7 @@ private extension WKFindAndReplaceView {
         }
     }
     
-    // TODO: Consider embedding this logic into
+    // TODO: Consider embedding this logic into View Model
     
     func syncFindViewModel() {
         let index = viewModel.findViewModel.resultsCurrentIndex
