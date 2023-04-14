@@ -10,6 +10,9 @@ enum WKIcon {
     static let chevonDown = UIImage(systemName: "chevron.down")
     static let chevonLeft = UIImage(systemName: "chevron.left")
     static let chevonUp = UIImage(systemName: "chevron.up")
+    static let close = UIImage(systemName: "xmark")
+    static let closeCircleFill = UIImage(systemName: "xmark.circle.fill")
+    static let more = UIImage(systemName: "ellipsis")
     
     // Editor SF Symbols
     static let bold = UIImage(systemName: "bold")
@@ -33,4 +36,6 @@ enum WKIcon {
     static let increaseIndent = UIImage(named: "increase-indent", in: .module, with: nil)
     static let decreaseIndent = UIImage(named: "decrease-indent", in: .module, with: nil)
     static let clearFormatting = UIImage(named: "clear-formatting", in: .module, with: nil)
+    static let pencil = UIImage(named: "pencil", in: .module, with: nil)
+    static let replace = UIImage(named: "replace", in: .module, with: nil)
 }

@@ -51,7 +51,7 @@ public class WKSourceEditorViewController: WKComponentViewController {
     public override func viewDidAppear(_ animated: Bool) {
         super.viewDidAppear(animated)
         
-        customView.inputAccessoryViewType = .expanding
+        customView.inputAccessoryViewType = .findInPage
     }
     
     @objc func tapped() {

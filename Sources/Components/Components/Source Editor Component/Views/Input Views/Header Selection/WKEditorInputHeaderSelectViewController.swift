@@ -19,7 +19,7 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
     private let reuseIdentifier = String(describing: WKEditorHeaderSelectCell.self)
     
     private lazy var closeButton: UIBarButtonItem = {
-        let button = UIBarButtonItem(image: UIImage(systemName: "xmark"), style: .plain, target: self, action: #selector(close(_:)))
+        let button = UIBarButtonItem(image: WKIcon.close, style: .plain, target: self, action: #selector(close(_:)))
         return button
     }()
     

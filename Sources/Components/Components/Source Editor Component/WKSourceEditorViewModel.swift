@@ -23,8 +23,6 @@ public class WKSourceEditorViewModel {
 }
 
 //todo tomorrow:
-// 3. components can be given: 1. configuration. generally an enum, to tell it to do something different. unchangeable once set once. 2. view model, which can be changeable and the view reacts. 3. strings struct. view within can change decide to do different things with them depending on configuration / view model.
-// 4. rename classes of WKEdit_ with WKEditor_. Anything super general apart from an editor (WKToolbarSeparatorView) could stay as-is.
 // 4.5 - change input view in proper way
 // 4.75 - add find in page.
 // 5. Add more strings, acccessibility

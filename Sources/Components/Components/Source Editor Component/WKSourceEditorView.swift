@@ -55,18 +55,7 @@ class WKSourceEditorView: WKComponentView {
     }()
     
     lazy var findInPageAccessoryView: UIView = {
-        let view = UIView(frame: CGRect(x: 0, y: 0, width: bounds.width, height: 44))
-        let label = UILabel()
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = "Find in page"
-        view.addSubview(label)
-        
-        NSLayoutConstraint.activate([
-            view.leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            view.trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            view.topAnchor.constraint(equalTo: label.topAnchor),
-            view.bottomAnchor.constraint(equalTo: label.bottomAnchor)
-        ])
+        let view = UINib(nibName: String(describing: WKFindAndReplaceView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
         
         return view
     }()
