@@ -61,35 +61,43 @@ class WKSourceEditorView: WKComponentView {
     }()
     
     private var _mainInputView: UIView?
-    private var mainInputView: UIView {
-        
-        if let _mainInputView {
-            return _mainInputView
+    private var mainInputView: UIView? {
+        get {
+            guard _mainInputView == nil else {
+                return _mainInputView
+            }
+            
+            let inputViewController = WKEditorInputViewController(configuration: .rootMain)
+            inputViewController.delegate = self
+            inputViewController.loadViewIfNeeded()
+            
+            _mainInputView = inputViewController.view
+           
+            return inputViewController.view
         }
-        
-        let inputViewController = WKEditorInputViewController(configuration: .rootMain)
-        inputViewController.delegate = self
-        inputViewController.loadViewIfNeeded()
-        
-        _mainInputView = inputViewController.view
-       
-        return inputViewController.view
+        set {
+            _mainInputView = newValue
+        }
     }
     
     private var _headerSelectionInputView: UIView?
-    private var headerSelectionInputView: UIView {
-        
-        if let _headerSelectionInputView {
-            return _headerSelectionInputView
+    private var headerSelectionInputView: UIView? {
+        get {
+            guard _headerSelectionInputView == nil else {
+                return _headerSelectionInputView
+            }
+            
+            let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
+            inputViewController.delegate = self
+            inputViewController.loadViewIfNeeded()
+            
+            _headerSelectionInputView = inputViewController.view
+            
+           return inputViewController.view
         }
-        
-        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
-        inputViewController.delegate = self
-        inputViewController.loadViewIfNeeded()
-        
-        _headerSelectionInputView = inputViewController.view
-        
-       return inputViewController.view
+        set {
+            _headerSelectionInputView = newValue
+        }
     }
     
     // MARK: - Properties
@@ -194,9 +202,9 @@ extension WKSourceEditorView: WKEditorInputViewDelegate {
         if let inputViewType {
             switch inputViewType {
             case .main:
-                _mainInputView = nil
+                mainInputView = nil
             case .headerSelect:
-                _headerSelectionInputView = nil
+                headerSelectionInputView = nil
             }
         }
         
