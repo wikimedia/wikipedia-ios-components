@@ -29,7 +29,7 @@ class WKEditorDestructiveCell: UITableViewCell {
         ])
     }
     
-    func configure(configuration: WKEditorDestructiveView.Configuration) {
-        componentView.configure(configuration: configuration)
+    func configure(viewModel: WKEditorDestructiveView.ViewModel) {
+        componentView.configure(viewModel: viewModel)
     }
 }

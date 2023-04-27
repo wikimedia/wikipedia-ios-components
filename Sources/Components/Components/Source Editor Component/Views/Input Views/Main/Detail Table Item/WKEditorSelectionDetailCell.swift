@@ -29,7 +29,7 @@ class WKEditorSelectionDetailCell: UITableViewCell {
         ])
     }
     
-    func configure(configuration: WKEditorSelectionDetailView.Configuration) {
-        componentView.configure(configuration: configuration)
+    func configure(viewModel: WKEditorSelectionDetailView.ViewModel) {
+        componentView.configure(viewModel: viewModel)
     }
 }

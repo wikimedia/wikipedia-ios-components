@@ -4,7 +4,7 @@ import UIKit
 
 class WKEditorSelectionDetailView: WKComponentView {
     
-    struct Configuration {
+    struct ViewModel {
         let typeText: String
         let selectionText: String
     }
@@ -30,7 +30,7 @@ class WKEditorSelectionDetailView: WKComponentView {
         return imageView
     }()
     
-    private var configuration: Configuration?
+    private var viewModel: ViewModel?
     
     required init() {
         super.init(frame: .zero)
@@ -55,8 +55,8 @@ class WKEditorSelectionDetailView: WKComponentView {
         ])
     }
     
-    func configure(configuration: Configuration) {
-        typeLabel.text = configuration.typeText
-        selectionLabel.text = configuration.selectionText
+    func configure(viewModel: ViewModel) {
+        typeLabel.text = viewModel.typeText
+        selectionLabel.text = viewModel.selectionText
     }
 }

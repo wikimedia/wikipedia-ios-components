@@ -4,7 +4,7 @@ import UIKit
 
 class WKEditorDestructiveView: WKComponentView {
     
-    struct Configuration {
+    struct ViewModel {
         let text: String
     }
     
@@ -33,7 +33,7 @@ class WKEditorDestructiveView: WKComponentView {
         ])
     }
     
-    func configure(configuration: Configuration) {
-        label.text = configuration.text
+    func configure(viewModel: ViewModel) {
+        label.text = viewModel.text
     }
 }

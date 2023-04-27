@@ -83,13 +83,13 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
             
             if let detailCell = cell as? WKEditorSelectionDetailCell {
                 // todo: smart selectionText
-                detailCell.configure(configuration: WKEditorSelectionDetailView.Configuration(typeText: strings.inputViewStyle, selectionText: strings.inputViewParagraph))
+                detailCell.configure(viewModel: WKEditorSelectionDetailView.ViewModel(typeText: strings.inputViewStyle, selectionText: strings.inputViewParagraph))
             }
         case 3:
             cell = tableView.dequeueReusableCell(withIdentifier: destructiveReuseIdentifier, for: indexPath)
             
             if let destructiveCell = cell as? WKEditorDestructiveCell {
-                destructiveCell.configure(configuration: WKEditorDestructiveView.Configuration(text: strings.inputViewClearFormatting))
+                destructiveCell.configure(viewModel: WKEditorDestructiveView.ViewModel(text: strings.inputViewClearFormatting))
             }
         default:
             fatalError()
