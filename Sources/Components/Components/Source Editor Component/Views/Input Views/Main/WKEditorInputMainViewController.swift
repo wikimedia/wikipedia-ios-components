@@ -51,7 +51,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
     }
     
     @objc private func close(_ sender: UIBarButtonItem) {
-        delegate?.tappedClose()
+        delegate?.didTapClose()
     }
 }
 

@@ -50,11 +50,32 @@ public class WKSourceEditorViewController: WKComponentViewController {
 
 extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool) {
+        guard customView.inputViewType == nil else {
+            return
+        }
+        
         customView.inputAccessoryViewType = isRangeSelected ? .highlight : .expanding
     }
     
     func editorViewDidTapFind(editorView: WKSourceEditorView) {
         customView.inputAccessoryViewType = .find
         delegate?.sourceEditorViewControllerDidTapFind(sourceEditorViewController: self)
+    }
+    
+    func editorViewDidTapFormatText(editorView: WKSourceEditorView) {
+        customView.inputViewType = .main
+    }
+    
+    func editorViewDidTapFormatHeading(editorView: WKSourceEditorView) {
+        customView.inputViewType = .headerSelect
+    }
+    
+    func editorViewDidTapCloseInputView(editorView: WKSourceEditorView, isRangeSelected: Bool) {
+        customView.inputViewType = nil
+        customView.inputAccessoryViewType = isRangeSelected ? .highlight : .expanding
+    }
+    
+    func editorViewDidTapShowMore(editorView: WKSourceEditorView) {
+        customView.inputViewType = .main
     }
 }

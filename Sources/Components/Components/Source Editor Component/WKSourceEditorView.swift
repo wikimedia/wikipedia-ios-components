@@ -5,6 +5,10 @@ import ComponentsObjC
 protocol WKSourceEditorViewDelegate: AnyObject {
     func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool)
     func editorViewDidTapFind(editorView: WKSourceEditorView)
+    func editorViewDidTapFormatText(editorView: WKSourceEditorView)
+    func editorViewDidTapFormatHeading(editorView: WKSourceEditorView)
+    func editorViewDidTapCloseInputView(editorView: WKSourceEditorView, isRangeSelected: Bool)
+    func editorViewDidTapShowMore(editorView: WKSourceEditorView)
 }
 
 class WKSourceEditorView: WKComponentView {
@@ -56,6 +60,7 @@ class WKSourceEditorView: WKComponentView {
     
     private lazy var highlightAccessoryView: WKEditorToolbarContextualHighlightView = {
         let view = UINib(nibName: String(describing: WKEditorToolbarContextualHighlightView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKEditorToolbarContextualHighlightView
+        view.delegate = self
         
         return view
     }()
@@ -73,8 +78,7 @@ class WKSourceEditorView: WKComponentView {
                 return _mainInputView
             }
             
-            let inputViewController = WKEditorInputViewController(configuration: .rootMain)
-            inputViewController.delegate = self
+            let inputViewController = WKEditorInputViewController(configuration: .rootMain, delegate: self)
             inputViewController.loadViewIfNeeded()
             
             _mainInputView = inputViewController.view
@@ -93,8 +97,7 @@ class WKSourceEditorView: WKComponentView {
                 return _headerSelectionInputView
             }
             
-            let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
-            inputViewController.delegate = self
+            let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect, delegate: self)
             inputViewController.loadViewIfNeeded()
             
             _headerSelectionInputView = inputViewController.view
@@ -170,6 +173,8 @@ class WKSourceEditorView: WKComponentView {
     var inputViewType: InputViewType? = nil {
         didSet {
             guard let inputViewType else {
+                mainInputView = nil
+                headerSelectionInputView = nil
                 textView.inputView = nil
                 textView.reloadInputViews()
                 return
@@ -210,6 +215,7 @@ class WKSourceEditorView: WKComponentView {
     
     func closeFind() {
         findAccessoryView.close()
+        textView.becomeFirstResponder()
     }
     
     // MARK: - Private
@@ -221,18 +227,8 @@ class WKSourceEditorView: WKComponentView {
 }
 
 extension WKSourceEditorView: WKEditorInputViewDelegate {
-    func tappedClose() {
-        if let inputViewType {
-            switch inputViewType {
-            case .main:
-                mainInputView = nil
-            case .headerSelect:
-                headerSelectionInputView = nil
-            }
-        }
-        
-        textView.resignFirstResponder()
-        textView.inputView = nil
+    func didTapClose() {
+        delegate?.editorViewDidTapCloseInputView(editorView: self, isRangeSelected: textView.selectedRange.length > 0)
     }
 }
 
@@ -245,5 +241,23 @@ extension WKSourceEditorView: UITextViewDelegate {
 extension WKSourceEditorView: WKEditorToolbarExpandingViewDelegate {
     func toolbarExpandingViewDidTapFind(toolbarExpandingView: WKEditorToolbarExpandingView) {
         delegate?.editorViewDidTapFind(editorView: self)
+    }
+    
+    func toolbarExpandingViewDidTapFormatText(toolbarExpandingView: WKEditorToolbarExpandingView) {
+        delegate?.editorViewDidTapFormatText(editorView: self)
+    }
+    
+    func toolbarExpandingViewDidTapFormatHeading(toolbarExpandingView: WKEditorToolbarExpandingView) {
+        delegate?.editorViewDidTapFormatHeading(editorView: self)
+    }
+}
+
+extension WKSourceEditorView: WKEditorToolbarContextualHighlightViewDelegate {
+    func toolbarContextualHighlightViewDidTapShowMore(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
+        delegate?.editorViewDidTapShowMore(editorView: self)
+    }
+    
+    func toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
+        delegate?.editorViewDidTapFormatHeading(editorView: self)
     }
 }

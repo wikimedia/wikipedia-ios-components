@@ -2,7 +2,7 @@ import Foundation
 import UIKit
 
 protocol WKEditorInputViewDelegate: AnyObject {
-    func tappedClose()
+    func didTapClose()
 }
 
 class WKEditorInputViewController: UIViewController {
@@ -37,11 +37,11 @@ class WKEditorInputViewController: UIViewController {
     }()
     
     private let configuration: Configuration
+    private weak var delegate: WKEditorInputViewDelegate?
     
-    weak var delegate: WKEditorInputViewDelegate?
-    
-    init(configuration: Configuration) {
+    init(configuration: Configuration, delegate: WKEditorInputViewDelegate) {
         self.configuration = configuration
+        self.delegate = delegate
         super.init(nibName: nil, bundle: nil)
     }
     

@@ -70,8 +70,6 @@ class WKFindAndReplaceView: WKComponentView {
     func close() {
         resetFind()
         resetReplace()
-        findTextField.resignFirstResponder()
-        replaceTextField.resignFirstResponder()
     }
     
     // MARK: IBActions

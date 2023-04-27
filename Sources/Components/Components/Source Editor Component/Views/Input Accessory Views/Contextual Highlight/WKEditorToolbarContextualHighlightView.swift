@@ -1,5 +1,10 @@
 import UIKit
 
+protocol WKEditorToolbarContextualHighlightViewDelegate: AnyObject {
+    func toolbarContextualHighlightViewDidTapShowMore(toolbarExpandingView: WKEditorToolbarContextualHighlightView)
+    func toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: WKEditorToolbarContextualHighlightView)
+}
+
 class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
     @IBOutlet private weak var stackView: UIStackView!
     
@@ -11,6 +16,8 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
     @IBOutlet weak var templateButton: WKEditorToolbarButton!
     @IBOutlet weak var clearMarkupButton: WKEditorToolbarButton!
     @IBOutlet weak var showMoreButton: WKEditorToolbarNavigatorButton!
+    
+    weak var delegate: WKEditorToolbarContextualHighlightViewDelegate?
 
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -51,7 +58,7 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
     }
 
     @objc func tappedFormatHeading() {
-        //delegate?.textFormattingProvidingDidTapTextStyleFormatting()
+        delegate?.toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: self)
     }
 
     @objc func tappedCitation() {
@@ -71,6 +78,6 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
     }
 
     @objc func tappedShowMore() {
-        //delegate?.textFormattingProvidingDidTapTextFormatting()
+        delegate?.toolbarContextualHighlightViewDidTapShowMore(toolbarExpandingView: self)
     }
 }
