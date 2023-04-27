@@ -1,5 +1,9 @@
 import UIKit
 
+protocol WKEditorToolbarExpandingViewDelegate: AnyObject {
+    func toolbarExpandingViewDidTapFind(toolbarExpandingView: WKEditorToolbarExpandingView)
+}
+
 class WKEditorToolbarExpandingView: WKEditorToolbarView {
     
     // MARK: - Nested Types
@@ -25,7 +29,7 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
         }
     }
     
-    // MARK: Properties
+    // MARK: IBOutlet Properties
     
     @IBOutlet weak var scrollView: UIScrollView!
     @IBOutlet weak var stackView: UIStackView!
@@ -48,6 +52,10 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
     @IBOutlet weak var cursorRightButton: WKEditorToolbarButton!
     
     @IBOutlet weak var expandButton: WKEditorToolbarNavigatorButton!
+    
+    // MARK: Other Properties
+    
+    weak var delegate: WKEditorToolbarExpandingViewDelegate?
     
     override func awakeFromNib() {
         super.awakeFromNib()
@@ -196,7 +204,7 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
     }
 
     @objc func tappedFindInPage() {
-        //delegate?.textFormattingProvidingDidTapFindInPage()
+        delegate?.toolbarExpandingViewDidTapFind(toolbarExpandingView: self)
     }
 
     @objc func tappedMedia() {

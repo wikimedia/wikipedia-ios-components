@@ -22,9 +22,7 @@ class FeatureNavigationController: WKCanvasViewController, WKFeatureNavigationHo
 		case .sayHello:
 			present(WKUICommunicationViewController(), animated: true)
         case .sourceEditor:
-            let viewModel = WKSourceEditorViewModel(configuration: .full, wikitext: "Hello World!")
-            let viewController = WKSourceEditorViewController(viewModel: viewModel, strings: WKEditorLocalizedStrings.editorStrings)
-            present(viewController, animated: true)
+            present(PageEditorController(), animated: true)
 		}
 	}
 
@@ -93,5 +91,44 @@ extension WKEditorLocalizedStrings {
             inputViewSubheading3: "Sub-heading 3",
             inputViewSubheading4: "Sub-heading 4"
         )
+    }
+}
+
+class PageEditorController: WKCanvasViewController, WKSourceEditorViewControllerDelegate {
+    
+    lazy var findCloseButton: UIButton = {
+            let button = UIButton(type: .system)
+            button.setTitle("Close", for: .normal)
+            button.addTarget(self, action: #selector(tappedFindClose), for: .touchUpInside)
+            button.translatesAutoresizingMaskIntoConstraints = false
+            button.isHidden = true
+            return button
+        }()
+    
+    lazy var sourceEditorViewController: WKSourceEditorViewController = {
+        let viewModel = WKSourceEditorViewModel(configuration: .full, wikitext: "Hello World!")
+        return WKSourceEditorViewController(viewModel: viewModel, delegate: self, strings: WKEditorLocalizedStrings.editorStrings)
+    }()
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        addComponent(sourceEditorViewController, pinToEdges: true, respectSafeArea: true)
+        
+        view.addSubview(findCloseButton)
+        NSLayoutConstraint.activate([
+            view.safeAreaLayoutGuide.trailingAnchor.constraint(equalTo: findCloseButton.trailingAnchor),
+            view.safeAreaLayoutGuide.topAnchor.constraint(equalTo: findCloseButton.topAnchor),
+        ])
+    }
+    
+    @objc func tappedFindClose() {
+        sourceEditorViewController.closeFind()
+        findCloseButton.isHidden = true
+    }
+    
+    // MARK: - WKSourceEditorViewControllerDelegate
+    
+    func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+        findCloseButton.isHidden = false
     }
 }

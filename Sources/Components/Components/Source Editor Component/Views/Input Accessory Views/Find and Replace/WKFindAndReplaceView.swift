@@ -2,10 +2,6 @@ import UIKit
 
 class WKFindAndReplaceView: WKComponentView {
     
-    // MARK: - Nested Types
-
-    
-
     // MARK: - IBOutlet Properties
 
     @IBOutlet private var outerStackViewLeadingConstraint: NSLayoutConstraint!
@@ -31,6 +27,8 @@ class WKFindAndReplaceView: WKComponentView {
     @IBOutlet private var replaceButton: UIButton!
     @IBOutlet private var replaceSwitchButton: UIButton!
     @IBOutlet private var pencilImageView: UIImageView!
+    
+    // MARK: - Other Properties
     
     private var viewModel = ViewModel()
     
@@ -69,18 +67,11 @@ class WKFindAndReplaceView: WKComponentView {
         updateFindViewModel(findViewModel: viewModel.findViewModel)
     }
     
-    func show() {
-        findTextField.becomeFirstResponder()
-    }
-    
-    func hide() {
-        findTextField.resignFirstResponder()
-        replaceTextField.resignFirstResponder()
-    }
-    
-    func reset() {
+    func close() {
         resetFind()
         resetReplace()
+        findTextField.resignFirstResponder()
+        replaceTextField.resignFirstResponder()
     }
     
     // MARK: IBActions

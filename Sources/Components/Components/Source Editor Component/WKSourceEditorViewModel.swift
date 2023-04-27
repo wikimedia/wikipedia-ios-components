@@ -22,13 +22,12 @@ public class WKSourceEditorViewModel {
     }
 }
 
-//todo tomorrow:
 // 4.5 - change input view in proper way
-// 4.75 - add find in page.
-// 5. Add more strings, acccessibility
 // 6. Add selection states
-// 7. Add theming.
 // 8. Fix spacing.
+// 5. Add acccessibility strings
+// 7. better theming.
+
 
 
 //rules:

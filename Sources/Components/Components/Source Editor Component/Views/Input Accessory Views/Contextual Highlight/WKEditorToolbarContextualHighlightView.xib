@@ -60,7 +60,7 @@
                                             <rect key="frame" x="272" y="0.0" width="30" height="44"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>
-                                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="S8f-CE-8I8" userLabel="Show More Button" customClass="WKEditorToolbarNavigatorButton">
+                                        <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="S8f-CE-8I8" userLabel="Show More Button" customClass="WKEditorToolbarNavigatorButton" customModule="Components">
                                             <rect key="frame" x="313" y="0.0" width="30" height="44"/>
                                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                         </view>

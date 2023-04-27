@@ -72,7 +72,6 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: detailReuseIdentifier, for: indexPath)
             
             if let detailCell = cell as? WKEditorSelectionDetailCell {
-                // todo: smart selectionText
                 detailCell.configure(viewModel: WKEditorSelectionDetailView.ViewModel(typeText: WKEditorLocalizedStrings.shared.inputViewStyle, selectionText: WKEditorLocalizedStrings.shared.inputViewParagraph))
             }
         case 3:
