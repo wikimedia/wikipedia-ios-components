@@ -15,22 +15,12 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
     
     weak var delegate: WKEditorInputViewDelegate?
     
-    private let strings: WKEditorLocalizedStrings
     private let reuseIdentifier = String(describing: WKEditorHeaderSelectCell.self)
     
     private lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: WKIcon.close, style: .plain, target: self, action: #selector(close(_:)))
         return button
     }()
-    
-    init(strings: WKEditorLocalizedStrings) {
-        self.strings = strings
-        super.init()
-    }
-    
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -63,17 +53,17 @@ extension WKEditorInputHeaderSelectViewController: UITableViewDataSource {
         if let headerCell = cell as? WKEditorHeaderSelectCell {
             switch indexPath.row {
             case 0:
-                headerCell.configure(viewModel: CellViewModel(configuration: .paragraph, isSelected: true), strings: strings)
+                headerCell.configure(viewModel: CellViewModel(configuration: .paragraph, isSelected: true))
             case 1:
-                headerCell.configure( viewModel: CellViewModel(configuration: .heading, isSelected: true), strings: strings)
+                headerCell.configure( viewModel: CellViewModel(configuration: .heading, isSelected: true))
             case 2:
-                headerCell.configure(viewModel: CellViewModel(configuration: .subheading1, isSelected: true), strings: strings)
+                headerCell.configure(viewModel: CellViewModel(configuration: .subheading1, isSelected: true))
             case 3:
-                headerCell.configure(viewModel: CellViewModel(configuration: .subheading2, isSelected: true), strings: strings)
+                headerCell.configure(viewModel: CellViewModel(configuration: .subheading2, isSelected: true))
             case 4:
-                headerCell.configure(viewModel: CellViewModel(configuration: .subheading3, isSelected: true), strings: strings)
+                headerCell.configure(viewModel: CellViewModel(configuration: .subheading3, isSelected: true))
             case 5:
-                headerCell.configure(viewModel: CellViewModel(configuration: .subheading4, isSelected: true), strings: strings)
+                headerCell.configure(viewModel: CellViewModel(configuration: .subheading4, isSelected: true))
             default:
                 break
             }

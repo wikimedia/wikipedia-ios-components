@@ -24,3 +24,8 @@ public struct WKEditorLocalizedStrings {
         self.inputViewSubheading4 = inputViewSubheading4
     }
 }
+
+// Assign before first use in feature. Bypasses need to inject strings in all sub-components.
+internal extension WKEditorLocalizedStrings {
+    static var shared: WKEditorLocalizedStrings!
+}

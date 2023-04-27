@@ -67,7 +67,7 @@ class WKSourceEditorView: WKComponentView {
             return _mainInputView
         }
         
-        let inputViewController = WKEditorInputViewController(configuration: .rootMain, strings: strings)
+        let inputViewController = WKEditorInputViewController(configuration: .rootMain)
         inputViewController.delegate = self
         inputViewController.loadViewIfNeeded()
         
@@ -83,7 +83,7 @@ class WKSourceEditorView: WKComponentView {
             return _headerSelectionInputView
         }
         
-        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect, strings: strings)
+        let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect)
         inputViewController.delegate = self
         inputViewController.loadViewIfNeeded()
         
@@ -93,8 +93,6 @@ class WKSourceEditorView: WKComponentView {
     }
     
     // MARK: - Properties
-    
-    private let strings: WKEditorLocalizedStrings
     
     var inputViewType: InputViewType? = nil {
         didSet {
@@ -139,8 +137,7 @@ class WKSourceEditorView: WKComponentView {
     
     // MARK: - Lifecycle
 
-    required init(strings: WKEditorLocalizedStrings) {
-        self.strings = strings
+    required init() {
         super.init(frame: .zero)
         setup()
     }

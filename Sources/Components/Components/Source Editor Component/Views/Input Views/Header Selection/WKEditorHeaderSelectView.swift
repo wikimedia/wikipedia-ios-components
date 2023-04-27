@@ -53,22 +53,22 @@ class WKEditorHeaderSelectView: WKComponentView {
         ])
     }
     
-    func configure(viewModel: ViewModel, strings: WKEditorLocalizedStrings) {
+    func configure(viewModel: ViewModel) {
         //todo: set font
         imageView.isHidden = viewModel.isSelected
         switch viewModel.configuration {
         case .paragraph:
-            label.text = strings.inputViewParagraph
+            label.text = WKEditorLocalizedStrings.shared.inputViewParagraph
         case .heading:
-            label.text = strings.inputViewHeading
+            label.text = WKEditorLocalizedStrings.shared.inputViewHeading
         case .subheading1:
-            label.text = strings.inputViewSubheading1
+            label.text = WKEditorLocalizedStrings.shared.inputViewSubheading1
         case .subheading2:
-            label.text = strings.inputViewSubheading2
+            label.text = WKEditorLocalizedStrings.shared.inputViewSubheading2
         case .subheading3:
-            label.text = strings.inputViewSubheading3
+            label.text = WKEditorLocalizedStrings.shared.inputViewSubheading3
         case .subheading4:
-            label.text = strings.inputViewSubheading4
+            label.text = WKEditorLocalizedStrings.shared.inputViewSubheading4
         }
     }
 }

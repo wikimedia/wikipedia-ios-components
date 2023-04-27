@@ -30,7 +30,7 @@ class WKEditorHeaderSelectCell: UITableViewCell {
         ])
     }
     
-    func configure(viewModel: ViewModel, strings: WKEditorLocalizedStrings) {
-        componentView.configure(viewModel: viewModel, strings: strings)
+    func configure(viewModel: ViewModel) {
+        componentView.configure(viewModel: viewModel)
     }
 }

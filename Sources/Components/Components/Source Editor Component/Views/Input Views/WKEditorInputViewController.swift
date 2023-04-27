@@ -25,25 +25,23 @@ class WKEditorInputViewController: UIViewController {
     }()
     
     private lazy var headerSelectViewController: WKEditorInputHeaderSelectViewController = {
-        let vc = WKEditorInputHeaderSelectViewController(strings: strings)
+        let vc = WKEditorInputHeaderSelectViewController()
         vc.delegate = delegate
         return vc
     }()
     
     private lazy var mainViewController: WKEditorInputMainViewController = {
-        let vc = WKEditorInputMainViewController(strings: strings)
+        let vc = WKEditorInputMainViewController()
         vc.delegate = delegate
         return vc
     }()
     
     private let configuration: Configuration
-    private let strings: WKEditorLocalizedStrings
     
     weak var delegate: WKEditorInputViewDelegate?
     
-    init(configuration: Configuration, strings: WKEditorLocalizedStrings) {
+    init(configuration: Configuration) {
         self.configuration = configuration
-        self.strings = strings
         super.init(nibName: nil, bundle: nil)
     }
     

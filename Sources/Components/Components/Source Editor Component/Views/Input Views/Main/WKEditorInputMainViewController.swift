@@ -14,7 +14,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
     private lazy var titleLabel: UILabel = {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
-        label.text = strings.inputViewTextFormatting
+        label.text = WKEditorLocalizedStrings.shared.inputViewTextFormatting
         return label
     }()
     
@@ -29,16 +29,6 @@ class WKEditorInputMainViewController: WKComponentViewController {
     private let destructiveReuseIdentifier = String(describing: WKEditorDestructiveCell.self)
     
     weak var delegate: WKEditorInputViewDelegate?
-    private let strings: WKEditorLocalizedStrings
-    
-    init(strings: WKEditorLocalizedStrings) {
-        self.strings = strings
-        super.init()
-    }
-    
-    public required init?(coder: NSCoder) {
-        fatalError("init(coder:) has not been implemented")
-    }
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -83,13 +73,13 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
             
             if let detailCell = cell as? WKEditorSelectionDetailCell {
                 // todo: smart selectionText
-                detailCell.configure(viewModel: WKEditorSelectionDetailView.ViewModel(typeText: strings.inputViewStyle, selectionText: strings.inputViewParagraph))
+                detailCell.configure(viewModel: WKEditorSelectionDetailView.ViewModel(typeText: WKEditorLocalizedStrings.shared.inputViewStyle, selectionText: WKEditorLocalizedStrings.shared.inputViewParagraph))
             }
         case 3:
             cell = tableView.dequeueReusableCell(withIdentifier: destructiveReuseIdentifier, for: indexPath)
             
             if let destructiveCell = cell as? WKEditorDestructiveCell {
-                destructiveCell.configure(viewModel: WKEditorDestructiveView.ViewModel(text: strings.inputViewClearFormatting))
+                destructiveCell.configure(viewModel: WKEditorDestructiveView.ViewModel(text: WKEditorLocalizedStrings.shared.inputViewClearFormatting))
             }
         default:
             fatalError()
@@ -102,7 +92,7 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
 extension WKEditorInputMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         if indexPath.row == 2 {
-            let headerVC = WKEditorInputHeaderSelectViewController(strings: strings)
+            let headerVC = WKEditorInputHeaderSelectViewController()
             headerVC.delegate = delegate
             navigationController?.pushViewController(headerVC, animated: true)
         }
