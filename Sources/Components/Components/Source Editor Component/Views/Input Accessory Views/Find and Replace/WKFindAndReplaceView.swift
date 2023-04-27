@@ -4,61 +4,7 @@ class WKFindAndReplaceView: WKComponentView {
     
     // MARK: - Nested Types
 
-    struct FindViewModel: Equatable {
-        var resultsCurrentIndex: UInt?
-        var resultsTotal: UInt
-        var resultsDescription: String?
-        var text: String?
-        var previousButtonIsEnabled: Bool
-        var nextButtonIsEnabled: Bool
-        var findClearButtonIsHidden: Bool
-    }
     
-    enum ReplaceType {
-        case replaceSingle
-        case replaceAll
-    }
-    
-    struct ReplaceViewModel: Equatable {
-        var type: ReplaceType
-        var text: String?
-        var placeholderText: String?
-        var typeLabelText: String?
-        var typeLabelIsHidden: Bool
-        var textFieldIsFirstResponder: Bool
-        var placeholderLabelIsHidden: Bool
-        var replaceButtonIsEnabled: Bool
-        var replaceClearButtonIsHidden: Bool
-    }
-    
-    enum Configuration {
-        case findOnly
-        case findAndReplace
-    }
-    
-    struct ViewModel {
-        let configuration: Configuration
-        var replaceViewModel: ReplaceViewModel
-        var findViewModel: FindViewModel
-        
-        init() {
-            self.configuration = .findAndReplace
-            self.replaceViewModel = ReplaceViewModel(type: .replaceSingle, text: nil, placeholderText: "Replace with…", typeLabelText: nil, typeLabelIsHidden: false, textFieldIsFirstResponder: false, placeholderLabelIsHidden: false, replaceButtonIsEnabled: false, replaceClearButtonIsHidden: true)
-            self.findViewModel = FindViewModel(resultsCurrentIndex: nil, resultsTotal: 0, resultsDescription: nil, text: nil, previousButtonIsEnabled: false, nextButtonIsEnabled: false, findClearButtonIsHidden: true)
-        }
-        
-        var replaceKeyboardShouldReturn: Bool {
-            guard let replaceText = replaceViewModel.text,
-                  let findText = findViewModel.text,
-                  findViewModel.resultsTotal > 0,
-                  findText.count > 0,
-                replaceText.count > 0 else {
-                return false
-            }
-            
-            return true
-        }
-    }
 
     // MARK: - IBOutlet Properties
 
@@ -144,8 +90,7 @@ class WKFindAndReplaceView: WKComponentView {
     }
     
     @IBAction func tappedReplaceClear() {
-        viewModel.replaceViewModel.text = nil
-        syncReplaceViewModel()
+        viewModel.resetReplaceText()
         configure(viewModel: viewModel)
     }
     
@@ -176,12 +121,10 @@ class WKFindAndReplaceView: WKComponentView {
     @IBAction func textFieldDidChange(_ sender: UITextField) {
         switch sender {
         case findTextField:
-            viewModel.findViewModel.text = sender.text
-            syncFindViewModel()
+            viewModel.update(findText: sender.text)
             configure(viewModel: viewModel)
         case replaceTextField:
-            viewModel.replaceViewModel.text = sender.text
-            syncReplaceViewModel()
+            viewModel.update(replaceText: sender.text)
             configure(viewModel: viewModel)
         default:
             break
@@ -212,24 +155,19 @@ extension WKFindAndReplaceView: UITextFieldDelegate {
     
     func textFieldDidBeginEditing(_ textField: UITextField) {
         if textField === replaceTextField {
-            viewModel.replaceViewModel.textFieldIsFirstResponder = true
-            viewModel.replaceViewModel.text = textField.text
+            viewModel.update(replaceText: textField.text, replaceTextFieldIsFirstResponder: true)
         } else if textField === findTextField {
-            viewModel.replaceViewModel.textFieldIsFirstResponder = false
-            viewModel.findViewModel.text = textField.text
+            viewModel.update(findText: textField.text, replaceTextFieldIsFirstResponder: false)
         }
         
-        syncReplaceViewModel()
-        syncFindViewModel()
         configure(viewModel: viewModel)
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
         if textField === replaceTextField {
-            viewModel.replaceViewModel.textFieldIsFirstResponder = false
+            viewModel.update(replaceTextFieldIsFirstResponder: false)
         }
         
-        syncReplaceViewModel()
         configure(viewModel: viewModel)
     }
 }
@@ -239,19 +177,12 @@ extension WKFindAndReplaceView: UITextFieldDelegate {
 private extension WKFindAndReplaceView {
     
     func resetFind() {
-        viewModel.findViewModel.text = nil
-        viewModel.findViewModel.resultsCurrentIndex = nil
-        viewModel.findViewModel.resultsTotal = 0
-
-        syncFindViewModel()
+        viewModel.resetFind()
         configure(viewModel: viewModel)
     }
     
     func resetReplace() {
-        viewModel.replaceViewModel.text = nil
-        viewModel.replaceViewModel.type = .replaceSingle
-        
-        syncReplaceViewModel()
+        viewModel.resetReplace()
         configure(viewModel: viewModel)
     }
     
@@ -260,6 +191,7 @@ private extension WKFindAndReplaceView {
         self.findTextField.text = findViewModel.text
         self.previousButton.isEnabled = findViewModel.previousButtonIsEnabled
         self.nextButton.isEnabled = findViewModel.nextButtonIsEnabled
+        self.findClearButton.isHidden = findViewModel.findClearButtonIsHidden
     }
     
     func updateReplaceViewModel(replaceViewModel: ReplaceViewModel) {
@@ -290,49 +222,5 @@ private extension WKFindAndReplaceView {
             outerStackViewTrailingConstraint.constant = 18
             accessibilityElements = [findTextField, currentMatchLabel, findClearButton, previousButton, nextButton, replaceTextField, replaceClearButton, replaceButton, replaceSwitchButton].compactMap { $0 as Any }
         }
-    }
-    
-    // TODO: Consider embedding this logic into View Model
-    
-    func syncFindViewModel() {
-        let index = viewModel.findViewModel.resultsCurrentIndex
-        let total =  viewModel.findViewModel.resultsTotal
-        if viewModel.findViewModel.resultsCurrentIndex == nil && total > 0 {
-            viewModel.findViewModel.resultsDescription = String.localizedStringWithFormat("%lu", total)
-        } else if let index {
-            let format = "%1$@ / %2$@"
-            viewModel.findViewModel.resultsDescription = String.localizedStringWithFormat(format, NSNumber(value: index), NSNumber(value: total))
-        } else {
-            viewModel.findViewModel.resultsDescription = nil
-        }
-        
-        viewModel.findViewModel.previousButtonIsEnabled = total >= 2
-        viewModel.findViewModel.nextButtonIsEnabled = total >= 2
-        
-        viewModel.findViewModel.findClearButtonIsHidden = (viewModel.findViewModel.text?.count ?? 0) == 0
-    }
-    
-    func syncReplaceViewModel() {
-        let count = viewModel.replaceViewModel.text?.count ?? 0
-        
-        switch (viewModel.replaceViewModel.textFieldIsFirstResponder, count) {
-        case (false, 0):
-            viewModel.replaceViewModel.typeLabelText = nil
-            viewModel.replaceViewModel.typeLabelIsHidden = true
-            viewModel.replaceViewModel.placeholderLabelIsHidden = false
-        case (true, 0):
-            viewModel.replaceViewModel.typeLabelText = nil
-            viewModel.replaceViewModel.typeLabelIsHidden = true
-            viewModel.replaceViewModel.placeholderLabelIsHidden = true
-        case (_, 1...):
-            viewModel.replaceViewModel.typeLabelText = viewModel.replaceViewModel.type == .replaceSingle ? "Replace" : "Replace All"
-            viewModel.replaceViewModel.typeLabelIsHidden = false
-            viewModel.replaceViewModel.placeholderLabelIsHidden = true
-        default:
-            assertionFailure("Unexpected replace label state")
-        }
-        
-        viewModel.replaceViewModel.replaceButtonIsEnabled = count > 0 && viewModel.findViewModel.resultsTotal > 0 && replaceTextField.text != findTextField.text
-        viewModel.replaceViewModel.replaceClearButtonIsHidden = count == 0
     }
 }
