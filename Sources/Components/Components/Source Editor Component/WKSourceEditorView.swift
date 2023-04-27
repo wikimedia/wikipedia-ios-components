@@ -14,7 +14,7 @@ class WKSourceEditorView: WKComponentView {
     enum InputAccessoryViewType {
         case expanding
         case highlight
-        case findInPage
+        case findAndReplace
     }
     
     // MARK: - UI Elements
@@ -54,7 +54,7 @@ class WKSourceEditorView: WKComponentView {
         return view
     }()
     
-    lazy var findInPageAccessoryView: UIView = {
+    lazy var findAndReplaceAccessoryView: UIView = {
         let view = UINib(nibName: String(describing: WKFindAndReplaceView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
         
         return view
@@ -126,8 +126,8 @@ class WKSourceEditorView: WKComponentView {
                 textView.inputAccessoryView = expandingAccessoryView
             case .highlight:
                 textView.inputAccessoryView = highlightAccessoryView
-            case .findInPage:
-                textView.inputAccessoryView = findInPageAccessoryView
+            case .findAndReplace:
+                textView.inputAccessoryView = findAndReplaceAccessoryView
             }
             
             textView.inputView = nil
