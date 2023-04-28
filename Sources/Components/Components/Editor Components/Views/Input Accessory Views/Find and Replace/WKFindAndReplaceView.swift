@@ -50,6 +50,13 @@ class WKFindAndReplaceView: WKComponentView {
         findClearButton.setImage(WKIcon.closeCircleFill, for: .normal)
         replaceClearButton.setImage(WKIcon.closeCircleFill, for: .normal)
         
+        currentMatchLabel.adjustsFontForContentSizeCategory = true
+        currentMatchLabel.font = WKFont.for(.smallHeadline, compatibleWith: appEnvironment.traitCollection)
+        replaceTypeLabel.adjustsFontForContentSizeCategory = true
+        replaceTypeLabel.font = WKFont.for(.smallHeadline, compatibleWith: appEnvironment.traitCollection)
+        replacePlaceholderLabel.adjustsFontForContentSizeCategory = true
+        replacePlaceholderLabel.font = WKFont.for(.smallHeadline, compatibleWith: appEnvironment.traitCollection)
+        
         configure(viewModel: viewModel)
     }
     

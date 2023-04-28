@@ -11,6 +11,8 @@ class WKEditorDestructiveView: WKComponentView {
     lazy var label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = WKFont.for(.smallButton, compatibleWith: appEnvironment.traitCollection)
         return label
     }()
     

@@ -15,6 +15,8 @@ class WKEditorInputMainViewController: WKComponentViewController {
         let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.text = WKEditorLocalizedStrings.shared.inputViewTextFormatting
+        label.adjustsFontForContentSizeCategory = true
+        label.font = WKFont.for(.headline, compatibleWith: appEnvironment.traitCollection)
         return label
     }()
     
