@@ -47,6 +47,10 @@ class WKSourceEditorView: WKComponentView {
         textView.smartQuotesType = .no
         textView.smartDashesType = .no
         textView.keyboardDismissMode = .interactive
+        
+        // Note: Disabling the suggestions bar prevents console keyboard constraint errors from appearing when switching input views or first responders (this seems like an Apple bug). Keeping as default for now.
+        //textView.autocorrectionType = .no
+        //textView.spellCheckingType = .no
         textView.delegate = self
         
         return textView
