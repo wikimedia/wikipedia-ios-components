@@ -25,8 +25,7 @@ class WKEditorInputViewController: UIViewController {
     }()
     
     private lazy var headerSelectViewController: WKEditorInputHeaderSelectViewController = {
-        let vc = WKEditorInputHeaderSelectViewController()
-        vc.delegate = delegate
+        let vc = WKEditorInputHeaderSelectViewController(configuration: .leftTitleNav, delegate: delegate)
         return vc
     }()
     

@@ -92,9 +92,13 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
 
 extension WKEditorInputMainViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
+        
+        let cell = tableView.cellForRow(at: indexPath)
+        cell?.isSelected = false
+        
         if indexPath.row == 2 {
-            let headerVC = WKEditorInputHeaderSelectViewController()
-            headerVC.delegate = delegate
+            navigationItem.backButtonTitle = WKEditorLocalizedStrings.shared.inputViewTextFormatting
+            let headerVC = WKEditorInputHeaderSelectViewController(configuration: .standard, delegate: delegate)
             navigationController?.pushViewController(headerVC, animated: true)
         }
     }

@@ -3,8 +3,8 @@ import UIKit
 
 class WKEditorHeaderSelectView: WKComponentView {
     
-    struct ViewModel {
-        
+    class ViewModel {
+
         enum Configuration {
             case paragraph
             case heading
@@ -15,7 +15,12 @@ class WKEditorHeaderSelectView: WKComponentView {
         }
         
         let configuration: Configuration
-        let isSelected: Bool
+        var isSelected: Bool
+        
+        init(configuration: WKEditorHeaderSelectView.ViewModel.Configuration, isSelected: Bool) {
+            self.configuration = configuration
+            self.isSelected = isSelected
+        }
     }
     
     private lazy var label: UILabel = {
@@ -43,21 +48,23 @@ class WKEditorHeaderSelectView: WKComponentView {
     }
     
     private func setup() {
+        
+        directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 22, bottom: 8, trailing: 22)
+        
         addSubview(label)
         addSubview(imageView)
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            layoutMarginsGuide.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            layoutMarginsGuide.trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
+            layoutMarginsGuide.topAnchor.constraint(equalTo: label.topAnchor),
+            layoutMarginsGuide.bottomAnchor.constraint(equalTo: label.bottomAnchor),
             label.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: imageView.trailingAnchor),
-            topAnchor.constraint(equalTo: label.topAnchor),
-            bottomAnchor.constraint(equalTo: label.bottomAnchor),
             label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
     }
     
     func configure(viewModel: ViewModel) {
-        //todo: set font
-        imageView.isHidden = viewModel.isSelected
+        imageView.isHidden = !viewModel.isSelected
         switch viewModel.configuration {
         case .paragraph:
             label.text = WKEditorLocalizedStrings.shared.inputViewParagraph

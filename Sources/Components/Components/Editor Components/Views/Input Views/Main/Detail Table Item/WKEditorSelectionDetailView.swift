@@ -46,16 +46,21 @@ class WKEditorSelectionDetailView: WKComponentView {
     }
     
     private func setup() {
+        
+        directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 22, bottom: 8, trailing: 22)
+        
         addSubview(typeLabel)
         addSubview(selectionLabel)
         addSubview(disclosureImageView)
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: typeLabel.leadingAnchor),
+            layoutMarginsGuide.leadingAnchor.constraint(equalTo: typeLabel.leadingAnchor),
+            layoutMarginsGuide.trailingAnchor.constraint(equalTo: disclosureImageView.trailingAnchor),
+            layoutMarginsGuide.topAnchor.constraint(equalTo: typeLabel.topAnchor),
+            layoutMarginsGuide.bottomAnchor.constraint(equalTo: typeLabel.bottomAnchor),
             typeLabel.trailingAnchor.constraint(equalTo: selectionLabel.leadingAnchor),
-            selectionLabel.trailingAnchor.constraint(equalTo: disclosureImageView.leadingAnchor),
-            trailingAnchor.constraint(equalTo: disclosureImageView.trailingAnchor),
-            topAnchor.constraint(equalTo: typeLabel.topAnchor),
-            bottomAnchor.constraint(equalTo: typeLabel.bottomAnchor)
+            selectionLabel.trailingAnchor.constraint(equalTo: disclosureImageView.leadingAnchor, constant: -8),
+            selectionLabel.centerYAnchor.constraint(equalTo: disclosureImageView.centerYAnchor),
+            selectionLabel.centerYAnchor.constraint(equalTo: typeLabel.centerYAnchor),
         ])
     }
     

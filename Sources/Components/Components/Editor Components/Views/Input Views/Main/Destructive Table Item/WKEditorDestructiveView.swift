@@ -26,12 +26,15 @@ class WKEditorDestructiveView: WKComponentView {
     }
     
     private func setup() {
+        
+        directionalLayoutMargins = NSDirectionalEdgeInsets(top: 8, leading: 22, bottom: 8, trailing: 22)
+        
         addSubview(label)
         NSLayoutConstraint.activate([
-            leadingAnchor.constraint(equalTo: label.leadingAnchor),
-            trailingAnchor.constraint(equalTo: label.trailingAnchor),
-            topAnchor.constraint(equalTo: label.topAnchor),
-            bottomAnchor.constraint(equalTo: label.bottomAnchor)
+            layoutMarginsGuide.leadingAnchor.constraint(equalTo: label.leadingAnchor),
+            layoutMarginsGuide.trailingAnchor.constraint(equalTo: label.trailingAnchor),
+            layoutMarginsGuide.topAnchor.constraint(equalTo: label.topAnchor),
+            layoutMarginsGuide.bottomAnchor.constraint(equalTo: label.bottomAnchor)
         ])
     }
     
