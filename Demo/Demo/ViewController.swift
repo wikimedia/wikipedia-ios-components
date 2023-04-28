@@ -23,6 +23,9 @@ class FeatureNavigationController: WKCanvasViewController, WKFeatureNavigationHo
 			present(WKUICommunicationViewController(), animated: true)
         case .sourceEditor:
             present(PageEditorController(), animated: true)
+        case .settings:
+            let settingsVC = SettingsViewController()
+            present(settingsVC, animated: true)
 		}
 	}
 

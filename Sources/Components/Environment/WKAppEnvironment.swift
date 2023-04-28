@@ -9,8 +9,8 @@ public final class WKAppEnvironment: ObservableObject {
 	public static let current = WKAppEnvironment()
 	public static let publisher = CurrentValueSubject<WKAppEnvironment, Never>(.current)
 
-	@Published public private(set) var theme = WKTheme.light
-	@Published public private(set) var traitCollection = UITraitCollection.current
+    @Published public private(set) var theme: WKTheme = .light
+    @Published public private(set) var traitCollection: UITraitCollection = .current
 
 	// MARK: - Update
 
@@ -19,5 +19,4 @@ public final class WKAppEnvironment: ObservableObject {
 		traitCollection = newTraitCollection ?? traitCollection
 		WKAppEnvironment.publisher.send(self)
 	}
-
 }

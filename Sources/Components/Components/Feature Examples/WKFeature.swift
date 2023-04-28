@@ -9,6 +9,7 @@ public enum WKFeature: String, CaseIterable, Identifiable {
 	case randomPhoto = "Random Photo"
 	case sayHello = "Say Hello"
     case sourceEditor = "Source Editor"
+    case settings = "Settings"
 
 	var framework: String {
 		switch self {
@@ -22,6 +23,8 @@ public enum WKFeature: String, CaseIterable, Identifiable {
 			return "UIKit and SwiftUI"
         case .sourceEditor:
             return "Source Editor"
+        case .settings:
+            return "Settings"
 		}
 	}
 	

@@ -23,6 +23,18 @@ public struct WKTheme: Equatable {
 		prominentText: WKColor.green,
 		secondaryProminentText: WKColor.systemGreen
 	)
+    
+    public static let sepia = WKTheme(
+        name: "Sepia",
+        background: WKColor.white,
+        paperBackground: WKColor.lightGray,
+        primaryText: WKColor.black,
+        secondaryText: WKColor.gray,
+        buttonBackground: WKColor.blue,
+        secondaryButtonBackground: WKColor.teal,
+        prominentText: WKColor.green,
+        secondaryProminentText: WKColor.systemGreen
+    )
 
 	public static let dark = WKTheme(
 		name: "Dark",
@@ -35,4 +47,16 @@ public struct WKTheme: Equatable {
 		prominentText: WKColor.teal,
 		secondaryProminentText: WKColor.cyan
 	)
+    
+    public static let black = WKTheme(
+        name: "Black",
+        background: WKColor.black,
+        paperBackground: WKColor.darkGray,
+        primaryText: WKColor.white,
+        secondaryText: WKColor.gray,
+        buttonBackground: WKColor.purple,
+        secondaryButtonBackground: WKColor.orange,
+        prominentText: WKColor.teal,
+        secondaryProminentText: WKColor.cyan
+    )
 }
