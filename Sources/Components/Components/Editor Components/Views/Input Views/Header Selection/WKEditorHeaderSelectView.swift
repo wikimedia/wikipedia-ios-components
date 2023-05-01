@@ -61,6 +61,17 @@ class WKEditorHeaderSelectView: WKComponentView {
             label.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
             label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
+        
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
+        label.textColor = WKAppEnvironment.current.theme.primaryText
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     func configure(viewModel: ViewModel) {

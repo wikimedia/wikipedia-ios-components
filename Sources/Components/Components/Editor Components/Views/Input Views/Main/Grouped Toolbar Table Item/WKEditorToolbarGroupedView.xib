@@ -16,77 +16,77 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" tag="18" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" distribution="equalSpacing" translatesAutoresizingMaskIntoConstraints="NO" id="3dV-SU-XLo">
-                    <rect key="frame" x="24" y="0.0" width="327" height="45"/>
+                    <rect key="frame" x="24" y="8" width="327" height="29"/>
                     <subviews>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="ooB-ON-AdU">
-                            <rect key="frame" x="0.0" y="0.0" width="267" height="45"/>
+                            <rect key="frame" x="0.0" y="0.0" width="267" height="29"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5ZI-JH-LXb" userLabel="Unordered List Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="0.0" y="0.0" width="50" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="50" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="bnX-oN-xk6" userLabel="Ordered List Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="55" y="0.0" width="212" height="45"/>
+                                    <rect key="frame" x="55" y="0.0" width="212" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                         </stackView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzi-Bt-bK5" userLabel="Separator">
-                            <rect key="frame" x="267" y="0.0" width="1" height="45"/>
+                            <rect key="frame" x="267" y="0.0" width="1" height="29"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="Ce7-e5-DuF"/>
                             </constraints>
                         </view>
                         <stackView opaque="NO" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="YBs-xI-rce">
-                            <rect key="frame" x="268" y="0.0" width="47" height="45"/>
+                            <rect key="frame" x="268" y="0.0" width="47" height="29"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="KlN-Kw-YhW" userLabel="Decrease Indent Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RCs-LG-of5" userLabel="Increase Indent View" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="5" y="0.0" width="42" height="45"/>
+                                    <rect key="frame" x="5" y="0.0" width="42" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBt-uX-0EY" userLabel="Separator">
-                            <rect key="frame" x="315" y="0.0" width="1" height="45"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="MBt-uX-0EY" userLabel="Separator" customClass="WKToolbarSeparatorView" customModule="Components">
+                            <rect key="frame" x="315" y="0.0" width="1" height="29"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="Czb-Hd-I9e"/>
                             </constraints>
                         </view>
                         <stackView opaque="NO" tag="17" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="Ncz-dW-KBH">
-                            <rect key="frame" x="316" y="0.0" width="5" height="45"/>
+                            <rect key="frame" x="316" y="0.0" width="5" height="29"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="uds-JW-wae" userLabel="Superscript Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="5Xf-lh-JJw" userLabel="Subscript Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="5" y="0.0" width="0.0" height="45"/>
+                                    <rect key="frame" x="5" y="0.0" width="0.0" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xaa-ak-V1F" userLabel="Separator">
-                            <rect key="frame" x="321" y="0.0" width="1" height="45"/>
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Xaa-ak-V1F" userLabel="Separator" customClass="WKToolbarSeparatorView" customModule="Components">
+                            <rect key="frame" x="321" y="0.0" width="1" height="29"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" constant="1" id="0tP-Om-ymc"/>
                             </constraints>
                         </view>
                         <stackView opaque="NO" tag="19" contentMode="scaleToFill" distribution="equalSpacing" alignment="center" spacing="5" translatesAutoresizingMaskIntoConstraints="NO" id="1hY-AT-OdF">
-                            <rect key="frame" x="322" y="0.0" width="5" height="45"/>
+                            <rect key="frame" x="322" y="0.0" width="5" height="29"/>
                             <subviews>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="M53-9g-ymd" userLabel="Underline Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="45"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="0.0" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                                 <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="RvY-Yo-LHj" userLabel="Strikethrough Button" customClass="WKEditorToolbarButton" customModule="Components">
-                                    <rect key="frame" x="5" y="0.0" width="0.0" height="45"/>
+                                    <rect key="frame" x="5" y="0.0" width="0.0" height="29"/>
                                     <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                 </view>
                             </subviews>
@@ -97,10 +97,10 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="3dV-SU-XLo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="AhT-ca-Nvc"/>
+                <constraint firstItem="3dV-SU-XLo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="AhT-ca-Nvc"/>
                 <constraint firstAttribute="trailingMargin" secondItem="3dV-SU-XLo" secondAttribute="trailing" constant="8" id="JBx-Dm-Ake"/>
                 <constraint firstItem="3dV-SU-XLo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" constant="8" id="f5I-Sl-gux"/>
-                <constraint firstAttribute="bottom" secondItem="3dV-SU-XLo" secondAttribute="bottom" id="yDz-rC-ghi"/>
+                <constraint firstAttribute="bottom" secondItem="3dV-SU-XLo" secondAttribute="bottom" constant="8" id="yDz-rC-ghi"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

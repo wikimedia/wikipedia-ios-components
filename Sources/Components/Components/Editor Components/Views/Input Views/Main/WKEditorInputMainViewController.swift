@@ -50,6 +50,16 @@ class WKEditorInputMainViewController: WKComponentViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = closeButton
+        
+        updateColors()
+    }
+    
+    private func updateColors() {
+        tableView.backgroundColor = WKAppEnvironment.current.theme.background
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     @objc private func close(_ sender: UIBarButtonItem) {
@@ -67,8 +77,10 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell = tableView.dequeueReusableCell(withIdentifier: plainReuseIdentifier, for: indexPath)
+            cell.selectionStyle = .none
         case 1:
             cell = tableView.dequeueReusableCell(withIdentifier: groupedReuseIdentifier, for: indexPath)
+            cell.selectionStyle = .none
         case 2:
             
             cell = tableView.dequeueReusableCell(withIdentifier: detailReuseIdentifier, for: indexPath)

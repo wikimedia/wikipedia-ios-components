@@ -11,6 +11,12 @@ public struct WKTheme: Equatable {
 	public let secondaryButtonBackground: UIColor
 	public let prominentText: UIColor
 	public let secondaryProminentText: UIColor
+    public let link: UIColor
+    public let destructive: UIColor
+    public let inputAccessoryButtonTint: UIColor
+    public let inputAccessoryButtonSelectedTint: UIColor
+    public let inputAccessoryButtonSelectedBackgroundColor: UIColor
+    public let keyboardAppearance: UIKeyboardAppearance
 
 	public static let light = WKTheme(
 		name: "Light",
@@ -21,7 +27,13 @@ public struct WKTheme: Equatable {
 		buttonBackground: WKColor.blue,
 		secondaryButtonBackground: WKColor.teal,
 		prominentText: WKColor.green,
-		secondaryProminentText: WKColor.systemGreen
+		secondaryProminentText: WKColor.systemGreen,
+        link: WKColor.blue,
+        destructive: WKColor.red,
+        inputAccessoryButtonTint: WKColor.black,
+        inputAccessoryButtonSelectedTint: WKColor.black,
+        inputAccessoryButtonSelectedBackgroundColor: WKColor.lightGray,
+        keyboardAppearance: .light
 	)
     
     public static let sepia = WKTheme(
@@ -33,7 +45,13 @@ public struct WKTheme: Equatable {
         buttonBackground: WKColor.blue,
         secondaryButtonBackground: WKColor.teal,
         prominentText: WKColor.green,
-        secondaryProminentText: WKColor.systemGreen
+        secondaryProminentText: WKColor.systemGreen,
+        link: WKColor.blue,
+        destructive: WKColor.red,
+        inputAccessoryButtonTint: WKColor.black,
+        inputAccessoryButtonSelectedTint: WKColor.black,
+        inputAccessoryButtonSelectedBackgroundColor: WKColor.lightGray,
+        keyboardAppearance: .light
     )
 
 	public static let dark = WKTheme(
@@ -45,7 +63,13 @@ public struct WKTheme: Equatable {
 		buttonBackground: WKColor.purple,
 		secondaryButtonBackground: WKColor.orange,
 		prominentText: WKColor.teal,
-		secondaryProminentText: WKColor.cyan
+		secondaryProminentText: WKColor.cyan,
+        link: WKColor.blue,
+        destructive: WKColor.red,
+        inputAccessoryButtonTint: WKColor.white,
+        inputAccessoryButtonSelectedTint: WKColor.white,
+        inputAccessoryButtonSelectedBackgroundColor: WKColor.darkGray,
+        keyboardAppearance: .dark
 	)
     
     public static let black = WKTheme(
@@ -57,6 +81,12 @@ public struct WKTheme: Equatable {
         buttonBackground: WKColor.purple,
         secondaryButtonBackground: WKColor.orange,
         prominentText: WKColor.teal,
-        secondaryProminentText: WKColor.cyan
+        secondaryProminentText: WKColor.cyan,
+        link: WKColor.blue,
+        destructive: WKColor.red,
+        inputAccessoryButtonTint: WKColor.white,
+        inputAccessoryButtonSelectedTint: WKColor.white,
+        inputAccessoryButtonSelectedBackgroundColor: WKColor.darkGray,
+        keyboardAppearance: .dark
     )
 }

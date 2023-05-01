@@ -148,7 +148,7 @@ class WKSourceEditorView: WKComponentView {
                                                name: UIApplication.keyboardWillHideNotification,
                                                object: nil)
         
-        backgroundColor = .white
+        updateColors()
     }
     
     // MARK: - Notifications
@@ -167,7 +167,7 @@ class WKSourceEditorView: WKComponentView {
     // MARK: - Public
     
     func setText(text: String) {
-        textView.attributedText = NSAttributedString(string: text)
+        textView.attributedText = NSAttributedString(string: text, attributes: [.foregroundColor: WKAppEnvironment.current.theme.primaryText])
     }
     
     var text: String {
@@ -227,6 +227,17 @@ class WKSourceEditorView: WKComponentView {
     private func updateInsets(keyboardHeight: CGFloat) {
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
         textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
+        textView.backgroundColor = WKAppEnvironment.current.theme.background
+        textView.attributedText = NSAttributedString(string: textView.text, attributes: [.foregroundColor: WKAppEnvironment.current.theme.primaryText])
+        textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
     }
 }
 

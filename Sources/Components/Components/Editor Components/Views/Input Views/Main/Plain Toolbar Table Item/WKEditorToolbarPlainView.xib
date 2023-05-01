@@ -15,30 +15,30 @@
             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
             <subviews>
                 <stackView opaque="NO" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" distribution="equalSpacing" alignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Fhk-Dl-iSo">
-                    <rect key="frame" x="24" y="0.0" width="327" height="45"/>
+                    <rect key="frame" x="24" y="8" width="327" height="29"/>
                     <subviews>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="Mxi-qd-n8q" userLabel="Bold Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="0.0" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="0.0" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="T8g-md-cMv" userLabel="Italics Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="59.5" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="59.5" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="trw-Yy-0zy" userLabel="Citation Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="119" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="119" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="KPn-fT-Zfd" userLabel="Link Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="178" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="178" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="kDX-lu-C75" userLabel="Template Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="237.5" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="237.5" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="45" translatesAutoresizingMaskIntoConstraints="NO" id="l9y-JD-KgU" userLabel="Comment Button" customClass="WKEditorToolbarButton" customModule="Components">
-                            <rect key="frame" x="297" y="0.0" width="30" height="45"/>
+                            <rect key="frame" x="297" y="0.0" width="30" height="29"/>
                             <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                         </view>
                     </subviews>
@@ -46,10 +46,10 @@
             </subviews>
             <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
             <constraints>
-                <constraint firstItem="Fhk-Dl-iSo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" id="eW9-ER-BAQ"/>
+                <constraint firstItem="Fhk-Dl-iSo" firstAttribute="top" secondItem="iN0-l3-epB" secondAttribute="top" constant="8" id="eW9-ER-BAQ"/>
                 <constraint firstItem="Fhk-Dl-iSo" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leadingMargin" constant="8" id="oaW-jl-KZe"/>
                 <constraint firstAttribute="trailingMargin" secondItem="Fhk-Dl-iSo" secondAttribute="trailing" constant="8" id="xwv-f1-oio"/>
-                <constraint firstAttribute="bottom" secondItem="Fhk-Dl-iSo" secondAttribute="bottom" id="yL3-hk-bUS"/>
+                <constraint firstAttribute="bottom" secondItem="Fhk-Dl-iSo" secondAttribute="bottom" constant="8" id="yL3-hk-bUS"/>
             </constraints>
             <freeformSimulatedSizeMetrics key="simulatedDestinationMetrics"/>
             <connections>

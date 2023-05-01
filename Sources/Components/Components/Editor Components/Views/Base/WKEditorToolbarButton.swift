@@ -24,6 +24,10 @@ class WKEditorToolbarButton: WKComponentView {
         setup()
     }
     
+    override public func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
     private func setup() {
         translatesAutoresizingMaskIntoConstraints = false
         button.translatesAutoresizingMaskIntoConstraints = false
@@ -34,6 +38,24 @@ class WKEditorToolbarButton: WKComponentView {
             button.topAnchor.constraint(equalTo: topAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+        
+        updateColors()
+    }
+    
+    private func updateColors() {
+        button.tintColor = button.isSelected ? WKAppEnvironment.current.theme.inputAccessoryButtonSelectedTint : WKAppEnvironment.current.theme.inputAccessoryButtonTint
+        backgroundColor = .clear
+        button.backgroundColor = button.isSelected ? WKAppEnvironment.current.theme.inputAccessoryButtonSelectedBackgroundColor : UIColor.clear
+    }
+    
+    var isSelected: Bool {
+        get {
+            return button.isSelected
+        }
+        set {
+            button.isSelected = newValue
+            updateColors()
+        }
     }
     
     func setImage(_ image: UIImage?, for state: UIControl.State) {

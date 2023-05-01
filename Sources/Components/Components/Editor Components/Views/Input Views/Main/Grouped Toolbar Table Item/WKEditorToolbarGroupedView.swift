@@ -37,30 +37,48 @@ class WKEditorToolbarGroupedView: WKEditorToolbarView {
         
         strikethroughButton.setImage(WKIcon.strikethrough, for: .normal)
         strikethroughButton.addTarget(self, action: #selector(tappedStrikethrough), for: .touchUpInside)
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
+    }
+    
+    override func appEnvironmentDidChange() {
+        super.appEnvironmentDidChange()
+        updateColors()
     }
     
     @objc func tappedIncreaseIndent() {
+        increaseIndentButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapIncreaseIndent()
     }
     @objc func tappedDecreaseIndent() {
+        decreaseIndentButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapDecreaseIndent()
     }
     @objc func tappedUnorderedList() {
+        unorderedListButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapUnorderedList()
     }
     @objc func tappedOrderedList() {
+        orderedListButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapOrderedList()
     }
     @objc func tappedSuperscript() {
+        superscriptButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapSuperscript()
     }
     @objc func tappedSubscript() {
+        subscriptButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapSubscript()
     }
     @objc func tappedUnderline() {
+        underlineButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapUnderline()
     }
     @objc func tappedStrikethrough() {
+        strikethroughButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapStrikethrough()
     }
 }

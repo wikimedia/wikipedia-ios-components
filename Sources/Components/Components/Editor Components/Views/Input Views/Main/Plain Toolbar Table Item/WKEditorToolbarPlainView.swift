@@ -19,7 +19,7 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
         italicsButton.addTarget(self, action: #selector(tappedItalics), for: .touchUpInside)
         
         citationButton.setImage(WKIcon.citation, for: .normal)
-        citationButton.addTarget(self, action: #selector(tappedReference), for: .touchUpInside)
+        citationButton.addTarget(self, action: #selector(tappedCitation), for: .touchUpInside)
         
         linkButton.setImage(WKIcon.link, for: .normal)
         linkButton.addTarget(self, action: #selector(tappedLink), for: .touchUpInside)
@@ -29,29 +29,46 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
         
         commentButton.setImage(WKIcon.comment, for: .normal)
         commentButton.addTarget(self, action: #selector(tappedComment), for: .touchUpInside)
+        
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
+    }
+    
+    override func appEnvironmentDidChange() {
+        super.appEnvironmentDidChange()
+        updateColors()
     }
     
     @objc func tappedBold() {
+        boldButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapBold()
     }
 
     @objc func tappedItalics() {
+        italicsButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapItalics()
     }
 
-    @objc func tappedReference() {
+    @objc func tappedCitation() {
+        citationButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapReference()
     }
 
     @objc func tappedTemplate() {
+        templateButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapTemplate()
     }
 
     @objc func tappedComment() {
+        commentButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapComment()
     }
 
     @objc func tappedLink() {
+        linkButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapLink()
     }
 }

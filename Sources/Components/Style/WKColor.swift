@@ -6,7 +6,7 @@ public enum WKColor {
 	static let white = UIColor.white
 	static let black = UIColor.black
 	static let red = UIColor.red
-	static let blue = UIColor.blue
+    static let blue = UIColor.systemBlue
 	static let orange = UIColor.orange
 	static let purple = UIColor.purple
 	static let gray = UIColor.gray

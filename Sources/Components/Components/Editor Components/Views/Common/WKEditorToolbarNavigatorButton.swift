@@ -30,6 +30,18 @@ class WKEditorToolbarNavigatorButton: WKComponentView {
         ])
         
         button.imageView?.contentMode = .scaleAspectFit
+        
+        updateColors()
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
+    private func updateColors() {
+        button.tintColor = WKAppEnvironment.current.theme.link
+        backgroundColor = .clear
+        button.backgroundColor = .clear
     }
     
     func setImage(_ image: UIImage?, for state: UIControl.State) {

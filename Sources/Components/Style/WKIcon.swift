@@ -35,7 +35,7 @@ enum WKIcon {
     static let template = UIImage(named: "template", in: .module, with: nil)
     static let increaseIndent = UIImage(named: "increase-indent", in: .module, with: nil)
     static let decreaseIndent = UIImage(named: "decrease-indent", in: .module, with: nil)
-    static let clearFormatting = UIImage(named: "clear-formatting", in: .module, with: nil)
+    static let clearMarkup = UIImage(named: "clear-markup", in: .module, with: nil)
     static let pencil = UIImage(named: "pencil", in: .module, with: nil)
     static let replace = UIImage(named: "replace", in: .module, with: nil)
 }

@@ -62,6 +62,18 @@ class WKEditorSelectionDetailView: WKComponentView {
             selectionLabel.centerYAnchor.constraint(equalTo: disclosureImageView.centerYAnchor),
             selectionLabel.centerYAnchor.constraint(equalTo: typeLabel.centerYAnchor),
         ])
+        
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
+        typeLabel.textColor = WKAppEnvironment.current.theme.primaryText
+        selectionLabel.textColor = WKAppEnvironment.current.theme.primaryText
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     func configure(viewModel: ViewModel) {

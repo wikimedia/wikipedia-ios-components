@@ -42,38 +42,56 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
         templateButton.setImage(WKIcon.template, for: .normal)
         templateButton.addTarget(self, action: #selector(tappedTemplate), for: .touchUpInside)
         
-        clearMarkupButton.setImage(WKIcon.clearFormatting, for: .normal)
-        clearMarkupButton.addTarget(self, action: #selector(tappedClearFormatting), for: .touchUpInside)
+        clearMarkupButton.setImage(WKIcon.clearMarkup, for: .normal)
+        clearMarkupButton.addTarget(self, action: #selector(tappedClearMarkup), for: .touchUpInside)
         
         showMoreButton.setImage(WKIcon.plusCircleFill, for: .normal)
         showMoreButton.addTarget(self, action: #selector(tappedShowMore), for: .touchUpInside)
+        
+        updateColors()
+    }
+    
+    override func appEnvironmentDidChange() {
+        super.appEnvironmentDidChange()
+        updateColors()
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.background
     }
 
     @objc func tappedBold() {
+        boldButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapBold()
     }
 
     @objc func tappedItalics() {
+        italicsButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapItalics()
     }
 
     @objc func tappedFormatHeading() {
+        formatHeadingButton.isSelected.toggle()
         delegate?.toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: self)
     }
 
     @objc func tappedCitation() {
+        citationButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapReference()
     }
 
     @objc func tappedLink() {
+        linkButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapLink()
     }
 
     @objc func tappedTemplate() {
+        templateButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapTemplate()
     }
 
-    @objc func tappedClearFormatting() {
+    @objc func tappedClearMarkup() {
+        clearMarkupButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapClearFormatting()
     }
 
