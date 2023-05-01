@@ -17,7 +17,8 @@ class WKFindAndReplaceView: WKComponentView {
     @IBOutlet private var nextButton: UIButton!
     @IBOutlet private var previousButton: UIButton!
     @IBOutlet private var magnifyImageView: UIImageView!
-   
+    @IBOutlet weak var findTextfieldContainer: UIView!
+    
     // Replace outlets
     @IBOutlet private var replaceStackView: UIStackView!
     @IBOutlet private var replaceTextField: UITextField!
@@ -27,6 +28,7 @@ class WKFindAndReplaceView: WKComponentView {
     @IBOutlet private var replaceButton: UIButton!
     @IBOutlet private var replaceSwitchButton: UIButton!
     @IBOutlet private var pencilImageView: UIImageView!
+    @IBOutlet weak var replaceTextfieldContainer: UIView!
     
     // MARK: - Other Properties
     
@@ -58,10 +60,16 @@ class WKFindAndReplaceView: WKComponentView {
         replacePlaceholderLabel.font = WKFont.for(.smallHeadline, compatibleWith: appEnvironment.traitCollection)
         
         configure(viewModel: viewModel)
+        updateColors()
     }
     
     override var intrinsicContentSize: CGSize {
         return CGSize(width: UIView.noIntrinsicMetric, height: 46)
+    }
+    
+    override func appEnvironmentDidChange() {
+        super.appEnvironmentDidChange()
+        updateColors()
     }
     
     // MARK: - Public
@@ -171,6 +179,11 @@ extension WKFindAndReplaceView: UITextFieldDelegate {
 // MARK: Private
 
 private extension WKFindAndReplaceView {
+    
+    private func updateColors() {
+        findTextfieldContainer?.backgroundColor = WKAppEnvironment.current.theme.paperBackground
+        replaceTextfieldContainer?.backgroundColor = WKAppEnvironment.current.theme.paperBackground
+    }
     
     func resetFind() {
         viewModel.resetFind()
