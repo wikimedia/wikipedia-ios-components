@@ -27,10 +27,22 @@ class WKSourceEditorView: WKComponentView {
     }
     
     // MARK: - UI Elements
+//
+//    private var colors: WKSourceEditorTextStorageColors?
+//    private var fonts: WKSourceEditorTextStorageFonts?
+  //  private var formatters: WKSourceEditorFormatterDefault?
+//
     
     private lazy var textView: UITextView = {
         
         let textStorage = WKSourceEditorTextStorage()
+        
+//        let colors = WKSourceEditorTextStorageColors()
+//        colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+//        let fonts = WKSourceEditorTextStorageFonts()
+//        fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
+//        let defaultFormatter = WKSourceEditorFormatterDefault(colors: colors, fonts: fonts)
+//        textStorage.formatters.add(defaultFormatter)
 
         let layoutManager = NSLayoutManager()
         let container = NSTextContainer()
@@ -235,8 +247,6 @@ class WKSourceEditorView: WKComponentView {
     
     private func updateColors() {
         backgroundColor = WKAppEnvironment.current.theme.background
-        textView.backgroundColor = WKAppEnvironment.current.theme.background
-        textView.attributedText = NSAttributedString(string: textView.text, attributes: [.foregroundColor: WKAppEnvironment.current.theme.primaryText])
         textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
     }
 }

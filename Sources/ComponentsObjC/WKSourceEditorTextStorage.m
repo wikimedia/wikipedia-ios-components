@@ -6,6 +6,7 @@
 //
 
 #import "WKSourceEditorTextStorage.h"
+#import "WKSourceEditorFormatter.h"
 
 @interface WKSourceEditorTextStorage ()
 
@@ -21,6 +22,8 @@
     }
     return self;
 }
+
+// MARK: - Standard Implementations
 
 - (NSString *)string {
     return self.backingStore.string;
@@ -64,8 +67,23 @@
     [self endEditing];
 }
 
+// MARK: - Custom Implementations
+
 - (void)processEditing {
+    [self applySyntaxHighlightingToRange:self.editedRange];
     [super processEditing];
+}
+
+- (void)applySyntaxHighlightingToRange:(NSRange)changedRange {
+    NSRange extendedRange = NSUnionRange(changedRange, [self.backingStore.string lineRangeForRange:NSMakeRange(changedRange.location, 0)]);
+    extendedRange = NSUnionRange(changedRange, [self.backingStore.string lineRangeForRange:NSMakeRange(NSMaxRange(changedRange), 0)]);
+    [self applyStylesToExtendedRange:extendedRange];
+}
+
+- (void)applyStylesToExtendedRange:(NSRange)extendedRange {
+    for (WKSourceEditorFormatter *formatter in self.formatters) {
+        [formatter applySyntaxHighlightingInString:self toRange:extendedRange];
+    }
 }
 
 @end

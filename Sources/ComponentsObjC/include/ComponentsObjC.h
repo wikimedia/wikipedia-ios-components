@@ -9,5 +9,9 @@
 #define Header_h
 
 #import "WKSourceEditorTextStorage.h"
+#import "WKSourceEditorFormatter.h"
+#import "WKSourceEditorFormatterDefault.h"
+#import "WKSourceEditorTextStorageColors.h"
+#import "WKSourceEditorTextStorageFonts.h"
 
 #endif /* Header_h */
