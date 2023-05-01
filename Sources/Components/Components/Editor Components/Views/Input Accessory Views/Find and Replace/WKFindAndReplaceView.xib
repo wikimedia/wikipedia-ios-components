@@ -243,6 +243,7 @@
                 <outlet property="magnifyImageView" destination="ndR-3k-0Gf" id="mTn-sc-7Ve"/>
                 <outlet property="nextButton" destination="Ygy-QU-ZCs" id="cXg-EC-uYQ"/>
                 <outlet property="nextPrevButtonStackView" destination="zYQ-km-WBU" id="gRy-ls-dQz"/>
+                <outlet property="outerContainer" destination="mcZ-4f-6ui" id="w68-eL-yWL"/>
                 <outlet property="outerStackViewLeadingConstraint" destination="RF6-RX-EDk" id="hci-VM-cjQ"/>
                 <outlet property="outerStackViewTrailingConstraint" destination="4hU-8c-xYg" id="Y9v-kD-vsb"/>
                 <outlet property="pencilImageView" destination="aF4-ek-Hx6" id="QFb-mS-gyE"/>

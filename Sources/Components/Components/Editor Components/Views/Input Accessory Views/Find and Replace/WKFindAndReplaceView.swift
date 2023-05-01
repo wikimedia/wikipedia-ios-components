@@ -4,6 +4,7 @@ class WKFindAndReplaceView: WKComponentView {
     
     // MARK: - IBOutlet Properties
 
+    @IBOutlet weak var outerContainer: UIView!
     @IBOutlet private var outerStackViewLeadingConstraint: NSLayoutConstraint!
     @IBOutlet private var outerStackViewTrailingConstraint: NSLayoutConstraint!
     
@@ -181,6 +182,7 @@ extension WKFindAndReplaceView: UITextFieldDelegate {
 private extension WKFindAndReplaceView {
     
     private func updateColors() {
+        outerContainer?.backgroundColor = WKAppEnvironment.current.theme.background
         findTextfieldContainer?.backgroundColor = WKAppEnvironment.current.theme.paperBackground
         replaceTextfieldContainer?.backgroundColor = WKAppEnvironment.current.theme.paperBackground
     }
