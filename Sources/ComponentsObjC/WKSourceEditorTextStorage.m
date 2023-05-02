@@ -13,6 +13,7 @@
 
 @property (nonatomic, strong) NSMutableAttributedString *backingStore;
 @property (nonatomic, copy) NSMutableArray *formatters;
+@property (nonatomic, assign) BOOL needsSyntaxHighlightRegexCalculation;
 
 @end
 
@@ -22,11 +23,12 @@
     if (self = [super init]) {
         _backingStore = [[NSMutableAttributedString alloc] init];
         _formatters = [NSMutableArray array];
+        _needsSyntaxHighlightRegexCalculation = YES;
     }
     return self;
 }
 
-// MARK: - Standard Implementations
+// MARK: - Overrides
 
 - (NSString *)string {
     return self.backingStore.string;
@@ -50,6 +52,49 @@
     [self endEditing];
 }
 
+- (void)processEditing {
+    if (self.needsSyntaxHighlightRegexCalculation) {
+        [self applySyntaxHighlightRegexToRange:self.editedRange];
+    }
+    
+    [super processEditing];
+}
+
+// MARK: Public
+
+- (void)updateColors:(WKSourceEditorTextStorageColors *)colors {
+    self.needsSyntaxHighlightRegexCalculation = NO;
+    [self beginEditing];
+    NSRange allRange = NSMakeRange(0, self.backingStore.length);
+    
+    for (WKSourceEditorFormatter *formatter in self.formatters) {
+        [formatter updateColors:colors inString:self inRange:allRange];
+    }
+    
+    [self endEditing];
+    self.needsSyntaxHighlightRegexCalculation = YES;
+}
+
+- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts {
+    self.needsSyntaxHighlightRegexCalculation = NO;
+    [self beginEditing];
+    NSRange allRange = NSMakeRange(0, self.backingStore.length);
+    
+    for (WKSourceEditorFormatter *formatter in self.formatters) {
+        [formatter updateFonts:fonts inString:self inRange:allRange];
+    }
+    
+    [self endEditing];
+    self.needsSyntaxHighlightRegexCalculation = YES;
+}
+
+- (void)addFormatter:(WKSourceEditorFormatter *)formatter {
+    [self.formatters addObject:formatter];
+}
+
+// MARK: - Batch change methods
+// Use for performant mass attribute changes
+
 - (void)removeAttribute:(NSAttributedStringKey)name rangeValues:(NSArray<NSValue *> *)rangeValues {
     [self beginEditing];
     for (NSValue *rangeValue in rangeValues) {
@@ -70,27 +115,20 @@
     [self endEditing];
 }
 
-// MARK: - Custom Implementations
+// MARK: - Private Helpers
 
-- (void)processEditing {
-    [self applySyntaxHighlightingToRange:self.editedRange];
-    [super processEditing];
-}
-
-- (void)applySyntaxHighlightingToRange:(NSRange)changedRange {
+- (void)applySyntaxHighlightRegexToRange:(NSRange)changedRange {
     NSRange extendedRange = NSUnionRange(changedRange, [self.backingStore.string lineRangeForRange:NSMakeRange(changedRange.location, 0)]);
     extendedRange = NSUnionRange(changedRange, [self.backingStore.string lineRangeForRange:NSMakeRange(NSMaxRange(changedRange), 0)]);
-    [self applyStylesToExtendedRange:extendedRange];
+    [self applySyntaxHighlightRegexToExtendedRange:extendedRange];
 }
 
-- (void)applyStylesToExtendedRange:(NSRange)extendedRange {
+- (void)applySyntaxHighlightRegexToExtendedRange:(NSRange)extendedRange {
     for (WKSourceEditorFormatter *formatter in self.formatters) {
-        [formatter applySyntaxHighlightingInString:self toRange:extendedRange];
+        [formatter applySyntaxHighlightRegexInString:self toRange:extendedRange];
     }
 }
 
-- (void)addFormatter:(WKSourceEditorFormatter *)formatter {
-    [_formatters addObject:formatter];
-}
+
 
 @end

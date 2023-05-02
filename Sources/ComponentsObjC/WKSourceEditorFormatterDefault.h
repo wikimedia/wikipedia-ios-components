@@ -13,8 +13,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorFormatterDefault : WKSourceEditorFormatter
-- (instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts;
-- (void)applySyntaxHighlightingInString:(NSMutableAttributedString *)string toRange:(NSRange)range;
+- (void)applySyntaxHighlightRegexInString:(NSMutableAttributedString *)string toRange:(NSRange)range;
 @end
 
 NS_ASSUME_NONNULL_END

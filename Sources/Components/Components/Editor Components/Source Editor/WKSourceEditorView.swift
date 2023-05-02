@@ -26,22 +26,22 @@ class WKSourceEditorView: WKComponentView {
         case find
     }
     
-    // MARK: - UI Elements
-//
-//    private var colors: WKSourceEditorTextStorageColors?
-//    private var fonts: WKSourceEditorTextStorageFonts?
-  //  private var formatters: WKSourceEditorFormatterDefault?
-//
-    
-    private lazy var textView: UITextView = {
-        
-        let textStorage = WKSourceEditorTextStorage()
-        
+    lazy var textStorageColors: WKSourceEditorTextStorageColors = {
         let colors = WKSourceEditorTextStorageColors()
         colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+        return colors
+    }()
+    
+    lazy var textStorageFonts: WKSourceEditorTextStorageFonts = {
         let fonts = WKSourceEditorTextStorageFonts()
         fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
-        let defaultFormatter = WKSourceEditorFormatterDefault(colors: colors, fonts: fonts)
+        return fonts
+    }()
+    
+    private lazy var textView: UITextView = {
+        let textStorage = WKSourceEditorTextStorage()
+        
+        let defaultFormatter = WKSourceEditorFormatterDefault(colors: textStorageColors, fonts: textStorageFonts)
         textStorage.add(defaultFormatter)
 
         let layoutManager = NSLayoutManager()
@@ -67,6 +67,10 @@ class WKSourceEditorView: WKComponentView {
         
         return textView
     }()
+    
+    private var textStorage: WKSourceEditorTextStorage {
+        return textView.textStorage as! WKSourceEditorTextStorage
+    }
     
     private lazy var expandingAccessoryView: WKEditorToolbarExpandingView = {
         let view = UINib(nibName: String(describing: WKEditorToolbarExpandingView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKEditorToolbarExpandingView
@@ -243,11 +247,20 @@ class WKSourceEditorView: WKComponentView {
     
     override func appEnvironmentDidChange() {
         updateColors()
+        updateFonts()
     }
     
     private func updateColors() {
         backgroundColor = WKAppEnvironment.current.theme.background
         textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
+        
+        textStorageColors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+        textStorage.update(textStorageColors)
+    }
+    
+    private func updateFonts() {
+        textStorageFonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
+        textStorage.update(textStorageFonts)
     }
 }
 
