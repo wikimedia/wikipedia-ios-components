@@ -34,6 +34,7 @@ class WKSourceEditorView: WKComponentView {
     
     lazy var textStorageFonts: WKSourceEditorTextStorageFonts = {
         let fonts = WKSourceEditorTextStorageFonts()
+        let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorPreferredFontSize)
         fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
         return fonts
     }()
@@ -259,6 +260,7 @@ class WKSourceEditorView: WKComponentView {
     }
     
     private func updateFonts() {
+        let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorPreferredFontSize)
         textStorageFonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
         textStorage.update(textStorageFonts)
     }

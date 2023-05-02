@@ -11,12 +11,14 @@ public final class WKAppEnvironment: ObservableObject {
 
     @Published public private(set) var theme: WKTheme = .light
     @Published public private(set) var traitCollection: UITraitCollection = .current
+    @Published public private(set) var articleAndEditorPreferredFontSize: UIContentSizeCategory = .large
 
 	// MARK: - Update
 
-	public func set(theme newTheme: WKTheme? = nil, traitCollection newTraitCollection: UITraitCollection? = nil) {
+    public func set(theme newTheme: WKTheme? = nil, traitCollection newTraitCollection: UITraitCollection? = nil, articleAndEditorPreferredFontSize newArticleAndEditorPreferredFontSize: UIContentSizeCategory? = nil) {
 		theme = newTheme ?? theme
 		traitCollection = newTraitCollection ?? traitCollection
+        articleAndEditorPreferredFontSize = newArticleAndEditorPreferredFontSize ?? articleAndEditorPreferredFontSize
 		WKAppEnvironment.publisher.send(self)
 	}
 }
