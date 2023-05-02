@@ -11,7 +11,7 @@
 
 @interface WKSourceEditorFormatterDefault ()
 
-@property (strong, nonatomic) NSDictionary *defaultAttributes;
+@property (strong, nonatomic) NSDictionary *attributes;
 
 @end
 
@@ -24,7 +24,7 @@
         [paragraphStyle setLineSpacing:5];
         [paragraphStyle setLineHeightMultiple:1.1];
 
-        _defaultAttributes = @{
+        _attributes = @{
             NSFontAttributeName: fonts.defaultFont,
             NSParagraphStyleAttributeName: paragraphStyle,
             NSForegroundColorAttributeName: colors.defaultForegroundColor
@@ -34,7 +34,7 @@
 }
 
 - (void)applySyntaxHighlightingInString:(NSMutableAttributedString *)string toRange:(NSRange)range {
-    [string addAttributes:self.defaultAttributes range:range];
+    [string addAttributes:self.attributes range:range];
 }
 
 @end
