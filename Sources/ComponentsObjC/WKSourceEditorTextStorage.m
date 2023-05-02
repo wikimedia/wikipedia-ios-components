@@ -7,10 +7,12 @@
 
 #import "WKSourceEditorTextStorage.h"
 #import "WKSourceEditorFormatter.h"
+#import "WKSourceEditorFormatterDefault.h"
 
 @interface WKSourceEditorTextStorage ()
 
 @property (nonatomic, strong) NSMutableAttributedString *backingStore;
+@property (nonatomic, copy) NSMutableArray *formatters;
 
 @end
 
@@ -19,6 +21,7 @@
 - (instancetype)init {
     if (self = [super init]) {
         _backingStore = [[NSMutableAttributedString alloc] init];
+        _formatters = [NSMutableArray array];
     }
     return self;
 }
@@ -84,6 +87,10 @@
     for (WKSourceEditorFormatter *formatter in self.formatters) {
         [formatter applySyntaxHighlightingInString:self toRange:extendedRange];
     }
+}
+
+- (void)addFormatter:(WKSourceEditorFormatter *)formatter {
+    [_formatters addObject:formatter];
 }
 
 @end

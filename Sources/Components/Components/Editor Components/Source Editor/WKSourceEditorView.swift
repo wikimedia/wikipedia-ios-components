@@ -37,12 +37,12 @@ class WKSourceEditorView: WKComponentView {
         
         let textStorage = WKSourceEditorTextStorage()
         
-//        let colors = WKSourceEditorTextStorageColors()
-//        colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
-//        let fonts = WKSourceEditorTextStorageFonts()
-//        fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
-//        let defaultFormatter = WKSourceEditorFormatterDefault(colors: colors, fonts: fonts)
-//        textStorage.formatters.add(defaultFormatter)
+        let colors = WKSourceEditorTextStorageColors()
+        colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+        let fonts = WKSourceEditorTextStorageFonts()
+        fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
+        let defaultFormatter = WKSourceEditorFormatterDefault(colors: colors, fonts: fonts)
+        textStorage.add(defaultFormatter)
 
         let layoutManager = NSLayoutManager()
         let container = NSTextContainer()

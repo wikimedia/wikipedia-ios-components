@@ -10,15 +10,6 @@
 #import "WKSourceEditorTextStorageFonts.h"
 
 @implementation WKSourceEditorFormatter
-
-- (instancetype)initWithColors:(WKSourceEditorTextStorageColors *)colors andFonts:(WKSourceEditorTextStorageFonts *)fonts {
-    self = [super init];
-    if (self) {
-        _colors = colors;
-        _fonts = fonts;
-    }
-}
-
 - (void)applySyntaxHighlightingInString:(NSMutableAttributedString *)string toRange:(NSRange)range {
     // must override
 }

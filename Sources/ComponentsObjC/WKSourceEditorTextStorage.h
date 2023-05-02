@@ -11,7 +11,8 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorTextStorage : NSTextStorage
-@property (nonatomic, copy) NSMutableArray<WKSourceEditorFormatter *> *formatters;
+
+- (void)addFormatter:(WKSourceEditorFormatter *)formatter;
 @end
 
 NS_ASSUME_NONNULL_END

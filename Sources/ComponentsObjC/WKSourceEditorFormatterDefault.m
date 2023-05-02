@@ -17,8 +17,8 @@
 
 @implementation WKSourceEditorFormatterDefault
 
-- (nonnull instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts {
-    self = [super initWithColors:colors andFonts:fonts];
+- (instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts {
+    self = [super init];
     if (self) {
         NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
         [paragraphStyle setLineSpacing:5];
@@ -30,6 +30,7 @@
             NSForegroundColorAttributeName: colors.defaultForegroundColor
         };
     }
+    return self;
 }
 
 - (void)applySyntaxHighlightingInString:(NSMutableAttributedString *)string toRange:(NSRange)range {

@@ -11,10 +11,7 @@
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorFormatter : NSObject
-@property (nonatomic, strong) WKSourceEditorTextStorageColors *colors;
-@property (nonatomic, strong) WKSourceEditorTextStorageFonts *fonts;
-
-- (instancetype)initWithColors:(WKSourceEditorTextStorageColors *)colors andFonts:(WKSourceEditorTextStorageFonts *)fonts;
+- (instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts;
 - (void)applySyntaxHighlightingInString:(NSMutableAttributedString *)string toRange:(NSRange)range;
 @end
 
