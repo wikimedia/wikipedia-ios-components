@@ -1,5 +1,6 @@
 import UIKit
 
+/// Color definitions from Wikimedia Style Guide
 public extension UIColor {
 
     static let gray800 = UIColor(0x101418)
@@ -32,9 +33,11 @@ public extension UIColor {
     static let orange600 = UIColor(0xFF9500)
     static let darkSearchFieldBackground = UIColor(0x8E8E93, alpha: 0.12)
     static let lightSearchFieldBackground = UIColor(0xFFFFFF, alpha: 0.15)
+
 }
 
 private extension UIColor {
+
     convenience init(_ hex: Int, alpha: CGFloat) {
         let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let g = CGFloat((hex & 0xFF00) >> 8) / 255.0
@@ -45,4 +48,5 @@ private extension UIColor {
     convenience init(_ hex: Int) {
         self.init(hex, alpha: 1)
     }
+	
 }
