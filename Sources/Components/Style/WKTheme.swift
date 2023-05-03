@@ -13,6 +13,7 @@ public struct WKTheme: Equatable {
 	public let secondaryProminentText: UIColor
     public let link: UIColor
     public let destructive: UIColor
+    public let editorOrange: UIColor
     public let inputAccessoryButtonTint: UIColor
     public let inputAccessoryButtonSelectedTint: UIColor
     public let inputAccessoryButtonSelectedBackgroundColor: UIColor
@@ -30,6 +31,7 @@ public struct WKTheme: Equatable {
 		secondaryProminentText: WKColor.systemGreen,
         link: WKColor.blue,
         destructive: WKColor.red,
+        editorOrange: WKColor.orange,
         inputAccessoryButtonTint: WKColor.black,
         inputAccessoryButtonSelectedTint: WKColor.black,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.lightGray,
@@ -48,6 +50,7 @@ public struct WKTheme: Equatable {
         secondaryProminentText: WKColor.systemGreen,
         link: WKColor.blue,
         destructive: WKColor.red,
+        editorOrange: WKColor.blue,
         inputAccessoryButtonTint: WKColor.black,
         inputAccessoryButtonSelectedTint: WKColor.black,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.lightGray,
@@ -66,6 +69,7 @@ public struct WKTheme: Equatable {
 		secondaryProminentText: WKColor.cyan,
         link: WKColor.blue,
         destructive: WKColor.red,
+        editorOrange: WKColor.green,
         inputAccessoryButtonTint: WKColor.white,
         inputAccessoryButtonSelectedTint: WKColor.white,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.darkGray,
@@ -84,6 +88,7 @@ public struct WKTheme: Equatable {
         secondaryProminentText: WKColor.cyan,
         link: WKColor.blue,
         destructive: WKColor.red,
+        editorOrange: WKColor.red,
         inputAccessoryButtonTint: WKColor.white,
         inputAccessoryButtonSelectedTint: WKColor.white,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.darkGray,

@@ -8,21 +8,25 @@
 #import "WKSourceEditorTextStorage.h"
 #import "WKSourceEditorFormatter.h"
 #import "WKSourceEditorFormatterDefault.h"
+#import "WKSourceEditorFormatterBoldItalics.h"
 
 @interface WKSourceEditorTextStorage ()
 
 @property (nonatomic, strong) NSMutableAttributedString *backingStore;
-@property (nonatomic, copy) NSMutableArray *formatters;
 @property (nonatomic, assign) BOOL needsSyntaxHighlightRegexCalculation;
+
+@property (nonatomic, strong) WKSourceEditorFormatterDefault *defaultFormatter;
+@property (nonatomic, strong) WKSourceEditorFormatterBoldItalics *boldItalicsFormatter;
 
 @end
 
 @implementation WKSourceEditorTextStorage
 
-- (instancetype)init {
+- (nonnull instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts {
     if (self = [super init]) {
         _backingStore = [[NSMutableAttributedString alloc] init];
-        _formatters = [NSMutableArray array];
+        _defaultFormatter = [[WKSourceEditorFormatterDefault alloc] initWithColors:colors fonts:fonts];
+        _boldItalicsFormatter = [[WKSourceEditorFormatterBoldItalics alloc] initWithColors:colors fonts:fonts];
         _needsSyntaxHighlightRegexCalculation = YES;
     }
     return self;
@@ -60,40 +64,8 @@
     [super processEditing];
 }
 
-// MARK: Public
-
-- (void)updateColors:(WKSourceEditorTextStorageColors *)colors {
-    self.needsSyntaxHighlightRegexCalculation = NO;
-    [self beginEditing];
-    NSRange allRange = NSMakeRange(0, self.backingStore.length);
-    
-    for (WKSourceEditorFormatter *formatter in self.formatters) {
-        [formatter updateColors:colors inString:self inRange:allRange];
-    }
-    
-    [self endEditing];
-    self.needsSyntaxHighlightRegexCalculation = YES;
-}
-
-- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts {
-    self.needsSyntaxHighlightRegexCalculation = NO;
-    [self beginEditing];
-    NSRange allRange = NSMakeRange(0, self.backingStore.length);
-    
-    for (WKSourceEditorFormatter *formatter in self.formatters) {
-        [formatter updateFonts:fonts inString:self inRange:allRange];
-    }
-    
-    [self endEditing];
-    self.needsSyntaxHighlightRegexCalculation = YES;
-}
-
-- (void)addFormatter:(WKSourceEditorFormatter *)formatter {
-    [self.formatters addObject:formatter];
-}
-
 // MARK: - Batch change methods
-// Use for performant mass attribute changes
+// Use for performant mass attribute changes (will be used for find and replace).
 
 - (void)removeAttribute:(NSAttributedStringKey)name rangeValues:(NSArray<NSValue *> *)rangeValues {
     [self beginEditing];
@@ -115,7 +87,34 @@
     [self endEditing];
 }
 
+// MARK: Public
+
+- (void)updateColors:(WKSourceEditorTextStorageColors *)colors andFonts:(WKSourceEditorTextStorageFonts *)fonts {
+    self.needsSyntaxHighlightRegexCalculation = NO;
+    [self beginEditing];
+    NSRange allRange = NSMakeRange(0, self.backingStore.length);
+    for (WKSourceEditorFormatter *formatter in [self formatters]) {
+        [formatter updateColors:colors inAttributedString:self inRange:allRange];
+        [formatter updateFonts:fonts inAttributedString:self inRange:allRange];
+    }
+    
+    [self endEditing];
+    self.needsSyntaxHighlightRegexCalculation = YES;
+}
+
+- (BOOL)isBoldInRange:(NSRange)range {
+    return [self.boldItalicsFormatter attributedString:self isBoldInRange:range];
+}
+
+- (BOOL)isItalicsInRange:(NSRange)range {
+    return [self.boldItalicsFormatter attributedString:self isItalicsInRange:range];
+}
+
 // MARK: - Private Helpers
+
+- (NSArray<WKSourceEditorFormatter *> *)formatters {
+    return @[self.defaultFormatter, self.boldItalicsFormatter];
+}
 
 - (void)applySyntaxHighlightRegexToRange:(NSRange)changedRange {
     NSRange extendedRange = NSUnionRange(changedRange, [self.backingStore.string lineRangeForRange:NSMakeRange(changedRange.location, 0)]);
@@ -124,8 +123,14 @@
 }
 
 - (void)applySyntaxHighlightRegexToExtendedRange:(NSRange)extendedRange {
+    
+    // reset
+    [self removeAttribute:NSFontAttributeName range:extendedRange];
+    [self removeAttribute:NSForegroundColorAttributeName range:extendedRange];
+    [self removeAttribute:NSForegroundColorAttributeName range:extendedRange];
+    
     for (WKSourceEditorFormatter *formatter in self.formatters) {
-        [formatter applySyntaxHighlightRegexInString:self toRange:extendedRange];
+        [formatter applySyntaxHighlightRegexInAttributedString:self toRange:extendedRange];
     }
 }
 

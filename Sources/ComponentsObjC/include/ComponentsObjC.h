@@ -11,6 +11,7 @@
 #import "WKSourceEditorTextStorage.h"
 #import "WKSourceEditorFormatter.h"
 #import "WKSourceEditorFormatterDefault.h"
+#import "WKSourceEditorFormatterBoldItalics.h"
 #import "WKSourceEditorTextStorageColors.h"
 #import "WKSourceEditorTextStorageFonts.h"
 

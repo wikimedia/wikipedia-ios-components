@@ -33,27 +33,27 @@
     return self;
 }
 
-- (void)applySyntaxHighlightRegexInString:(NSMutableAttributedString *)string toRange:(NSRange)range {
-    [super applySyntaxHighlightRegexInString:string toRange:range];
-    [string addAttributes:self.attributes range:range];
+- (void)applySyntaxHighlightRegexInAttributedString:(NSMutableAttributedString *)attributedString toRange:(NSRange)range {
+    [super applySyntaxHighlightRegexInAttributedString:attributedString toRange:range];
+    [attributedString addAttributes:self.attributes range:range];
 }
 
-- (void)updateColors:(WKSourceEditorTextStorageColors *)colors inString:(NSMutableAttributedString *)string inRange:(NSRange)range {
-    [super updateColors:colors inString:string inRange:range];
+- (void)updateColors:(WKSourceEditorTextStorageColors *)colors inAttributedString:(NSMutableAttributedString *)attributedString inRange:(NSRange)range {
+    [super updateColors:colors inAttributedString:attributedString inRange:range];
     NSMutableDictionary *mutAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.attributes];
     [mutAttributes setObject:colors.defaultForegroundColor forKey:NSForegroundColorAttributeName];
     self.attributes = [[NSDictionary alloc] initWithDictionary:mutAttributes];
-    
-    [string addAttributes:self.attributes range:range];
+
+    [attributedString addAttributes:self.attributes range:range];
 }
 
-- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts inString:(NSMutableAttributedString *)string inRange:(NSRange)range {
-    [super updateFonts:fonts inString:string inRange:range];
+- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts inAttributedString:(NSMutableAttributedString *)attributedString inRange:(NSRange)range {
+    [super updateFonts:fonts inAttributedString:attributedString inRange:range];
     NSMutableDictionary *mutAttributes = [[NSMutableDictionary alloc] initWithDictionary:self.attributes];
     [mutAttributes setObject:fonts.defaultFont forKey:NSFontAttributeName];
     self.attributes = [[NSDictionary alloc] initWithDictionary:mutAttributes];
-    
-    [string addAttributes:self.attributes range:range];
+
+    [attributedString addAttributes:self.attributes range:range];
 }
 
 @end

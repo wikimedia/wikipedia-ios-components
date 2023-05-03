@@ -165,77 +165,62 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
     }
 
     @objc func tappedFormatText() {
-        formatTextButton.isSelected.toggle()
         delegate?.toolbarExpandingViewDidTapFormatText(toolbarExpandingView: self)
     }
     
     @objc func tappedFormatHeading() {
-        formatHeadingButton.isSelected.toggle()
         delegate?.toolbarExpandingViewDidTapFormatHeading(toolbarExpandingView: self)
     }
 
     @objc func tappedCitation() {
-        citationButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapReference()
     }
 
     @objc func tappedLink() {
-        linkButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapLink()
     }
 
     @objc func tappedUnorderedList() {
-        unorderedListButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapUnorderedList()
     }
 
     @objc func tappedOrderedList() {
-        orderedListButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapOrderedList()
     }
 
     @objc func tappedDecreaseIndentation() {
-        decreaseIndentionButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapDecreaseIndent()
     }
 
     @objc func tappedIncreaseIndentation() {
-        increaseIndentionButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapIncreaseIndent()
     }
 
     @objc func tappedCursorUp() {
-        cursorUpButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapCursorUp()
     }
 
     @objc func tappedCursorDown() {
-        cursorDownButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapCursorDown()
     }
 
     @objc func tappedCursorLeft() {
-        cursorLeftButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapCursorLeft()
     }
 
     @objc func tappedCursorRight() {
-        cursorRightButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapCursorRight()
     }
 
     @objc func tappedTemplate() {
-        templateButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapTemplate()
     }
 
     @objc func tappedFindInPage() {
-        findInPageButton.isSelected.toggle()
         delegate?.toolbarExpandingViewDidTapFind(toolbarExpandingView: self)
     }
 
     @objc func tappedMedia() {
-        mediaButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapMediaInsert()
     }
 

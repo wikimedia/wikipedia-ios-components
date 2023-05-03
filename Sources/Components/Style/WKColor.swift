@@ -18,4 +18,3 @@ public enum WKColor {
 	static let cyan = UIColor.cyan
 
 }
-

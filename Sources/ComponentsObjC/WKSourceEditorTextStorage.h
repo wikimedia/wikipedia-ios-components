@@ -12,9 +12,12 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorTextStorage : NSTextStorage
 
-- (void)addFormatter:(WKSourceEditorFormatter *)formatter;
-- (void)updateColors:(WKSourceEditorTextStorageColors *)colors;
-- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts;
+- (instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts;
+
+- (void)updateColors:(WKSourceEditorTextStorageColors *)colors andFonts:(WKSourceEditorTextStorageFonts *)fonts;
+
+- (BOOL)isBoldInRange:(NSRange)range;
+- (BOOL)isItalicsInRange:(NSRange)range;
 @end
 
 NS_ASSUME_NONNULL_END

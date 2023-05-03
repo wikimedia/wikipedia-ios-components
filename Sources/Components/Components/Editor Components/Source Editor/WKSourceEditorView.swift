@@ -11,6 +11,20 @@ protocol WKSourceEditorViewDelegate: AnyObject {
     func editorViewDidTapShowMore(editorView: WKSourceEditorView)
 }
 
+public extension Notification.Name {
+    static let WKSourceEditorSelectBold = Notification.Name("WKSourceEditorSelectBold")
+    static let WKSourceEditorDeselectBold = Notification.Name("WKSourceEditorDeselectBold")
+    static let WKSourceEditorSelectItalics = Notification.Name("WKSourceEditorSelectItalics")
+    static let WKSourceEditorDeselectItalics = Notification.Name("WKSourceEditorDeselectItalics")
+}
+
+public extension Notification {
+    static let sourceEditorSelectBold = Notification.Name.WKSourceEditorSelectBold
+    static let sourceEditorDeselectBold = Notification.Name.WKSourceEditorDeselectBold
+    static let sourceEditorSelectItalics = Notification.Name.WKSourceEditorSelectItalics
+    static let sourceEditorDeselectItalics = Notification.Name.WKSourceEditorDeselectItalics
+}
+
 class WKSourceEditorView: WKComponentView {
     
     // MARK: Nested Types
@@ -29,6 +43,7 @@ class WKSourceEditorView: WKComponentView {
     lazy var textStorageColors: WKSourceEditorTextStorageColors = {
         let colors = WKSourceEditorTextStorageColors()
         colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+        colors.orangeForegroundColor = WKAppEnvironment.current.theme.editorOrange
         return colors
     }()
     
@@ -36,14 +51,14 @@ class WKSourceEditorView: WKComponentView {
         let fonts = WKSourceEditorTextStorageFonts()
         let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorTextSize)
         fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
+        fonts.boldItalicsFont = WKFont.for(.boldItalicsBody, compatibleWith: traitCollection)
+        fonts.boldFont = WKFont.for(.boldBody, compatibleWith: traitCollection)
+        fonts.italicsFont = WKFont.for(.italicsBody, compatibleWith: traitCollection)
         return fonts
     }()
     
     private lazy var textView: UITextView = {
-        let textStorage = WKSourceEditorTextStorage()
-        
-        let defaultFormatter = WKSourceEditorFormatterDefault(colors: textStorageColors, fonts: textStorageFonts)
-        textStorage.add(defaultFormatter)
+        let textStorage = WKSourceEditorTextStorage(colors: textStorageColors, fonts: textStorageFonts)
 
         let layoutManager = NSLayoutManager()
         let container = NSTextContainer()
@@ -165,7 +180,7 @@ class WKSourceEditorView: WKComponentView {
                                                name: UIApplication.keyboardWillHideNotification,
                                                object: nil)
         
-        updateColors()
+        updateColorsAndFonts()
     }
     
     // MARK: - Notifications
@@ -239,6 +254,22 @@ class WKSourceEditorView: WKComponentView {
         textView.becomeFirstResponder()
     }
     
+    func broadcastEditorButtonSelectionStates() {
+        let selectedRange = textView.selectedRangePlus1
+        
+        if textStorage.isBold(in: selectedRange) {
+            NotificationCenter.default.post(name: Notification.sourceEditorSelectBold, object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notification.sourceEditorDeselectBold, object: nil)
+        }
+        
+        if textStorage.isItalics(in: selectedRange) {
+            NotificationCenter.default.post(name: Notification.sourceEditorSelectItalics, object: nil)
+        } else {
+            NotificationCenter.default.post(name: Notification.sourceEditorDeselectItalics, object: nil)
+        }
+    }
+    
     // MARK: - Private
     
     private func updateInsets(keyboardHeight: CGFloat) {
@@ -247,22 +278,20 @@ class WKSourceEditorView: WKComponentView {
     }
     
     override func appEnvironmentDidChange() {
-        updateColors()
-        updateFonts()
+        updateColorsAndFonts()
     }
     
-    private func updateColors() {
+    private func updateColorsAndFonts() {
         backgroundColor = WKAppEnvironment.current.theme.background
         textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
         
         textStorageColors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
-        textStorage.update(textStorageColors)
-    }
-    
-    private func updateFonts() {
+        textStorageColors.orangeForegroundColor = WKAppEnvironment.current.theme.editorOrange
+        
         let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorTextSize)
         textStorageFonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
-        textStorage.update(textStorageFonts)
+        
+        textStorage.update(textStorageColors, andFonts: textStorageFonts)
     }
 }
 
@@ -299,5 +328,22 @@ extension WKSourceEditorView: WKEditorToolbarContextualHighlightViewDelegate {
     
     func toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
         delegate?.editorViewDidTapFormatHeading(editorView: self)
+    }
+}
+
+private extension UITextView {
+    
+    var selectedRangePlus1: NSRange {
+        var selectedRange = selectedRange
+        
+        if selectedRange.length == 0,
+           selectedRange.location > 0,
+           attributedText.length > 1,
+           attributedText.length > selectedRange.location + 1 {
+            
+            selectedRange = NSRange(location: selectedRange.location - 1, length: 2)
+        }
+        
+        return selectedRange
     }
 }

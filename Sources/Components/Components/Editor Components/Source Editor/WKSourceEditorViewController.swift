@@ -50,6 +50,10 @@ public class WKSourceEditorViewController: WKComponentViewController {
 
 extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool) {
+        defer {
+            customView.broadcastEditorButtonSelectionStates()
+        }
+        
         guard customView.inputViewType == nil else {
             return
         }
@@ -64,6 +68,11 @@ extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     
     func editorViewDidTapFormatText(editorView: WKSourceEditorView) {
         customView.inputViewType = .main
+
+        // gross!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.customView.broadcastEditorButtonSelectionStates()
+        }
     }
     
     func editorViewDidTapFormatHeading(editorView: WKSourceEditorView) {
@@ -77,5 +86,11 @@ extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     
     func editorViewDidTapShowMore(editorView: WKSourceEditorView) {
         customView.inputViewType = .main
+        
+        // gross!
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            self.customView.broadcastEditorButtonSelectionStates()
+        }
+       
     }
 }

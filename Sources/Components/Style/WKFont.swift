@@ -3,6 +3,9 @@ import UIKit
 enum WKFont {
 
 	case body
+    case boldBody
+    case italicsBody
+    case boldItalicsBody
 	case largeButton
 	case smallButton
 	case prominentTitle
@@ -15,6 +18,24 @@ enum WKFont {
 		switch font {
 		case .body:
 			return UIFont.preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
+        case .boldBody:
+            let bodyFont = Self.for(.body, compatibleWith: traitCollection)
+            guard let descriptor = bodyFont.fontDescriptor.withSymbolicTraits(.traitBold) else {
+                return bodyFont
+            }
+            return UIFont(descriptor: descriptor, size: 0)
+        case .italicsBody:
+            let bodyFont = Self.for(.body, compatibleWith: traitCollection)
+            guard let descriptor = bodyFont.fontDescriptor.withSymbolicTraits(.traitItalic) else {
+                return bodyFont
+            }
+            return UIFont(descriptor: descriptor, size: 0)
+        case .boldItalicsBody:
+            let bodyFont = Self.for(.body, compatibleWith: traitCollection)
+            guard let descriptor = bodyFont.fontDescriptor.withSymbolicTraits([.traitItalic, .traitBold]) else {
+                return bodyFont
+            }
+            return UIFont(descriptor: descriptor, size: 0)
 		case .largeButton:
 			return UIFont.preferredFont(forTextStyle: .largeTitle, compatibleWith: traitCollection)
 		case .smallButton:
@@ -31,5 +52,4 @@ enum WKFont {
 			return UIFont.preferredFont(forTextStyle: .callout, compatibleWith: traitCollection)
 		}
 	}
-
 }

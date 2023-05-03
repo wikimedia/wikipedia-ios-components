@@ -31,11 +31,18 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
         commentButton.addTarget(self, action: #selector(tappedComment), for: .touchUpInside)
         
         updateColors()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(selectBold), name: Notification.sourceEditorSelectBold, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deselectBold), name: Notification.sourceEditorDeselectBold, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(selectItalics), name: Notification.sourceEditorSelectItalics, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deselectItalics), name: Notification.sourceEditorDeselectItalics, object: nil)
     }
     
     private func updateColors() {
         backgroundColor = WKAppEnvironment.current.theme.background
     }
+    
+    // MARK:  Button Actions
     
     override func appEnvironmentDidChange() {
         super.appEnvironmentDidChange()
@@ -43,32 +50,44 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
     }
     
     @objc func tappedBold() {
-        boldButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapBold()
     }
 
     @objc func tappedItalics() {
-        italicsButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapItalics()
     }
 
     @objc func tappedCitation() {
-        citationButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapReference()
     }
 
     @objc func tappedTemplate() {
-        templateButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapTemplate()
     }
 
     @objc func tappedComment() {
-        commentButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapComment()
     }
 
     @objc func tappedLink() {
-        linkButton.isSelected.toggle()
         //delegate?.textFormattingProvidingDidTapLink()
+    }
+    
+    // MARK: Notifications
+        
+    @objc private func selectBold() {
+        boldButton.isSelected = true
+    }
+    
+    @objc private func deselectBold() {
+        boldButton.isSelected = false
+    }
+    
+    @objc private func selectItalics() {
+        italicsButton.isSelected = true
+    }
+    
+    @objc private func deselectItalics() {
+        italicsButton.isSelected = false
     }
 }

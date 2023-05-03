@@ -11,6 +11,9 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorTextStorageFonts: NSObject
 @property (nonatomic, strong) UIFont *defaultFont;
+@property (nonatomic, strong) UIFont *boldFont;
+@property (nonatomic, strong) UIFont *italicsFont;
+@property (nonatomic, strong) UIFont *boldItalicsFont;
 @end
 
 NS_ASSUME_NONNULL_END

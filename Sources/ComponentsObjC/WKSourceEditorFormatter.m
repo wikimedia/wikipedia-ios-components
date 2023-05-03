@@ -14,15 +14,15 @@
     self = [super init];
     return self;
 }
--(void)applySyntaxHighlightRegexInString:(NSMutableAttributedString *)string toRange:(NSRange)range {
+-(void)applySyntaxHighlightRegexInAttributedString:(NSMutableAttributedString *)attributedString toRange:(NSRange)range {
     // must override
 }
 
-- (void)updateColors:(WKSourceEditorTextStorageColors *)colors inString:(NSMutableAttributedString *)string inRange:(NSRange)range {
+- (void)updateColors:(WKSourceEditorTextStorageColors *)colors inAttributedString:(NSMutableAttributedString *)attributedString inRange:(NSRange)range {
     // must override
 }
 
-- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts inString:(NSMutableAttributedString *)string inRange:(NSRange)range {
+- (void)updateFonts:(WKSourceEditorTextStorageFonts *)fonts inAttributedString:(NSMutableAttributedString *)attributedString inRange:(NSRange)range {
     // must override
 }
 @end

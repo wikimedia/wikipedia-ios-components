@@ -49,6 +49,11 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
         showMoreButton.addTarget(self, action: #selector(tappedShowMore), for: .touchUpInside)
         
         updateColors()
+        
+        NotificationCenter.default.addObserver(self, selector: #selector(selectBold), name: Notification.sourceEditorSelectBold, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deselectBold), name: Notification.sourceEditorDeselectBold, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(selectItalics), name: Notification.sourceEditorSelectItalics, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(deselectItalics), name: Notification.sourceEditorDeselectItalics, object: nil)
     }
     
     override func appEnvironmentDidChange() {
@@ -59,43 +64,56 @@ class WKEditorToolbarContextualHighlightView: WKEditorToolbarView {
     private func updateColors() {
         backgroundColor = WKAppEnvironment.current.theme.background
     }
+    
+// MARK: Button Actions
 
-    @objc func tappedBold() {
-        boldButton.isSelected.toggle()
+    @objc private func tappedBold() {
         //delegate?.textFormattingProvidingDidTapBold()
     }
 
-    @objc func tappedItalics() {
-        italicsButton.isSelected.toggle()
+    @objc private func tappedItalics() {
         //delegate?.textFormattingProvidingDidTapItalics()
     }
 
-    @objc func tappedFormatHeading() {
-        formatHeadingButton.isSelected.toggle()
+    @objc private func tappedFormatHeading() {
         delegate?.toolbarContextualHighlightViewDidTapFormatHeading(toolbarExpandingView: self)
     }
 
-    @objc func tappedCitation() {
-        citationButton.isSelected.toggle()
+    @objc private func tappedCitation() {
         //delegate?.textFormattingProvidingDidTapReference()
     }
 
-    @objc func tappedLink() {
-        linkButton.isSelected.toggle()
+    @objc private func tappedLink() {
         //delegate?.textFormattingProvidingDidTapLink()
     }
 
-    @objc func tappedTemplate() {
-        templateButton.isSelected.toggle()
+    @objc private func tappedTemplate() {
         //delegate?.textFormattingProvidingDidTapTemplate()
     }
 
-    @objc func tappedClearMarkup() {
-        clearMarkupButton.isSelected.toggle()
+    @objc private func tappedClearMarkup() {
         //delegate?.textFormattingProvidingDidTapClearFormatting()
     }
 
-    @objc func tappedShowMore() {
+    @objc private func tappedShowMore() {
         delegate?.toolbarContextualHighlightViewDidTapShowMore(toolbarExpandingView: self)
+    }
+    
+// MARK: Notifications
+    
+    @objc private func selectBold() {
+        boldButton.isSelected = true
+    }
+    
+    @objc private func deselectBold() {
+        boldButton.isSelected = false
+    }
+    
+    @objc private func selectItalics() {
+        italicsButton.isSelected = true
+    }
+    
+    @objc private func deselectItalics() {
+        italicsButton.isSelected = false
     }
 }
