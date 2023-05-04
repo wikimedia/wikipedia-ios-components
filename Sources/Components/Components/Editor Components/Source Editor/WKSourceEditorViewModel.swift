@@ -12,13 +12,15 @@ public class WKSourceEditorViewModel {
     // MARK: - Properties
     
     public var configuration: Configuration
-    public let wikitext: String
+    public let initialText: String
+    public var isSyntaxHighlightingEnabled: Bool
     
     // MARK: - Public
 
-    public init(configuration: Configuration, wikitext: String) {
+    public init(configuration: Configuration, initialText: String, isSyntaxHighlightingEnabled: Bool) {
         self.configuration = configuration
-        self.wikitext = wikitext
+        self.initialText = initialText
+        self.isSyntaxHighlightingEnabled = isSyntaxHighlightingEnabled
     }
 }
 

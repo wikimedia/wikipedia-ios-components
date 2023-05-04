@@ -109,7 +109,7 @@ class PageEditorController: WKCanvasViewController, WKSourceEditorViewController
         }()
     
     lazy var sourceEditorViewController: WKSourceEditorViewController = {
-        let viewModel = WKSourceEditorViewModel(configuration: .full, wikitext: "Hello World!")
+        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "Hello World!", isSyntaxHighlightingEnabled: true)
         return WKSourceEditorViewController(viewModel: viewModel, delegate: self, strings: WKEditorLocalizedStrings.editorStrings)
     }()
     

@@ -49,23 +49,6 @@ class WKSourceEditorView: WKComponentView {
         case find
     }
     
-    lazy var textStorageColors: WKSourceEditorTextStorageColors = {
-        let colors = WKSourceEditorTextStorageColors()
-        colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
-        colors.orangeForegroundColor = WKAppEnvironment.current.theme.editorOrange
-        return colors
-    }()
-    
-    lazy var textStorageFonts: WKSourceEditorTextStorageFonts = {
-        let fonts = WKSourceEditorTextStorageFonts()
-        let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorTextSize)
-        fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
-        fonts.boldItalicsFont = WKFont.for(.boldItalicsBody, compatibleWith: traitCollection)
-        fonts.boldFont = WKFont.for(.boldBody, compatibleWith: traitCollection)
-        fonts.italicsFont = WKFont.for(.italicsBody, compatibleWith: traitCollection)
-        return fonts
-    }()
-    
     private lazy var textView: UITextView = {
         let textStorage = WKSourceEditorTextStorage(colors: textStorageColors, fonts: textStorageFonts)
 
@@ -157,12 +140,14 @@ class WKSourceEditorView: WKComponentView {
     // MARK: - Properties
 
     private weak var delegate: WKSourceEditorViewDelegate?
+    private var isSyntaxHighlightingEnabled = false
     
     // MARK: - Lifecycle
 
-    required init(delegate: WKSourceEditorViewDelegate) {
-        super.init(frame: .zero)
+    required init(isSyntaxHighlightingEnabled: Bool, delegate: WKSourceEditorViewDelegate) {
+        self.isSyntaxHighlightingEnabled = isSyntaxHighlightingEnabled
         self.delegate = delegate
+        super.init(frame: .zero)
         setup()
     }
     
@@ -207,8 +192,13 @@ class WKSourceEditorView: WKComponentView {
     
     // MARK: - Public
     
-    func setText(text: String) {
+    func setInitialText(_ text: String) {
         textView.attributedText = NSAttributedString(string: text, attributes: [.foregroundColor: WKAppEnvironment.current.theme.primaryText])
+    }
+    
+    func setIsSyntaxHighlightingEnabled(_ isSyntaxHighlightingEnabled: Bool) {
+        self.isSyntaxHighlightingEnabled = isSyntaxHighlightingEnabled
+        textStorage.update(textStorageColors, andFonts: textStorageFonts)
     }
     
     var text: String {
@@ -273,17 +263,12 @@ class WKSourceEditorView: WKComponentView {
         textView.becomeFirstResponder()
     }
     
-    func updateButtonSelectionStates(withDelay: Bool) {
-        if withDelay {
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
-                guard let self = self else {
-                    return
-                }
-                NotificationCenter.default.post(name: Notification.sourceEditorUpdateButtonSelectionStates, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStatesKey: self.inputButtonSelectionStates])
-            }
-        } else {
-            NotificationCenter.default.post(name: Notification.sourceEditorUpdateButtonSelectionStates, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStatesKey: self.inputButtonSelectionStates])
-        }
+    var inputButtonSelectionStates: WKSourceEditorInputButtonSelectedStates {
+        let selectedRange = textView.selectedRangePlus1
+        let isBoldSelected = textStorage.isBold(in: selectedRange)
+        let isItalicsSelected = textStorage.isItalics(in: selectedRange)
+        
+        return WKSourceEditorInputButtonSelectedStates(isBoldSelected: isBoldSelected, isItalicsSelected: isItalicsSelected)
     }
     
     // MARK: - Private
@@ -310,12 +295,21 @@ class WKSourceEditorView: WKComponentView {
         textStorage.update(textStorageColors, andFonts: textStorageFonts)
     }
     
-    private var inputButtonSelectionStates: WKSourceEditorInputButtonSelectedStates {
-        let selectedRange = textView.selectedRangePlus1
-        let isBoldSelected = textStorage.isBold(in: selectedRange)
-        let isItalicsSelected = textStorage.isItalics(in: selectedRange)
-        
-        return WKSourceEditorInputButtonSelectedStates(isBoldSelected: isBoldSelected, isItalicsSelected: isItalicsSelected)
+    private var textStorageColors: WKSourceEditorTextStorageColors {
+        let colors = WKSourceEditorTextStorageColors()
+        colors.defaultForegroundColor = WKAppEnvironment.current.theme.primaryText
+        colors.orangeForegroundColor = isSyntaxHighlightingEnabled ? WKAppEnvironment.current.theme.editorOrange :  WKAppEnvironment.current.theme.primaryText
+        return colors
+    }
+    
+    private var textStorageFonts: WKSourceEditorTextStorageFonts {
+        let fonts = WKSourceEditorTextStorageFonts()
+        let traitCollection = UITraitCollection(preferredContentSizeCategory: WKAppEnvironment.current.articleAndEditorTextSize)
+        fonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
+        fonts.boldItalicsFont = WKFont.for(.boldItalicsBody, compatibleWith: traitCollection)
+        fonts.boldFont = WKFont.for(.boldBody, compatibleWith: traitCollection)
+        fonts.italicsFont = WKFont.for(.italicsBody, compatibleWith: traitCollection)
+        return fonts
     }
 }
 
