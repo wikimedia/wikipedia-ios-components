@@ -77,6 +77,11 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
         switch indexPath.row {
         case 0:
             cell = tableView.dequeueReusableCell(withIdentifier: plainReuseIdentifier, for: indexPath)
+            
+            if let plainCell = cell as? WKEditorToolbarPlainCell {
+                plainCell.delegate = delegate
+            }
+            
             cell.selectionStyle = .none
         case 1:
             cell = tableView.dequeueReusableCell(withIdentifier: groupedReuseIdentifier, for: indexPath)

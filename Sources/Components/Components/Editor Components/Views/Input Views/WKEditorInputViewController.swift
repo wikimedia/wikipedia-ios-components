@@ -3,6 +3,8 @@ import UIKit
 
 protocol WKEditorInputViewDelegate: AnyObject {
     func didTapClose()
+    func didTapBold()
+    func didTapItalics()
 }
 
 class WKEditorInputViewController: UIViewController {

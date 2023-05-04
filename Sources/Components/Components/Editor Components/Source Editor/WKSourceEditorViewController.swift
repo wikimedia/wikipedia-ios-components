@@ -72,6 +72,14 @@ public class WKSourceEditorViewController: WKComponentViewController {
 }
 
 extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
+    func editorViewDidTapBold(editorView: WKSourceEditorView) {
+        editorView.addOrRemoveBoldFormattingFromSelectedText()
+    }
+    
+    func editorViewDidTapItalics(editorView: WKSourceEditorView) {
+        editorView.addOrRemoveItalicsFormattingFromSelectedText()
+    }
+    
     func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool) {
         guard editorView.inputViewType == nil else {
             updateButtonSelectionStates(withDelay: false)

@@ -6,11 +6,13 @@
 //
 
 #import <UIKit/UIKit.h>
-@class WKSourceEditorFormatter, WKSourceEditorTextStorageColors, WKSourceEditorTextStorageFonts;
+@class WKSourceEditorFormatter, WKSourceEditorTextStorageColors, WKSourceEditorTextStorageFonts, WKSourceEditorFormatterBoldItalics;
 
 NS_ASSUME_NONNULL_BEGIN
 
 @interface WKSourceEditorTextStorage : NSTextStorage
+
+@property (nonatomic, strong, readonly) WKSourceEditorFormatterBoldItalics *boldItalicsFormatter;
 
 - (instancetype)initWithColors:(nonnull WKSourceEditorTextStorageColors *)colors fonts:(nonnull WKSourceEditorTextStorageFonts *)fonts;
 

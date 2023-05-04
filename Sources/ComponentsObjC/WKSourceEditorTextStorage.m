@@ -16,7 +16,7 @@
 @property (nonatomic, assign) BOOL needsSyntaxHighlightRegexCalculation;
 
 @property (nonatomic, strong) WKSourceEditorFormatterDefault *defaultFormatter;
-@property (nonatomic, strong) WKSourceEditorFormatterBoldItalics *boldItalicsFormatter;
+@property (nonatomic, strong, readwrite) WKSourceEditorFormatterBoldItalics *boldItalicsFormatter;
 
 @end
 

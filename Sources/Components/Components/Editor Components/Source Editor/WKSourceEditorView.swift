@@ -9,6 +9,8 @@ protocol WKSourceEditorViewDelegate: AnyObject {
     func editorViewDidTapFormatHeading(editorView: WKSourceEditorView)
     func editorViewDidTapCloseInputView(editorView: WKSourceEditorView, isRangeSelected: Bool)
     func editorViewDidTapShowMore(editorView: WKSourceEditorView)
+    func editorViewDidTapBold(editorView: WKSourceEditorView)
+    func editorViewDidTapItalics(editorView: WKSourceEditorView)
 }
 
 extension String {
@@ -271,6 +273,18 @@ class WKSourceEditorView: WKComponentView {
         return WKSourceEditorInputButtonSelectedStates(isBoldSelected: isBoldSelected, isItalicsSelected: isItalicsSelected)
     }
     
+    func addOrRemoveBoldFormattingFromSelectedText() {
+        let selectedRange = textView.selectedRangePlus1
+        let isBold = textStorage.isBold(in: selectedRange)
+        textStorage.boldItalicsFormatter.addOrRemoveBoldFormatting(shouldAdd: !isBold, in: textView)
+    }
+    
+    func addOrRemoveItalicsFormattingFromSelectedText() {
+        let selectedRange = textView.selectedRangePlus1
+        let isItalics = textStorage.isItalics(in: selectedRange)
+        textStorage.boldItalicsFormatter.addOrRemoveItalicsFormatting(shouldAdd: !isItalics, in: textView)
+    }
+    
     // MARK: - Private
     
     private func updateInsets(keyboardHeight: CGFloat) {
@@ -314,6 +328,14 @@ class WKSourceEditorView: WKComponentView {
 }
 
 extension WKSourceEditorView: WKEditorInputViewDelegate {
+    func didTapBold() {
+        delegate?.editorViewDidTapBold(editorView: self)
+    }
+    
+    func didTapItalics() {
+        delegate?.editorViewDidTapItalics(editorView: self)
+    }
+    
     func didTapClose() {
         delegate?.editorViewDidTapCloseInputView(editorView: self, isRangeSelected: textView.selectedRange.length > 0)
     }
@@ -340,6 +362,14 @@ extension WKSourceEditorView: WKEditorToolbarExpandingViewDelegate {
 }
 
 extension WKSourceEditorView: WKEditorToolbarContextualHighlightViewDelegate {
+    func toolbarContextualHighlightViewDidTapBold(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
+        delegate?.editorViewDidTapBold(editorView: self)
+    }
+    
+    func toolbarContextualHighlightViewDidTapItalics(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
+        delegate?.editorViewDidTapItalics(editorView: self)
+    }
+    
     func toolbarContextualHighlightViewDidTapShowMore(toolbarExpandingView: WKEditorToolbarContextualHighlightView) {
         delegate?.editorViewDidTapShowMore(editorView: self)
     }

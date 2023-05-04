@@ -4,11 +4,20 @@ import UIKit
 
 class WKEditorToolbarPlainCell: UITableViewCell {
     
-    lazy var componentView: UIView = {
-        let view = UINib(nibName: String(describing: WKEditorToolbarPlainView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! UIView
+    lazy var componentView: WKEditorToolbarPlainView = {
+        let view = UINib(nibName: String(describing: WKEditorToolbarPlainView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKEditorToolbarPlainView
         
         return view
     }()
+    
+    var delegate: WKEditorInputViewDelegate? {
+        get {
+            return componentView.delegate
+        }
+        set {
+            componentView.delegate = newValue
+        }
+    }
     
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)

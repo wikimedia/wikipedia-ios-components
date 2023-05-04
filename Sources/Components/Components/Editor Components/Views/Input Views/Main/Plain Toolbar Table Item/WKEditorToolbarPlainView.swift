@@ -9,6 +9,8 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
     @IBOutlet weak var templateButton: WKEditorToolbarButton!
     @IBOutlet weak var commentButton: WKEditorToolbarButton!
     
+    weak var delegate: WKEditorInputViewDelegate?
+    
     override func awakeFromNib() {
         super.awakeFromNib()
      
@@ -47,11 +49,11 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
     }
     
     @objc func tappedBold() {
-        //delegate?.textFormattingProvidingDidTapBold()
+        delegate?.didTapBold()
     }
 
     @objc func tappedItalics() {
-        //delegate?.textFormattingProvidingDidTapItalics()
+        delegate?.didTapItalics()
     }
 
     @objc func tappedCitation() {
