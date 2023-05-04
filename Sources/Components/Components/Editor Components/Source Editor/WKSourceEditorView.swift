@@ -210,10 +210,6 @@ class WKSourceEditorView: WKComponentView {
     var inputViewType: InputViewType? = nil {
         didSet {
             
-            guard oldValue != inputViewType else {
-                return
-            }
-            
             guard let inputViewType else {
                 mainInputView = nil
                 headerSelectionInputView = nil
@@ -235,10 +231,6 @@ class WKSourceEditorView: WKComponentView {
     }
     var inputAccessoryViewType: InputAccessoryViewType? = nil {
         didSet {
-            
-            guard oldValue != inputAccessoryViewType else {
-                return
-            }
             
             guard let inputAccessoryViewType else {
                 textView.inputAccessoryView = nil
