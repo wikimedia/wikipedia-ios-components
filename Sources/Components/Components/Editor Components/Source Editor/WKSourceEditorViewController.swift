@@ -48,10 +48,12 @@ public class WKSourceEditorViewController: WKComponentViewController {
     }
     
     public func disableSyntaxHighlighting() {
+        viewModel.isSyntaxHighlightingEnabled = false
         editorView.setIsSyntaxHighlightingEnabled(false)
     }
     
     public func enableSyntaxHighlighting() {
+        viewModel.isSyntaxHighlightingEnabled = true
         editorView.setIsSyntaxHighlightingEnabled(true)
     }
     
