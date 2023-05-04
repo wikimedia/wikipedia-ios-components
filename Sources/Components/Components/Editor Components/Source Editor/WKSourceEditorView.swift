@@ -12,16 +12,16 @@ protocol WKSourceEditorViewDelegate: AnyObject {
 }
 
 extension String {
-    static let WKSourceEditorButtonSelectionStateKey = "WKSourceEditorSelectionState"
+    static let WKSourceEditorButtonSelectionStatesKey = "WKSourceEditorButtonSelectionStatesKey"
 }
 
 
 extension Notification.Name {
-    static let WKSourceEditorButtonSelectionStateChanged = Notification.Name("WKSourceEditorButtonSelectionStateChanged")
+    static let WKSourceEditorUpdateButtonSelectionStates = Notification.Name("WKSourceEditorUpdateButtonSelectionStates")
 }
 
 extension Notification {
-    static let sourceEditorButtonSelectionStateChanged = Notification.Name.WKSourceEditorButtonSelectionStateChanged
+    static let sourceEditorUpdateButtonSelectionStates = Notification.Name.WKSourceEditorUpdateButtonSelectionStates
 }
 
 struct WKSourceEditorInputButtonSelectedStates {
@@ -273,16 +273,16 @@ class WKSourceEditorView: WKComponentView {
         textView.becomeFirstResponder()
     }
     
-    func broadcastInputButtonSelectionStateChanged(withDelay: Bool) {
+    func updateButtonSelectionStates(withDelay: Bool) {
         if withDelay {
             DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
                 guard let self = self else {
                     return
                 }
-                NotificationCenter.default.post(name: Notification.sourceEditorButtonSelectionStateChanged, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStateKey: self.inputButtonSelectionStates])
+                NotificationCenter.default.post(name: Notification.sourceEditorUpdateButtonSelectionStates, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStatesKey: self.inputButtonSelectionStates])
             }
         } else {
-            NotificationCenter.default.post(name: Notification.sourceEditorButtonSelectionStateChanged, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStateKey: self.inputButtonSelectionStates])
+            NotificationCenter.default.post(name: Notification.sourceEditorUpdateButtonSelectionStates, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStatesKey: self.inputButtonSelectionStates])
         }
     }
     

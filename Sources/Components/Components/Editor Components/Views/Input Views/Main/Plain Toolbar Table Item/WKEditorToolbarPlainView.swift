@@ -32,7 +32,7 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
         
         updateColors()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(selectionStateChanged(_:)), name: Notification.sourceEditorButtonSelectionStateChanged, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(updateButtonSelectionStates(_:)), name: Notification.sourceEditorUpdateButtonSelectionStates, object: nil)
     }
     
     private func updateColors() {
@@ -72,8 +72,8 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
     
     // MARK: Notifications
         
-    @objc private func selectionStateChanged(_ note: Notification) {
-        guard let selectionStates = note.userInfo?[String.WKSourceEditorButtonSelectionStateKey] as? WKSourceEditorInputButtonSelectedStates else {
+    @objc private func updateButtonSelectionStates(_ note: Notification) {
+        guard let selectionStates = note.userInfo?[String.WKSourceEditorButtonSelectionStatesKey] as? WKSourceEditorInputButtonSelectedStates else {
             return
         }
         boldButton.isSelected = selectionStates.isBoldSelected
