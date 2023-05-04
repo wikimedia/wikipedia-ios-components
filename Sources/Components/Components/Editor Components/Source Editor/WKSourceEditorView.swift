@@ -11,18 +11,27 @@ protocol WKSourceEditorViewDelegate: AnyObject {
     func editorViewDidTapShowMore(editorView: WKSourceEditorView)
 }
 
-public extension Notification.Name {
-    static let WKSourceEditorSelectBold = Notification.Name("WKSourceEditorSelectBold")
-    static let WKSourceEditorDeselectBold = Notification.Name("WKSourceEditorDeselectBold")
-    static let WKSourceEditorSelectItalics = Notification.Name("WKSourceEditorSelectItalics")
-    static let WKSourceEditorDeselectItalics = Notification.Name("WKSourceEditorDeselectItalics")
+extension String {
+    static let WKSourceEditorButtonSelectionStateKey = "WKSourceEditorSelectionState"
 }
 
-public extension Notification {
-    static let sourceEditorSelectBold = Notification.Name.WKSourceEditorSelectBold
-    static let sourceEditorDeselectBold = Notification.Name.WKSourceEditorDeselectBold
-    static let sourceEditorSelectItalics = Notification.Name.WKSourceEditorSelectItalics
-    static let sourceEditorDeselectItalics = Notification.Name.WKSourceEditorDeselectItalics
+
+extension Notification.Name {
+    static let WKSourceEditorButtonSelectionStateChanged = Notification.Name("WKSourceEditorButtonSelectionStateChanged")
+}
+
+extension Notification {
+    static let sourceEditorButtonSelectionStateChanged = Notification.Name.WKSourceEditorButtonSelectionStateChanged
+}
+
+struct WKSourceEditorInputButtonSelectedStates {
+    let isBoldSelected: Bool
+    let isItalicsSelected: Bool
+    
+    init(isBoldSelected: Bool, isItalicsSelected: Bool) {
+        self.isBoldSelected = isBoldSelected
+        self.isItalicsSelected = isItalicsSelected
+    }
 }
 
 class WKSourceEditorView: WKComponentView {
@@ -208,6 +217,11 @@ class WKSourceEditorView: WKComponentView {
     
     var inputViewType: InputViewType? = nil {
         didSet {
+            
+            guard oldValue != inputViewType else {
+                return
+            }
+            
             guard let inputViewType else {
                 mainInputView = nil
                 headerSelectionInputView = nil
@@ -229,6 +243,11 @@ class WKSourceEditorView: WKComponentView {
     }
     var inputAccessoryViewType: InputAccessoryViewType? = nil {
         didSet {
+            
+            guard oldValue != inputAccessoryViewType else {
+                return
+            }
+            
             guard let inputAccessoryViewType else {
                 textView.inputAccessoryView = nil
                 textView.reloadInputViews()
@@ -254,19 +273,16 @@ class WKSourceEditorView: WKComponentView {
         textView.becomeFirstResponder()
     }
     
-    func broadcastEditorButtonSelectionStates() {
-        let selectedRange = textView.selectedRangePlus1
-        
-        if textStorage.isBold(in: selectedRange) {
-            NotificationCenter.default.post(name: Notification.sourceEditorSelectBold, object: nil)
+    func broadcastInputButtonSelectionStateChanged(withDelay: Bool) {
+        if withDelay {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.2) { [weak self] in
+                guard let self = self else {
+                    return
+                }
+                NotificationCenter.default.post(name: Notification.sourceEditorButtonSelectionStateChanged, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStateKey: self.inputButtonSelectionStates])
+            }
         } else {
-            NotificationCenter.default.post(name: Notification.sourceEditorDeselectBold, object: nil)
-        }
-        
-        if textStorage.isItalics(in: selectedRange) {
-            NotificationCenter.default.post(name: Notification.sourceEditorSelectItalics, object: nil)
-        } else {
-            NotificationCenter.default.post(name: Notification.sourceEditorDeselectItalics, object: nil)
+            NotificationCenter.default.post(name: Notification.sourceEditorButtonSelectionStateChanged, object: nil, userInfo: [String.WKSourceEditorButtonSelectionStateKey: self.inputButtonSelectionStates])
         }
     }
     
@@ -292,6 +308,14 @@ class WKSourceEditorView: WKComponentView {
         textStorageFonts.defaultFont = WKFont.for(.body, compatibleWith: traitCollection)
         
         textStorage.update(textStorageColors, andFonts: textStorageFonts)
+    }
+    
+    private var inputButtonSelectionStates: WKSourceEditorInputButtonSelectedStates {
+        let selectedRange = textView.selectedRangePlus1
+        let isBoldSelected = textStorage.isBold(in: selectedRange)
+        let isItalicsSelected = textStorage.isItalics(in: selectedRange)
+        
+        return WKSourceEditorInputButtonSelectedStates(isBoldSelected: isBoldSelected, isItalicsSelected: isItalicsSelected)
     }
 }
 

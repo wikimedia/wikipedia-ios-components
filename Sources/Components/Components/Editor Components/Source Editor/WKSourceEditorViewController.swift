@@ -50,15 +50,13 @@ public class WKSourceEditorViewController: WKComponentViewController {
 
 extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool) {
-        defer {
-            customView.broadcastEditorButtonSelectionStates()
-        }
-        
         guard customView.inputViewType == nil else {
+            customView.broadcastInputButtonSelectionStateChanged(withDelay: false)
             return
         }
         
         customView.inputAccessoryViewType = isRangeSelected ? .highlight : .expanding
+        customView.broadcastInputButtonSelectionStateChanged(withDelay: false)
     }
     
     func editorViewDidTapFind(editorView: WKSourceEditorView) {
@@ -68,11 +66,7 @@ extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     
     func editorViewDidTapFormatText(editorView: WKSourceEditorView) {
         customView.inputViewType = .main
-
-        // gross!
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.customView.broadcastEditorButtonSelectionStates()
-        }
+        customView.broadcastInputButtonSelectionStateChanged(withDelay: true)
     }
     
     func editorViewDidTapFormatHeading(editorView: WKSourceEditorView) {
@@ -86,11 +80,6 @@ extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     
     func editorViewDidTapShowMore(editorView: WKSourceEditorView) {
         customView.inputViewType = .main
-        
-        // gross!
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-            self.customView.broadcastEditorButtonSelectionStates()
-        }
-       
+        customView.broadcastInputButtonSelectionStateChanged(withDelay: true)
     }
 }

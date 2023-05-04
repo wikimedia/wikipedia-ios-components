@@ -32,10 +32,7 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
         
         updateColors()
         
-        NotificationCenter.default.addObserver(self, selector: #selector(selectBold), name: Notification.sourceEditorSelectBold, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deselectBold), name: Notification.sourceEditorDeselectBold, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(selectItalics), name: Notification.sourceEditorSelectItalics, object: nil)
-        NotificationCenter.default.addObserver(self, selector: #selector(deselectItalics), name: Notification.sourceEditorDeselectItalics, object: nil)
+        NotificationCenter.default.addObserver(self, selector: #selector(selectionStateChanged(_:)), name: Notification.sourceEditorButtonSelectionStateChanged, object: nil)
     }
     
     private func updateColors() {
@@ -75,19 +72,11 @@ class WKEditorToolbarPlainView: WKEditorToolbarView {
     
     // MARK: Notifications
         
-    @objc private func selectBold() {
-        boldButton.isSelected = true
-    }
-    
-    @objc private func deselectBold() {
-        boldButton.isSelected = false
-    }
-    
-    @objc private func selectItalics() {
-        italicsButton.isSelected = true
-    }
-    
-    @objc private func deselectItalics() {
-        italicsButton.isSelected = false
+    @objc private func selectionStateChanged(_ note: Notification) {
+        guard let selectionStates = note.userInfo?[String.WKSourceEditorButtonSelectionStateKey] as? WKSourceEditorInputButtonSelectedStates else {
+            return
+        }
+        boldButton.isSelected = selectionStates.isBoldSelected
+        italicsButton.isSelected = selectionStates.isItalicsSelected
     }
 }

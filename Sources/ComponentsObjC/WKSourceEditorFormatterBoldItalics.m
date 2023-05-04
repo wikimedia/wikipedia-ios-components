@@ -121,7 +121,7 @@ NSString *WKEditorAttributedStringKeyColorOrange = @"WKEditorAttributedStringKey
 
                                         if (textRange.location != NSNotFound) {
                                             [attributedString addAttributes:self.boldItalicsAttributes range:textRange];
-                                            [attributedString addAttributes:self.boldItalicsMarkingAttributes range:fullMatch];
+                                            [attributedString addAttributes:self.boldItalicsMarkingAttributes range:textRange];
                                         }
 
                                         if (closingRange.location != NSNotFound) {
@@ -160,7 +160,7 @@ NSString *WKEditorAttributedStringKeyColorOrange = @"WKEditorAttributedStringKey
 
                                         if (textRange.location != NSNotFound) {
                                             [attributedString addAttributes:self.boldAttributes range:textRange];
-                                            [attributedString addAttributes:self.boldMarkingAttributes range:fullMatch];
+                                            [attributedString addAttributes:self.boldMarkingAttributes range:textRange];
                                         }
 
                                         if (closingRange.location != NSNotFound) {
@@ -199,7 +199,7 @@ NSString *WKEditorAttributedStringKeyColorOrange = @"WKEditorAttributedStringKey
 
                                         if (textRange.location != NSNotFound) {
                                             [attributedString addAttributes:self.italicsAttributes range:textRange];
-                                            [attributedString addAttributes:self.boldMarkingAttributes range:fullMatch];
+                                            [attributedString addAttributes:self.italicsMarkingAttributes range:textRange];
                                         }
 
                                         if (closingRange.location != NSNotFound) {
