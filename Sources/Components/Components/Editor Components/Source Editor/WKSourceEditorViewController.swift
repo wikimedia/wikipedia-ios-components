@@ -9,7 +9,7 @@ public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Properties
     
-    let viewModel: WKSourceEditorViewModel
+    private let viewModel: WKSourceEditorViewModel
     private weak var delegate: WKSourceEditorViewControllerDelegate?
     
     var editorView: WKSourceEditorView {
@@ -47,14 +47,14 @@ public class WKSourceEditorViewController: WKComponentViewController {
         editorView.inputAccessoryViewType = .expanding
     }
     
-    public func disableSyntaxHighlighting() {
-        viewModel.isSyntaxHighlightingEnabled = false
-        editorView.setIsSyntaxHighlightingEnabled(false)
-    }
-    
-    public func enableSyntaxHighlighting() {
-        viewModel.isSyntaxHighlightingEnabled = true
-        editorView.setIsSyntaxHighlightingEnabled(true)
+    public func toggleSyntaxHighlighting() {
+        if viewModel.isSyntaxHighlightingEnabled {
+            editorView.setIsSyntaxHighlightingEnabled(false)
+            viewModel.isSyntaxHighlightingEnabled = false
+        } else {
+            viewModel.isSyntaxHighlightingEnabled = true
+            editorView.setIsSyntaxHighlightingEnabled(true)
+        }
     }
     
 // MARK: Private
