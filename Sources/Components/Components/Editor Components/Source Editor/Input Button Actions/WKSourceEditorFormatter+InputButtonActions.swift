@@ -23,13 +23,13 @@ extension WKSourceEditorFormatter {
     
     // MARK: - Expanding selected range methods
     
-    func expandSelectedRangeUpToNearestFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
+    private func expandSelectedRangeUpToNearestFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
         if let textPositions = textPositionsCloserToNearestFormattingStrings(startingFormattingString: startingFormattingString, endingFormattingString: endingFormattingString, in: textView) {
             textView.selectedTextRange = textView.textRange(from: textPositions.startPosition, to: textPositions.endPosition)
         }
     }
     
-    func textPositionsCloserToNearestFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) -> (startPosition: UITextPosition, endPosition: UITextPosition)? {
+    private func textPositionsCloserToNearestFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) -> (startPosition: UITextPosition, endPosition: UITextPosition)? {
         
         guard let originalSelectedRange = textView.selectedTextRange else {
             return nil
@@ -97,15 +97,15 @@ extension WKSourceEditorFormatter {
     
     // MARK: - Nearby formatting string determination
     
-    func selectedRangeIsSurroundedByFormattingString(formattingString: String, in textView: UITextView) -> Bool {
+    private func selectedRangeIsSurroundedByFormattingString(formattingString: String, in textView: UITextView) -> Bool {
         selectedRangeIsSurroundedByFormattingStrings(startingFormattingString: formattingString, endingFormattingString: formattingString, in: textView)
     }
     
-    func selectedRangeIsSurroundedByFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) -> Bool {
+    private func selectedRangeIsSurroundedByFormattingStrings(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) -> Bool {
         return rangeIsPrecededByFormattingString(range: textView.selectedTextRange, formattingString: startingFormattingString, in: textView) && rangeIsFollowedByFormattingString(range: textView.selectedTextRange, formattingString: endingFormattingString, in: textView)
     }
     
-    func rangeIsPrecededByFormattingString(range: UITextRange?, formattingString: String, in textView: UITextView) -> Bool {
+    private func rangeIsPrecededByFormattingString(range: UITextRange?, formattingString: String, in textView: UITextView) -> Bool {
         guard let range = range,
               let newStart = textView.position(from: range.start, offset: -formattingString.count) else {
             return false
@@ -119,7 +119,7 @@ extension WKSourceEditorFormatter {
         return startingString == formattingString
     }
     
-    func rangeIsFollowedByFormattingString(range: UITextRange?, formattingString: String, in textView: UITextView) -> Bool {
+    private func rangeIsFollowedByFormattingString(range: UITextRange?, formattingString: String, in textView: UITextView) -> Bool {
         guard let range = range,
               let newEnd = textView.position(from: range.end, offset: formattingString.count) else {
             return false
@@ -135,7 +135,7 @@ extension WKSourceEditorFormatter {
     
     // MARK: Adding and removing text
     
-    func addStringFormattingCharacters(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
+    private func addStringFormattingCharacters(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
         
         let startingCursorOffset = startingFormattingString.count
         let endingCursorOffset = endingFormattingString.count
@@ -161,7 +161,7 @@ extension WKSourceEditorFormatter {
         }
     }
     
-    func removeSurroundingFormattingStringsFromSelectedRange(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
+    private func removeSurroundingFormattingStringsFromSelectedRange(startingFormattingString: String, endingFormattingString: String, in textView: UITextView) {
 
         guard let originalSelectedTextRange = textView.selectedTextRange,
               let formattingTextStart = textView.position(from: originalSelectedTextRange.start, offset: -startingFormattingString.count),
