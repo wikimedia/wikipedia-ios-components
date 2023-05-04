@@ -9,7 +9,7 @@ public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Properties
     
-    private let viewModel: WKSourceEditorViewModel
+    let viewModel: WKSourceEditorViewModel
     private weak var delegate: WKSourceEditorViewControllerDelegate?
     
     var editorView: WKSourceEditorView {
