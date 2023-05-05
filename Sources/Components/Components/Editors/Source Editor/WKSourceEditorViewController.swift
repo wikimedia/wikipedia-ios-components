@@ -1,11 +1,16 @@
 import Foundation
 import UIKit
 
+public protocol WKSourceEditorViewControllerDelegate: AnyObject {
+    func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController)
+}
+
 public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Properties
     
     private let viewModel: WKSourceEditorViewModel
+    private weak var delegate: WKSourceEditorViewControllerDelegate?
     
     private var editorView: WKSourceEditorView {
         return view as! WKSourceEditorView
@@ -13,8 +18,9 @@ public class WKSourceEditorViewController: WKComponentViewController {
     
     // MARK: - Lifecycle
     
-    public init(viewModel: WKSourceEditorViewModel) {
+    public init(viewModel: WKSourceEditorViewModel, delegate: WKSourceEditorViewControllerDelegate) {
         self.viewModel = viewModel
+        self.delegate = delegate
         super.init()
     }
 
@@ -54,6 +60,7 @@ extension WKSourceEditorViewController: WKSourceEditorViewDelegate {
     
     func editorViewDidTapFind(editorView: WKSourceEditorView) {
         editorView.inputAccessoryViewType = .find
+        delegate?.sourceEditorViewControllerDidTapFind(sourceEditorViewController: self)
     }
     
     func editorViewDidTapFormatText(editorView: WKSourceEditorView) {

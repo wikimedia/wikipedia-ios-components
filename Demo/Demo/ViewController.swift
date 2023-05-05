@@ -66,7 +66,12 @@ class ViewController: WKCanvasViewController {
     
     @objc private func tappedSourceEditor() {
         let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "")
-        let viewController = WKSourceEditorViewController(viewModel: viewModel)
+        let viewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
         present(viewController, animated: true)
+    }
+}
+
+extension ViewController: WKSourceEditorViewControllerDelegate {
+    func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
     }
 }
