@@ -62,7 +62,6 @@
                                         </view>
                                         <view contentMode="scaleToFill" placeholderIntrinsicWidth="30" placeholderIntrinsicHeight="44" translatesAutoresizingMaskIntoConstraints="NO" id="S8f-CE-8I8" userLabel="Show More Button" customClass="WKEditorToolbarNavigatorButton" customModule="Components">
                                             <rect key="frame" x="313" y="10" width="30" height="24"/>
-                                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                                             <constraints>
                                                 <constraint firstAttribute="height" constant="24" id="0uE-Rh-UnJ"/>
                                                 <constraint firstAttribute="width" constant="30" id="a63-he-6ZL"/>

@@ -7,7 +7,27 @@ class WKToolbarSeparatorView: WKComponentView {
         }
     }
     
+    // MARK: - Lifecycle
+    
+    override func awakeFromNib() {
+        super.awakeFromNib()
+        
+        updateColors()
+    }
+    
+    // MARK: - Overrides
+    
     override var intrinsicContentSize: CGSize {
         return separatorSize
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
+    // MARK: - Private Helpers
+    
+    func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.border
     }
 }

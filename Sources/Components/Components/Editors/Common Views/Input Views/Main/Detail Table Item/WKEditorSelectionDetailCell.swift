@@ -31,6 +31,8 @@ class WKEditorSelectionDetailCell: UITableViewCell {
             contentView.topAnchor.constraint(equalTo: componentView.topAnchor),
             contentView.bottomAnchor.constraint(equalTo: componentView.bottomAnchor)
         ])
+        
+        selectedBackgroundView?.backgroundColor = .clear
     }
     
     // MARK: - Internal

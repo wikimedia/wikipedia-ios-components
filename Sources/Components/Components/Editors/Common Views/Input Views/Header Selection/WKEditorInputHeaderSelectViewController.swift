@@ -72,13 +72,19 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
         tableView.register(WKEditorHeaderSelectCell.self, forCellReuseIdentifier: reuseIdentifier)
     }
     
+    // MARK: Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
     // MARK: Button Actions
     
     @objc private func close(_ sender: UIBarButtonItem) {
         delegate?.didTapClose()
     }
     
-    // MARK: Helpers
+    // MARK: Private Helpers
     
     private func setupNavigationBar() {
         switch configuration {
@@ -88,6 +94,11 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
             navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         }
         navigationItem.rightBarButtonItem = closeButton
+    }
+    
+    private func updateColors() {
+        view.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        tableView.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
     }
 }
 

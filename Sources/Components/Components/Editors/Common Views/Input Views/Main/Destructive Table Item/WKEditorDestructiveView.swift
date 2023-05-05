@@ -36,11 +36,26 @@ class WKEditorDestructiveView: WKComponentView {
             layoutMarginsGuide.topAnchor.constraint(equalTo: label.topAnchor),
             layoutMarginsGuide.bottomAnchor.constraint(equalTo: label.bottomAnchor)
         ])
+        
+        updateColors()
     }
     
     // MARK: Internal
     
     func configure(viewModel: WKEditorDestructiveViewModel) {
         label.text = viewModel.text
+    }
+    
+    // MARK: Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
+    // MARK: Private Helpers
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        label.textColor = WKAppEnvironment.current.theme.destructive
     }
 }

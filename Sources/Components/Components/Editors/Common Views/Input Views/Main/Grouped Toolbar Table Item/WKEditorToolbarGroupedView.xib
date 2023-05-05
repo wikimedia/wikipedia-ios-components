@@ -31,7 +31,7 @@
                                 </view>
                             </subviews>
                         </stackView>
-                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzi-Bt-bK5" userLabel="Separator">
+                        <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="Vzi-Bt-bK5" userLabel="Separator" customClass="WKToolbarSeparatorView" customModule="Components">
                             <rect key="frame" x="267" y="0.0" width="1" height="29"/>
                             <color key="backgroundColor" systemColor="groupTableViewBackgroundColor"/>
                             <constraints>

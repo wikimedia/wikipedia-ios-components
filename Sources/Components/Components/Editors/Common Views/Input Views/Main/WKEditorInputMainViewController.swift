@@ -54,12 +54,28 @@ class WKEditorInputMainViewController: WKComponentViewController {
         
         navigationItem.leftBarButtonItem = UIBarButtonItem(customView: titleLabel)
         navigationItem.rightBarButtonItem = closeButton
+        
+        updateColors()
+    }
+    
+    // MARK: - Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     // MARK: - Button Actions
     
     @objc private func close(_ sender: UIBarButtonItem) {
         delegate?.didTapClose()
+    }
+    
+    // MARK: - Private Helpers
+    
+    private func updateColors() {
+        view.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        tableView.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        titleLabel.textColor = WKAppEnvironment.current.theme.text
     }
 }
 

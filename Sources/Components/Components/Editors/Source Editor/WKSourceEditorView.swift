@@ -129,6 +129,7 @@ class WKSourceEditorView: WKComponentView {
     
     private func setup() {
         addSubview(textView)
+        updateColors()
         
         NSLayoutConstraint.activate([
             safeAreaLayoutGuide.leadingAnchor.constraint(equalTo: textView.leadingAnchor),
@@ -145,6 +146,12 @@ class WKSourceEditorView: WKComponentView {
                                                selector: #selector(keyboardWillHide(_:)),
                                                name: UIApplication.keyboardWillHideNotification,
                                                object: nil)
+    }
+    
+    // MARK: Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     // MARK: - Notifications
@@ -220,6 +227,12 @@ class WKSourceEditorView: WKComponentView {
     private func updateInsets(keyboardHeight: CGFloat) {
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
         textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    }
+    
+    private func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.paperBackground
+        textView.backgroundColor = WKAppEnvironment.current.theme.paperBackground
+        textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
     }
 }
 

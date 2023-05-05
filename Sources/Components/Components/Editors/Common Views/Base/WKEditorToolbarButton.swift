@@ -35,12 +35,20 @@ class WKEditorToolbarButton: WKComponentView {
             button.topAnchor.constraint(equalTo: topAnchor),
             button.bottomAnchor.constraint(equalTo: bottomAnchor),
         ])
+        
+        updateColors()
     }
+    
+    // MARK: - Overrides
     
     override var intrinsicContentSize: CGSize {
         // Increase touch targets & make widths more consistent
         let superSize = super.intrinsicContentSize
         return CGSize(width: max(superSize.width, 36), height: max(superSize.height, 36))
+    }
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     // MARK: - Button passthrough methods
@@ -51,6 +59,7 @@ class WKEditorToolbarButton: WKComponentView {
         }
         set {
             button.isSelected = newValue
+            updateColors()
         }
     }
     
@@ -64,5 +73,12 @@ class WKEditorToolbarButton: WKComponentView {
 
     func removeTarget(_ target: Any?, action: Selector?, for controlEvent: UIControl.Event) {
         button.removeTarget(target, action: action, for: controlEvent)
+    }
+    
+    // MARK: - Private Helpers
+    
+    func updateColors() {
+        button.tintColor = isSelected ? WKAppEnvironment.current.theme.inputAccessoryButtonSelectedTint : WKAppEnvironment.current.theme.inputAccessoryButtonTint
+        backgroundColor = self.isSelected ? WKAppEnvironment.current.theme.inputAccessoryButtonSelectedBackgroundColor : .clear
     }
 }

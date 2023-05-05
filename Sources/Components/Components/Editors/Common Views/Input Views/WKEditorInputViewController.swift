@@ -5,7 +5,7 @@ protocol WKEditorInputViewDelegate: AnyObject {
     func didTapClose()
 }
 
-class WKEditorInputViewController: UIViewController {
+class WKEditorInputViewController: WKComponentViewController {
     
     // MARK: - Nested Types
     
@@ -47,7 +47,7 @@ class WKEditorInputViewController: UIViewController {
     init(configuration: Configuration, delegate: WKEditorInputViewDelegate) {
         self.configuration = configuration
         self.delegate = delegate
-        super.init(nibName: nil, bundle: nil)
+        super.init()
     }
     
     required init?(coder: NSCoder) {
@@ -67,6 +67,14 @@ class WKEditorInputViewController: UIViewController {
         ])
 
         embedNavigationController()
+        
+        updateColors()
+    }
+    
+    // MARK: - Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
     }
     
     // MARK: - Private Helpers
@@ -96,5 +104,12 @@ class WKEditorInputViewController: UIViewController {
             viewController = headerSelectViewController
         }
         return viewController
+    }
+    
+    private func updateColors() {
+        view.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        embeddedNavigationController.navigationBar.isTranslucent = false
+        embeddedNavigationController.navigationBar.tintColor = WKAppEnvironment.current.theme.inputAccessoryButtonTint
+        embeddedNavigationController.navigationBar.backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
     }
 }

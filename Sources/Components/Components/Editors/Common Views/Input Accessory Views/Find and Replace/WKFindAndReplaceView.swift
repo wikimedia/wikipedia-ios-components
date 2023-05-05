@@ -68,6 +68,8 @@ class WKFindAndReplaceView: WKComponentView {
         replacePlaceholderLabel.adjustsFontForContentSizeCategory = true
         replacePlaceholderLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
         replacePlaceholderLabel.text = "Replace with..."
+                                        
+        updateColors()
     }
     
     override var intrinsicContentSize: CGSize {
@@ -82,7 +84,19 @@ class WKFindAndReplaceView: WKComponentView {
         updateConfiguration(configuration: viewModel.configuration)
     }
     
-    // MARK: Button Actions
+    // MARK: - Overrides
+    
+    override func appEnvironmentDidChange() {
+        
+        // Confirm IBOutlets are populated first
+        guard findTextField != nil else {
+            return
+        }
+        
+        updateColors()
+    }
+    
+    // MARK: - Button Actions
     
     @IBAction private func tappedFindClear() {
     }
@@ -125,5 +139,31 @@ class WKFindAndReplaceView: WKComponentView {
             outerStackViewLeadingConstraint.constant = 18
             outerStackViewTrailingConstraint.constant = 18
         }
+    }
+    
+    private func updateColors() {
+        let theme = WKAppEnvironment.current.theme
+        
+        backgroundColor = UIColor.systemGray4
+        
+        findTextField.keyboardAppearance = theme.keyboardAppearance
+        findTextfieldContainer.backgroundColor = theme.keyboardBarSearchFieldBackground
+        findTextField.textColor = theme.text
+        closeButton.tintColor = theme.inputAccessoryButtonTint
+        previousButton.tintColor = theme.inputAccessoryButtonTint
+        nextButton.tintColor = theme.inputAccessoryButtonTint
+        magnifyImageView.tintColor = theme.inputAccessoryButtonTint
+        findClearButton.tintColor = theme.inputAccessoryButtonTint
+        currentMatchLabel.textColor = theme.secondaryText
+        
+        replaceTextField.keyboardAppearance = theme.keyboardAppearance
+        replaceTextfieldContainer.backgroundColor = theme.keyboardBarSearchFieldBackground
+        replaceTextField.textColor = theme.text
+        replaceButton.tintColor = theme.inputAccessoryButtonTint
+        replaceSwitchButton.tintColor = theme.inputAccessoryButtonTint
+        pencilImageView.tintColor = theme.inputAccessoryButtonTint
+        replaceClearButton.tintColor = theme.inputAccessoryButtonTint
+        replaceTypeLabel.textColor = theme.secondaryText
+        replacePlaceholderLabel.textColor = theme.secondaryText
     }
 }

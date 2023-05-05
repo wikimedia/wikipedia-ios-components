@@ -45,6 +45,8 @@ class WKEditorHeaderSelectView: WKComponentView {
             label.trailingAnchor.constraint(equalTo: imageView.leadingAnchor),
             label.centerYAnchor.constraint(equalTo: imageView.centerYAnchor)
         ])
+        
+        updateColors()
     }
     
     // MARK: Internal
@@ -65,5 +67,19 @@ class WKEditorHeaderSelectView: WKComponentView {
         case .subheading4:
             label.text = "Sub-heading 4"
         }
+    }
+    
+    // MARK: Overrides
+    
+    override func appEnvironmentDidChange() {
+        updateColors()
+    }
+    
+    // MARK: Private Helpers
+    
+    func updateColors() {
+        backgroundColor = WKAppEnvironment.current.theme.accessoryBackground
+        label.textColor = WKAppEnvironment.current.theme.text
+        imageView.tintColor = WKAppEnvironment.current.theme.link
     }
 }

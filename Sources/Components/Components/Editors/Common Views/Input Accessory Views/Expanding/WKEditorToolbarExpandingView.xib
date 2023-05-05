@@ -191,7 +191,6 @@
                         </scrollView>
                         <view contentMode="scaleToFill" translatesAutoresizingMaskIntoConstraints="NO" id="jLt-zh-HFv" customClass="WKEditorToolbarNavigatorButton" customModule="Components">
                             <rect key="frame" x="309" y="10" width="0.0" height="24"/>
-                            <color key="backgroundColor" systemColor="systemBackgroundColor"/>
                             <constraints>
                                 <constraint firstAttribute="width" id="Nuv-a3-wfO"/>
                                 <constraint firstAttribute="height" constant="24" id="aAg-JB-QWf"/>
