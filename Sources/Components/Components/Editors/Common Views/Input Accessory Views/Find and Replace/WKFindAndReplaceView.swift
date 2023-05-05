@@ -50,6 +50,24 @@ class WKFindAndReplaceView: WKComponentView {
         
         findClearButton.setImage(WKIcon.closeCircle, for: .normal)
         replaceClearButton.setImage(WKIcon.closeCircle, for: .normal)
+        
+        findTextField.adjustsFontForContentSizeCategory = true
+        findTextField.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+                                        
+        replaceTextField.adjustsFontForContentSizeCategory = true
+        replaceTextField.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        
+        currentMatchLabel.adjustsFontForContentSizeCategory = true
+        currentMatchLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        currentMatchLabel.text = "1 / 10"
+        
+        replaceTypeLabel.adjustsFontForContentSizeCategory = true
+        replaceTypeLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        replaceTypeLabel.text = "Replace"
+
+        replacePlaceholderLabel.adjustsFontForContentSizeCategory = true
+        replacePlaceholderLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        replacePlaceholderLabel.text = "Replace with..."
     }
     
     override var intrinsicContentSize: CGSize {

@@ -8,6 +8,8 @@ class WKEditorHeaderSelectView: WKComponentView {
     private lazy var label: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = WKFont.for(.body, compatibleWith: appEnvironment.traitCollection)
         return label
     }()
     

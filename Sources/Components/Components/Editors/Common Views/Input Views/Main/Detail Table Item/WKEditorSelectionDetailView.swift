@@ -10,12 +10,16 @@ class WKEditorSelectionDetailView: WKComponentView {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
         label.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        label.adjustsFontForContentSizeCategory = true
+        label.font = WKFont.for(.body, compatibleWith: appEnvironment.traitCollection)
         return label
     }()
     
     private lazy var selectionLabel: UILabel = {
        let label = UILabel()
         label.translatesAutoresizingMaskIntoConstraints = false
+        label.adjustsFontForContentSizeCategory = true
+        label.font = WKFont.for(.body, compatibleWith: appEnvironment.traitCollection)
         label.textAlignment = .right
         return label
     }()
