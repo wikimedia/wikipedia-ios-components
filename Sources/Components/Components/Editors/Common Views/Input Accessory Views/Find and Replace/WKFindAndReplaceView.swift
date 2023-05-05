@@ -90,7 +90,7 @@ class WKFindAndReplaceView: WKComponentView {
     @IBAction private func textFieldDidChange(_ sender: UITextField) {
     }
     
-    // MARK: - Helpers
+    // MARK: - Private Helpers
     
     private func updateConfiguration(configuration: WKFindAndReplaceViewModel.Configuration) {
         switch configuration {

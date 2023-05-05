@@ -3,8 +3,6 @@ import UIKit
 
 protocol WKEditorInputViewDelegate: AnyObject {
     func didTapClose()
-    func didTapBold()
-    func didTapItalics()
 }
 
 class WKEditorInputViewController: UIViewController {
@@ -71,7 +69,7 @@ class WKEditorInputViewController: UIViewController {
         embedNavigationController()
     }
     
-    // MARK: - Private
+    // MARK: - Private Helpers
     
     private func embedNavigationController() {
         addChild(embeddedNavigationController)

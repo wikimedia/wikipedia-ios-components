@@ -1,7 +1,29 @@
 import Foundation
 import UIKit
 
+protocol WKSourceEditorViewDelegate: AnyObject {
+    func editorViewTextSelectionDidChange(editorView: WKSourceEditorView, isRangeSelected: Bool)
+    func editorViewDidTapFind(editorView: WKSourceEditorView)
+    func editorViewDidTapFormatText(editorView: WKSourceEditorView)
+    func editorViewDidTapFormatHeading(editorView: WKSourceEditorView)
+    func editorViewDidTapCloseInputView(editorView: WKSourceEditorView, isRangeSelected: Bool)
+    func editorViewDidTapShowMore(editorView: WKSourceEditorView)
+}
+
 class WKSourceEditorView: WKComponentView {
+    
+    // MARK: Nested Types
+    
+    enum InputViewType {
+        case main
+        case headerSelect
+    }
+    
+    enum InputAccessoryViewType {
+        case expanding
+        case highlight
+        case find
+    }
     
     // MARK: - Properties
 
@@ -24,12 +46,79 @@ class WKSourceEditorView: WKComponentView {
         textView.smartDashesType = .no
         textView.keyboardDismissMode = .interactive
         
+        // Note: Disabling the suggestions bar prevents console keyboard constraint errors from appearing when switching input views or first responders (this seems like an Apple bug).
+        textView.autocorrectionType = .no
+        textView.spellCheckingType = .no
+        textView.delegate = self
+        
         return textView
     }()
     
+    private lazy var expandingAccessoryView: WKEditorToolbarExpandingView = {
+        let view = UINib(nibName: String(describing: WKEditorToolbarExpandingView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKEditorToolbarExpandingView
+        view.delegate = self
+        return view
+    }()
+    
+    private lazy var highlightAccessoryView: WKEditorToolbarHighlightView = {
+        let view = UINib(nibName: String(describing: WKEditorToolbarHighlightView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKEditorToolbarHighlightView
+        view.delegate = self
+        
+        return view
+    }()
+    
+    private lazy var findAccessoryView: WKFindAndReplaceView = {
+        let view = UINib(nibName: String(describing: WKFindAndReplaceView.self), bundle: Bundle.module).instantiate(withOwner: nil).first as! WKFindAndReplaceView
+        let viewModel = WKFindAndReplaceViewModel()
+        view.configure(viewModel: viewModel)
+        
+        return view
+    }()
+    
+    private var _mainInputView: UIView?
+    private var mainInputView: UIView? {
+        get {
+            guard _mainInputView == nil else {
+                return _mainInputView
+            }
+            
+            let inputViewController = WKEditorInputViewController(configuration: .rootMain, delegate: self)
+            inputViewController.loadViewIfNeeded()
+            
+            _mainInputView = inputViewController.view
+           
+            return inputViewController.view
+        }
+        set {
+            _mainInputView = newValue
+        }
+    }
+    
+    private var _headerSelectionInputView: UIView?
+    private var headerSelectionInputView: UIView? {
+        get {
+            guard _headerSelectionInputView == nil else {
+                return _headerSelectionInputView
+            }
+            
+            let inputViewController = WKEditorInputViewController(configuration: .rootHeaderSelect, delegate: self)
+            inputViewController.loadViewIfNeeded()
+            
+            _headerSelectionInputView = inputViewController.view
+            
+           return inputViewController.view
+        }
+        set {
+            _headerSelectionInputView = newValue
+        }
+    }
+    
+    private weak var delegate: WKSourceEditorViewDelegate?
+    
     // MARK: - Lifecycle
 
-    required init() {
+    required init(delegate: WKSourceEditorViewDelegate) {
+        self.delegate = delegate
         super.init(frame: .zero)
         setup()
     }
@@ -73,14 +162,108 @@ class WKSourceEditorView: WKComponentView {
     
     // MARK: - Internal
     
+    var inputViewType: InputViewType? = nil {
+        didSet {
+            
+            guard let inputViewType else {
+                mainInputView = nil
+                headerSelectionInputView = nil
+                textView.inputView = nil
+                textView.reloadInputViews()
+                return
+            }
+            
+            switch inputViewType {
+            case .main:
+                textView.inputView = mainInputView
+            case .headerSelect:
+                textView.inputView = headerSelectionInputView
+            }
+            
+            textView.inputAccessoryView = nil
+            textView.reloadInputViews()
+        }
+    }
+    var inputAccessoryViewType: InputAccessoryViewType? = nil {
+        didSet {
+            
+            guard let inputAccessoryViewType else {
+                textView.inputAccessoryView = nil
+                textView.reloadInputViews()
+                return
+            }
+            
+            switch inputAccessoryViewType {
+            case .expanding:
+                textView.inputAccessoryView = expandingAccessoryView
+            case .highlight:
+                textView.inputAccessoryView = highlightAccessoryView
+            case .find:
+                textView.inputAccessoryView = findAccessoryView
+            }
+            
+            textView.inputView = nil
+            textView.reloadInputViews()
+        }
+    }
+    
     func setInitialText(_ text: String) {
         textView.attributedText = NSAttributedString(string: text)
     }
     
-    // MARK: - Private
+    func closeFind() {
+        textView.becomeFirstResponder()
+    }
+    
+    // MARK: - Private Helpers
     
     private func updateInsets(keyboardHeight: CGFloat) {
         textView.contentInset = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
         textView.scrollIndicatorInsets = UIEdgeInsets(top: 0, left: 0, bottom: keyboardHeight, right: 0)
+    }
+}
+
+
+// MARK: - UITextViewDelegate
+
+extension WKSourceEditorView: UITextViewDelegate {
+    func textViewDidChangeSelection(_ textView: UITextView) {
+        delegate?.editorViewTextSelectionDidChange(editorView: self, isRangeSelected: textView.selectedRange.length > 0)
+    }
+}
+
+// MARK: - WKEditorToolbarExpandingViewDelegate
+
+extension WKSourceEditorView: WKEditorToolbarExpandingViewDelegate {
+    func toolbarExpandingViewDidTapFind(toolbarView: WKEditorToolbarExpandingView) {
+        delegate?.editorViewDidTapFind(editorView: self)
+    }
+    
+    func toolbarExpandingViewDidTapFormatText(toolbarView: WKEditorToolbarExpandingView) {
+        delegate?.editorViewDidTapFormatText(editorView: self)
+    }
+    
+    func toolbarExpandingViewDidTapFormatHeading(toolbarView: WKEditorToolbarExpandingView) {
+        delegate?.editorViewDidTapFormatHeading(editorView: self)
+    }
+}
+
+// MARK: - WKEditorToolbarHighlightViewDelegate
+
+extension WKSourceEditorView: WKEditorToolbarHighlightViewDelegate {
+    func toolbarHighlightViewDidTapShowMore(toolbarView: WKEditorToolbarHighlightView) {
+        delegate?.editorViewDidTapShowMore(editorView: self)
+    }
+    
+    func toolbarHighlightViewDidTapFormatHeading(toolbarView: WKEditorToolbarHighlightView) {
+        delegate?.editorViewDidTapFormatHeading(editorView: self)
+    }
+}
+
+// MARK: - WKEditorInputViewDelegate
+
+extension WKSourceEditorView: WKEditorInputViewDelegate {
+    func didTapClose() {
+        delegate?.editorViewDidTapCloseInputView(editorView: self, isRangeSelected: textView.selectedRange.length > 0)
     }
 }

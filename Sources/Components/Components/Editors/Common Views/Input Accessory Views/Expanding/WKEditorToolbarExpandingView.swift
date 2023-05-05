@@ -86,7 +86,7 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
         mediaButton.setImage(WKIcon.media, for: .normal)
         mediaButton.addTarget(self, action: #selector(tappedMedia), for: .touchUpInside)
         
-        findInPageButton.setImage(WKIcon.find, for: .normal)
+        findInPageButton.setImage(WKIcon.findInPage, for: .normal)
         findInPageButton.addTarget(self, action: #selector(tappedFindInPage), for: .touchUpInside)
         
         unorderedListButton.setImage(WKIcon.listUnordered, for: .normal)
