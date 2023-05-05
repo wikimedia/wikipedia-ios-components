@@ -25,11 +25,21 @@ class ViewController: WKCanvasViewController {
         return button
     }()
     
+    private lazy var sourceEditorButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Source Editor", for: .normal)
+        button.addTarget(self, action: #selector(tappedSourceEditor), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setupInitialViews()
+        
         stackView.addArrangedSubview(selectThemeButton)
+        stackView.addArrangedSubview(sourceEditorButton)
     }
     
     private func setupInitialViews() {
@@ -50,7 +60,13 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedSelectTheme() {
-        let vc = SelectThemeViewController()
-        present(vc, animated: true)
+        let viewController = SelectThemeViewController()
+        present(viewController, animated: true)
+    }
+    
+    @objc private func tappedSourceEditor() {
+        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "")
+        let viewController = WKSourceEditorViewController(viewModel: viewModel)
+        present(viewController, animated: true)
     }
 }
