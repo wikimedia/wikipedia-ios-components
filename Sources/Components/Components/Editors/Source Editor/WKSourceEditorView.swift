@@ -232,6 +232,7 @@ class WKSourceEditorView: WKComponentView {
     private func updateColors() {
         backgroundColor = WKAppEnvironment.current.theme.paperBackground
         textView.backgroundColor = WKAppEnvironment.current.theme.paperBackground
+        textView.textColor = WKAppEnvironment.current.theme.text
         textView.keyboardAppearance = WKAppEnvironment.current.theme.keyboardAppearance
     }
 }
