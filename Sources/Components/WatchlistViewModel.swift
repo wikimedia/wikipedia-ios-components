@@ -13,11 +13,11 @@ public class WatchlistItemViewModel {
 public class WatchlistViewModel {
     private let watchlistService: WatchlistService
     
-    public init(fetcher: WatchlistFetching) {
-        self.watchlistService = WatchlistService(fetcher: fetcher)
+    public init(siteURLs: [URL], fetcher: WatchlistFetching) {
+        self.watchlistService = WatchlistService(siteURLs: siteURLs, fetcher: fetcher)
     }
     
-    public func fetchWatchlist(completion: (Result<[WatchlistItemViewModel], Error>) -> Void) {
+    public func fetchWatchlist(completion: @escaping (Result<[WatchlistItemViewModel], Error>) -> Void) {
         watchlistService.fetchWatchlist { result in
             switch result {
             case .success(let items):
