@@ -19,7 +19,7 @@ public final class WatchlistViewController: WKCanvasViewController {
         viewModel.fetchWatchlist { result in
             switch result {
             case .success(let items):
-                print(items)
+                print(items.map { $0.title })
             case .failure(let error):
                 print(error)
             }
