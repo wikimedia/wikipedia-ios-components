@@ -14,6 +14,9 @@
 		6771E7B2299C00050012002D /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6771E7B1299C00050012002D /* ViewController.swift */; };
 		6771E7B7299C00060012002D /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6771E7B6299C00060012002D /* Assets.xcassets */; };
 		6771E7BA299C00060012002D /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 6771E7B8299C00060012002D /* LaunchScreen.storyboard */; };
+		67D4AD632A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */; };
+		67D4AD662A044FA700F3D066 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */; };
+		67D4AD672A044FA700F3D066 /* SelectThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -26,6 +29,9 @@
 		6771E7B6299C00060012002D /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		6771E7B9299C00060012002D /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		6771E7BB299C00060012002D /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKAppEnvironment+Extensions.swift"; sourceTree = "<group>"; };
+		67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
+		67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectThemeViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -65,6 +71,9 @@
 				6771E7AF299C00050012002D /* SceneDelegate.swift */,
 				6771E7B1299C00050012002D /* ViewController.swift */,
 				006B8EF92A005EE300D01FC2 /* RootWindow.swift */,
+				67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */,
+				67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */,
+				67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */,
 				6771E7B6299C00060012002D /* Assets.xcassets */,
 				6771E7B8299C00060012002D /* LaunchScreen.storyboard */,
 				6771E7BB299C00060012002D /* Info.plist */,
@@ -152,9 +161,12 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				67D4AD632A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift in Sources */,
 				6771E7B2299C00050012002D /* ViewController.swift in Sources */,
+				67D4AD672A044FA700F3D066 /* SelectThemeViewController.swift in Sources */,
 				6771E7AE299C00050012002D /* AppDelegate.swift in Sources */,
 				6771E7B0299C00050012002D /* SceneDelegate.swift in Sources */,
+				67D4AD662A044FA700F3D066 /* UserDefaults+Extensions.swift in Sources */,
 				006B8EFA2A005EE300D01FC2 /* RootWindow.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,7 +4,7 @@ import UIKit
 public class WKCanvas: WKComponentView {
 
 	public override func appEnvironmentDidChange() {
-		backgroundColor = WKAppEnvironment.current.theme.background
+		backgroundColor = WKAppEnvironment.current.theme.paperBackground
 	}
 
 }

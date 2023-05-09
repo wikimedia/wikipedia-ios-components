@@ -1,7 +1,13 @@
 import UIKit
 import Components
 
-class ViewController: WKCanvasViewController {
+struct ThemeButtonViewModel {
+    let title: String
+    let themeName: String
+}
+
+class SelectThemeViewController: WKCanvasViewController {
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -17,19 +23,19 @@ class ViewController: WKCanvasViewController {
         return stackView
     }()
     
-    private lazy var selectThemeButton: UIButton = {
-        let button = UIButton(type: .system)
-        button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.setTitle("Select Theme", for: .normal)
-        button.addTarget(self, action: #selector(tappedSelectTheme), for: .touchUpInside)
-        return button
-    }()
-    
+    private let viewModels = [
+        ThemeButtonViewModel(title: "Default", themeName: "Default"),
+        ThemeButtonViewModel(title: WKTheme.light.name, themeName: WKTheme.light.name),
+        ThemeButtonViewModel(title: WKTheme.sepia.name, themeName: WKTheme.sepia.name),
+        ThemeButtonViewModel(title: WKTheme.dark.name, themeName: WKTheme.dark.name),
+        ThemeButtonViewModel(title: WKTheme.black.name, themeName: WKTheme.black.name),
+    ]
+
     override func viewDidLoad() {
         super.viewDidLoad()
        
         setupInitialViews()
-        stackView.addArrangedSubview(selectThemeButton)
+        addThemeButtons()
     }
     
     private func setupInitialViews() {
@@ -49,8 +55,32 @@ class ViewController: WKCanvasViewController {
         ])
     }
     
-    @objc private func tappedSelectTheme() {
-        let vc = SelectThemeViewController()
-        present(vc, animated: true)
+    private func addThemeButtons() {
+        
+        for (index, viewModel) in viewModels.enumerated() {
+            let button = UIButton(type: .system)
+            button.titleLabel?.adjustsFontForContentSizeCategory = true
+            button.setTitle(viewModel.title, for: .normal)
+            button.tag = index
+            button.addTarget(self, action: #selector(tappedButton(_:)), for: .touchUpInside)
+            stackView.addArrangedSubview(button)
+        }
+        
+        updateButtonSelectedStates()
+    }
+            
+    @objc private func tappedButton(_ sender : UIButton) {
+        let viewModel = viewModels[sender.tag]
+        UserDefaults.standard.themeName = viewModel.themeName
+        WKAppEnvironment.updateWithTraitCollection(traitCollection)
+        updateButtonSelectedStates()
+    }
+    
+    func updateButtonSelectedStates() {
+        for (subview, theme) in zip(stackView.arrangedSubviews, viewModels) {
+            if let button = subview as? UIButton {
+                button.isSelected = theme.themeName == UserDefaults.standard.themeName
+            }
+        }
     }
 }
