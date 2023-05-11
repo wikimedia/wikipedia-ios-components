@@ -7,6 +7,10 @@ public final class NoticeViewModel {
 	var title = "Earth"
 	var noticeInfo: String = "Notice Info"
 
+	public init() {
+		
+	}
+
 	@objc public func fetch(completion: @escaping (String) -> Void) {
 
 	}
