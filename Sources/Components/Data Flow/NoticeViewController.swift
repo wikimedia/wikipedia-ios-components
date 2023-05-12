@@ -63,6 +63,7 @@ public final class NoticeViewController: WKCanvasViewController {
 			textView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			textView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
 			textView.heightAnchor.constraint(equalToConstant: 100),
+			textView.widthAnchor.constraint(equalToConstant: 200),
 
 			button.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 25),
 			button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
