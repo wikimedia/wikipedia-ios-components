@@ -209,6 +209,7 @@ class WKSourceEditorView: WKComponentView {
                 textView.inputAccessoryView = highlightAccessoryView
             case .find:
                 textView.inputAccessoryView = findAccessoryView
+                findAccessoryView.focus()
             }
             
             textView.inputView = nil

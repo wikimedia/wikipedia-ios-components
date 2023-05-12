@@ -25,6 +25,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
     private lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: WKIcon.close, style: .plain, target: self, action: #selector(close(_:)))
         button.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.closeButton
+        button.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelButtonCloseMainInputView
         return button
     }()
     
@@ -108,12 +109,14 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
             
             if let detailCell = cell as? WKEditorSelectionDetailCell {
                 detailCell.configure(viewModel: WKEditorSelectionDetailViewModel(typeText: WKSourceEditorLocalizedStrings.current.inputViewStyle, selectionText: WKSourceEditorLocalizedStrings.current.inputViewParagraph))
+                detailCell.accessibilityTraits = [.button]
             }
         case 3:
             cell = tableView.dequeueReusableCell(withIdentifier: destructiveReuseIdentifier, for: indexPath)
             
             if let destructiveCell = cell as? WKEditorDestructiveCell {
                 destructiveCell.configure(viewModel: WKEditorDestructiveViewModel(text: WKSourceEditorLocalizedStrings.current.inputViewClearFormatting))
+                destructiveCell.accessibilityTraits = [.button]
             }
         default:
             fatalError()

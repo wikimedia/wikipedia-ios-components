@@ -32,6 +32,7 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
     private lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: WKIcon.close, style: .plain, target: self, action: #selector(close(_:)))
         button.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.closeButton
+        button.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelButtonCloseHeaderSelectInputView
         return button
     }()
     
@@ -133,6 +134,7 @@ extension WKEditorInputHeaderSelectViewController: UITableViewDataSource {
                 break
             }
             
+            headerCell.accessibilityTraits = viewModel.isSelected ? [.button, .selected] : [.button]
         }
         
         return cell

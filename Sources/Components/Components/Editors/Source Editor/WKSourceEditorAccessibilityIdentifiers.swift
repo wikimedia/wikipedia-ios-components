@@ -4,9 +4,8 @@ public struct WKSourceEditorAccessibilityIdentifiers {
     
     static var current: WKSourceEditorAccessibilityIdentifiers?
     
-    public init(textView: String, expandButton: String, findButton: String, showMoreButton: String, closeButton: String, formatTextButton: String, formatHeadingButton: String, expandingToolbar: String, highlightToolbar: String, findToolbar: String, mainInputView: String, headerSelectInputView: String) {
+    public init(textView: String, findButton: String, showMoreButton: String, closeButton: String, formatTextButton: String, formatHeadingButton: String, expandingToolbar: String, highlightToolbar: String, findToolbar: String, mainInputView: String, headerSelectInputView: String) {
         self.textView = textView
-        self.expandButton = expandButton
         self.findButton = findButton
         self.showMoreButton = showMoreButton
         self.closeButton = closeButton
@@ -20,7 +19,6 @@ public struct WKSourceEditorAccessibilityIdentifiers {
     }
     
     let textView: String
-    let expandButton: String
     let findButton: String
     let showMoreButton: String
     let closeButton: String

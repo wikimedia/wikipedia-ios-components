@@ -27,16 +27,6 @@ final class WKSourceEditorUITests: XCTestCase {
         initialAttachment.name = ScreenshotNames.initial.rawValue
         add(initialAttachment)
         
-        if app.isDisplayingExpandButton {
-            app.otherElements[DemoSourceEditorAccessibilityIdentifiers.expandButton.rawValue].tap()
-            
-            let attachment = XCTAttachment(screenshot: app.screenshot())
-            attachment.name = ScreenshotNames.expanded.rawValue
-            add(attachment)
-            
-            app.otherElements[DemoSourceEditorAccessibilityIdentifiers.expandButton.rawValue].tap()
-        }
-        
         textView.doubleTap()
         
         XCTAssertFalse(app.isDisplayingMainInputView)
@@ -49,7 +39,7 @@ final class WKSourceEditorUITests: XCTestCase {
         highlightAttachment.name = ScreenshotNames.highlighted.rawValue
         add(highlightAttachment)
         
-        app.otherElements[DemoSourceEditorAccessibilityIdentifiers.showMoreButton.rawValue].tap()
+        app.buttons[DemoSourceEditorAccessibilityIdentifiers.showMoreButton.rawValue].tap()
         
         XCTAssertTrue(app.isDisplayingMainInputView)
         XCTAssertFalse(app.isDisplayingHeaderSelectView)
@@ -61,7 +51,7 @@ final class WKSourceEditorUITests: XCTestCase {
 
         textView.typeText("Adding text to remove selection.")
         
-        app.otherElements[DemoSourceEditorAccessibilityIdentifiers.formatTextButton.rawValue].tap()
+        app.buttons[DemoSourceEditorAccessibilityIdentifiers.formatTextButton.rawValue].tap()
         
         XCTAssertTrue(app.isDisplayingMainInputView)
         XCTAssertFalse(app.isDisplayingHeaderSelectView)
@@ -89,7 +79,7 @@ final class WKSourceEditorUITests: XCTestCase {
         
         app.buttons[DemoSourceEditorAccessibilityIdentifiers.closeButton.rawValue].tap()
         
-        app.otherElements[DemoSourceEditorAccessibilityIdentifiers.formatHeadingButton.rawValue].tap()
+        app.buttons[DemoSourceEditorAccessibilityIdentifiers.formatHeadingButton.rawValue].tap()
         
         XCTAssertFalse(app.isDisplayingMainInputView)
         XCTAssertTrue(app.isDisplayingHeaderSelectView)
@@ -105,7 +95,7 @@ final class WKSourceEditorUITests: XCTestCase {
         
         app.buttons[DemoSourceEditorAccessibilityIdentifiers.closeButton.rawValue].tap()
         
-        app.otherElements[DemoSourceEditorAccessibilityIdentifiers.findButton.rawValue].tap()
+        app.buttons[DemoSourceEditorAccessibilityIdentifiers.findButton.rawValue].tap()
         
         let findAttachment = XCTAttachment(screenshot: app.screenshot())
         findAttachment.name = ScreenshotNames.find.rawValue
@@ -116,10 +106,6 @@ final class WKSourceEditorUITests: XCTestCase {
 extension XCUIApplication {
     var isDisplayingExpandingToolbar: Bool {
         return otherElements[DemoSourceEditorAccessibilityIdentifiers.expandingToolbar.rawValue].exists
-    }
-    
-    var isDisplayingExpandButton: Bool {
-        return otherElements[DemoSourceEditorAccessibilityIdentifiers.expandButton.rawValue].exists
     }
     
     var isDisplayingHighlightingToolbar: Bool {
@@ -141,7 +127,6 @@ extension XCUIApplication {
 
 private enum ScreenshotNames: String {
     case initial = "Source Editor Initial"
-    case expanded = "Source Editor Expanded"
     case highlighted = "Source Editor Highlighted"
     case main = "Source Editor Main Input View 1"
     case headerSelect1 = "Source Editor Header Select Input View 1"

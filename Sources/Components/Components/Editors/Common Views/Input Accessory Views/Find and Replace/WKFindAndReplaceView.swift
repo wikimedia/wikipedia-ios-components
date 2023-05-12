@@ -39,23 +39,35 @@ class WKFindAndReplaceView: WKComponentView {
         super.awakeFromNib()
 
         closeButton.setImage(WKIcon.close, for: .normal)
+        closeButton.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelFindButtonClose
+        
         previousButton.setImage(WKIcon.chevronUp, for: .normal)
+        previousButton.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelFindButtonPrevious
+        
         nextButton.setImage(WKIcon.chevronDown, for: .normal)
+        nextButton.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelFindButtonNext
         
         replaceButton.setImage(WKIcon.replace, for: .normal)
+        replaceButton.accessibilityLabel = String.localizedStringWithFormat(WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceButtonPerformFormat, WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceTypeSingle)
+        
         replaceSwitchButton.setImage(WKIcon.more, for: .normal)
+        replaceSwitchButton.accessibilityLabel = String.localizedStringWithFormat(WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceButtonSwitchFormat, WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceTypeSingle)
         
         magnifyImageView.image = WKIcon.find
         pencilImageView.image = WKIcon.pencil
         
         findClearButton.setImage(WKIcon.closeCircle, for: .normal)
+        findClearButton.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelFindButtonClear
         replaceClearButton.setImage(WKIcon.closeCircle, for: .normal)
+        replaceClearButton.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceButtonClear
         
         findTextField.adjustsFontForContentSizeCategory = true
         findTextField.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        findTextField.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelFindTextField
                                         
         replaceTextField.adjustsFontForContentSizeCategory = true
         replaceTextField.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
+        replaceTextField.accessibilityLabel = WKSourceEditorLocalizedStrings.current.accessibilityLabelReplaceTextField
         
         currentMatchLabel.adjustsFontForContentSizeCategory = true
         currentMatchLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
@@ -64,11 +76,13 @@ class WKFindAndReplaceView: WKComponentView {
         replaceTypeLabel.adjustsFontForContentSizeCategory = true
         replaceTypeLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
         replaceTypeLabel.text = WKSourceEditorLocalizedStrings.current.findReplaceTypeSingle
+        replaceTypeLabel.isAccessibilityElement = false
 
         replacePlaceholderLabel.adjustsFontForContentSizeCategory = true
         replacePlaceholderLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
         replacePlaceholderLabel.text = WKSourceEditorLocalizedStrings.current.findReplaceWith
-                                        
+        replacePlaceholderLabel.isAccessibilityElement = false
+                             
         updateColors()
     }
     
@@ -94,6 +108,14 @@ class WKFindAndReplaceView: WKComponentView {
         }
         
         updateColors()
+    }
+    
+    // MARK: Public
+    
+    func focus() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            self.findTextField.becomeFirstResponder()
+        }
     }
     
     // MARK: - Button Actions
@@ -132,12 +154,16 @@ class WKFindAndReplaceView: WKComponentView {
             findStackView.insertArrangedSubview(nextPrevButtonStackView, at: 0)
             outerStackViewLeadingConstraint.constant = 10
             outerStackViewTrailingConstraint.constant = 5
+            
+            accessibilityElements = [previousButton, nextButton, findTextField, currentMatchLabel, findClearButton, closeButton].compactMap { $0 as Any }
         case .findAndReplace:
             replaceStackView.isHidden = false
             closeButton.isHidden = true
             findStackView.addArrangedSubview(nextPrevButtonStackView)
             outerStackViewLeadingConstraint.constant = 18
             outerStackViewTrailingConstraint.constant = 18
+            
+            accessibilityElements = [findTextField, currentMatchLabel, findClearButton, previousButton, nextButton, replaceTextField, replaceClearButton, replaceButton, replaceSwitchButton].compactMap { $0 as Any }
         }
     }
     

@@ -3,7 +3,6 @@ import Foundation
 enum DemoSourceEditorAccessibilityIdentifiers: String {
     case entryButton = "Source Editor Entry Button"
     case textView = "Source Editor TextView"
-    case expandButton = "Source Editor Expand Button"
     case findButton = "Source Editor Find Button"
     case showMoreButton = "Source Editor Show More Button"
     case closeButton = "Source Editor Close Button"
