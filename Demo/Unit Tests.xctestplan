@@ -1,0 +1,29 @@
+{
+  "configurations" : [
+    {
+      "id" : "106AD67E-9973-4511-B19B-1C41B681589F",
+      "name" : "Unit Tests",
+      "options" : {
+
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "codeCoverage" : false,
+    "targetForVariableExpansion" : {
+      "containerPath" : "container:Demo.xcodeproj",
+      "identifier" : "6771E7A9299C00050012002D",
+      "name" : "Demo"
+    }
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:..",
+        "identifier" : "ComponentsTests",
+        "name" : "ComponentsTests"
+      }
+    }
+  ],
+  "version" : 1
+}

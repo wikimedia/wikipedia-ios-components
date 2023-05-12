@@ -37,6 +37,7 @@ class WKEditorToolbarHighlightView: WKEditorToolbarView {
         
         formatHeadingButton.setImage(WKIcon.formatHeading, for: .normal)
         formatHeadingButton.addTarget(self, action: #selector(tappedFormatHeading), for: .touchUpInside)
+        formatHeadingButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.formatHeadingButton
         
         citationButton.setImage(WKIcon.citation, for: .normal)
         citationButton.addTarget(self, action: #selector(tappedCitation), for: .touchUpInside)
@@ -52,6 +53,7 @@ class WKEditorToolbarHighlightView: WKEditorToolbarView {
         
         showMoreButton.setImage(WKIcon.plusCircle, for: .normal)
         showMoreButton.addTarget(self, action: #selector(tappedShowMore), for: .touchUpInside)
+        showMoreButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.showMoreButton
     }
     
     // MARK: - Button Actions

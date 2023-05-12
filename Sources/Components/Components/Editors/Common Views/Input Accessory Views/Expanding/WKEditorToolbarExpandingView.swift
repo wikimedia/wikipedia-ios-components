@@ -67,12 +67,15 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
         expandButton.isAccessibilityElement = false
         expandButton.setImage(WKIcon.chevronRightCircle, for: .normal)
         expandButton.addTarget(self, action: #selector(tappedExpand), for: .touchUpInside)
+        expandButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.expandButton
         
         formatTextButton.setImage(WKIcon.formatText, for: .normal)
         formatTextButton.addTarget(self, action: #selector(tappedFormatText), for: .touchUpInside)
+        formatTextButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.formatTextButton
         
         formatHeadingButton.setImage(WKIcon.formatHeading, for: .normal)
         formatHeadingButton.addTarget(self, action: #selector(tappedFormatHeading), for: .touchUpInside)
+        formatHeadingButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.formatHeadingButton
         
         citationButton.setImage(WKIcon.citation, for: .normal)
         citationButton.addTarget(self, action: #selector(tappedCitation), for: .touchUpInside)
@@ -88,6 +91,7 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
         
         findInPageButton.setImage(WKIcon.findInPage, for: .normal)
         findInPageButton.addTarget(self, action: #selector(tappedFindInPage), for: .touchUpInside)
+        findInPageButton.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.findButton
         
         unorderedListButton.setImage(WKIcon.listUnordered, for: .normal)
         unorderedListButton.addTarget(self, action: #selector(tappedUnorderedList), for: .touchUpInside)

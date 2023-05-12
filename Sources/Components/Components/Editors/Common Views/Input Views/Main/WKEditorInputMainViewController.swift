@@ -24,6 +24,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
     
     private lazy var closeButton: UIBarButtonItem = {
         let button = UIBarButtonItem(image: WKIcon.close, style: .plain, target: self, action: #selector(close(_:)))
+        button.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.closeButton
         return button
     }()
     
@@ -40,6 +41,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
         super.viewDidLoad()
         
         view.addSubview(tableView)
+        view.accessibilityIdentifier = WKSourceEditorAccessibilityIdentifiers.current?.mainInputView
         NSLayoutConstraint.activate([
             view.leadingAnchor.constraint(equalTo: tableView.leadingAnchor),
             view.trailingAnchor.constraint(equalTo: tableView.trailingAnchor),

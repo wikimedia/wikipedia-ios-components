@@ -16,8 +16,9 @@ public class WKSourceEditorViewModel {
     
     // MARK: - Public
 
-    public init(configuration: Configuration, initialText: String) {
+    public init(configuration: Configuration, initialText: String, accessibilityIdentifiers: WKSourceEditorAccessibilityIdentifiers? = nil) {
         self.configuration = configuration
         self.initialText = initialText
+        WKSourceEditorAccessibilityIdentifiers.current = accessibilityIdentifiers
     }
 }

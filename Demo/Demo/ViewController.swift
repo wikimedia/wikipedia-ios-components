@@ -2,6 +2,7 @@ import UIKit
 import Components
 
 class ViewController: WKCanvasViewController {
+    
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -29,6 +30,7 @@ class ViewController: WKCanvasViewController {
         let button = UIButton(type: .system)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
         button.setTitle("Source Editor", for: .normal)
+        button.accessibilityIdentifier = DemoSourceEditorAccessibilityIdentifiers.entryButton.rawValue
         button.addTarget(self, action: #selector(tappedSourceEditor), for: .touchUpInside)
         return button
     }()
@@ -65,13 +67,32 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedSourceEditor() {
-        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "")
+        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "", accessibilityIdentifiers: .demo)
         let viewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
         present(viewController, animated: true)
     }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
-    func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    public func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+private extension WKSourceEditorAccessibilityIdentifiers {
+    static var demo: WKSourceEditorAccessibilityIdentifiers {
+        return WKSourceEditorAccessibilityIdentifiers(
+            textView: DemoSourceEditorAccessibilityIdentifiers.textView.rawValue,
+            expandButton: DemoSourceEditorAccessibilityIdentifiers.expandButton.rawValue,
+            findButton: DemoSourceEditorAccessibilityIdentifiers.findButton.rawValue,
+            showMoreButton: DemoSourceEditorAccessibilityIdentifiers.showMoreButton.rawValue,
+            closeButton: DemoSourceEditorAccessibilityIdentifiers.closeButton.rawValue,
+            formatTextButton: DemoSourceEditorAccessibilityIdentifiers.formatTextButton.rawValue,
+            formatHeadingButton: DemoSourceEditorAccessibilityIdentifiers.formatHeadingButton.rawValue,
+            expandingToolbar: DemoSourceEditorAccessibilityIdentifiers.expandingToolbar.rawValue,
+            highlightToolbar: DemoSourceEditorAccessibilityIdentifiers.highlightToolbar.rawValue,
+            findToolbar: DemoSourceEditorAccessibilityIdentifiers.findButton.rawValue,
+            mainInputView: DemoSourceEditorAccessibilityIdentifiers.mainInputView.rawValue,
+            headerSelectInputView: DemoSourceEditorAccessibilityIdentifiers.headerSelectInputView.rawValue
+        )
     }
 }

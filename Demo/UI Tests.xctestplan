@@ -1,0 +1,72 @@
+{
+  "configurations" : [
+    {
+      "id" : "0C770C6B-E97B-43DF-BD0C-C2CB7877FB19",
+      "name" : "Default (Light)",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "UITestWKThemeLight"
+          }
+        ],
+        "uiTestingScreenshotsLifetime" : "keepNever",
+        "userAttachmentLifetime" : "keepAlways"
+      }
+    },
+    {
+      "id" : "98008938-8914-4DAC-8D23-D1F97FCEB1A0",
+      "name" : "RTL (Sepia)",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "UITestWKThemeSepia"
+          }
+        ],
+        "language" : "IDELaunchSchemeLanguageRLO",
+        "uiTestingScreenshotsLifetime" : "keepNever",
+        "userAttachmentLifetime" : "keepAlways"
+      }
+    },
+    {
+      "id" : "9961B3DD-8B4F-4F70-A667-26C497A225CF",
+      "name" : "Double Length (Dark)",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "UITestWKThemeDark"
+          }
+        ],
+        "language" : "IDELaunchSchemeLanguageDoubleLocalizedStrings",
+        "uiTestingScreenshotsLifetime" : "keepNever",
+        "userAttachmentLifetime" : "keepAlways"
+      }
+    },
+    {
+      "id" : "BF9BC9F3-FD20-4E06-A807-D72DF8AD0B1D",
+      "name" : "Accented (Black)",
+      "options" : {
+        "commandLineArgumentEntries" : [
+          {
+            "argument" : "UITestWKThemeBlack"
+          }
+        ],
+        "language" : "IDELaunchSchemeLanguageAccentedLatin",
+        "uiTestingScreenshotsLifetime" : "keepNever",
+        "userAttachmentLifetime" : "keepAlways"
+      }
+    }
+  ],
+  "defaultOptions" : {
+    "testTimeoutsEnabled" : true
+  },
+  "testTargets" : [
+    {
+      "target" : {
+        "containerPath" : "container:Demo.xcodeproj",
+        "identifier" : "67CB8A652A0D2AFA00B6BB0B",
+        "name" : "DemoUITests"
+      }
+    }
+  ],
+  "version" : 1
+}
