@@ -62,8 +62,9 @@ public final class NoticeViewController: WKCanvasViewController {
 		NSLayoutConstraint.activate([
 			textView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
 			textView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-			textView.heightAnchor.constraint(equalToConstant: 100),
-			textView.widthAnchor.constraint(equalToConstant: 200),
+			textView.heightAnchor.constraint(equalToConstant: 400),
+			textView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+			textView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
 
 			button.topAnchor.constraint(equalTo: textView.bottomAnchor, constant: 25),
 			button.centerXAnchor.constraint(equalTo: view.centerXAnchor)
