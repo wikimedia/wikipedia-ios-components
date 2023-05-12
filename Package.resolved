@@ -1,0 +1,14 @@
+{
+  "pins" : [
+    {
+      "identity" : "wikipedia-ios-data",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/wikimedia/wikipedia-ios-data",
+      "state" : {
+        "branch" : "data-flow-exploration",
+        "revision" : "454535ff0e2ad199f5e278a95bfa477b5546cab6"
+      }
+    }
+  ],
+  "version" : 2
+}
