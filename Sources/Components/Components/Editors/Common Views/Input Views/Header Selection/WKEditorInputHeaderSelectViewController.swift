@@ -17,7 +17,7 @@ class WKEditorInputHeaderSelectViewController: WKComponentViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = WKFont.for(.headline, compatibleWith: appEnvironment.traitCollection)
-        label.text = "Style"
+        label.text = WKSourceEditorLocalizedStrings.current.inputViewStyle
         return label
     }()
     

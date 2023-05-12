@@ -8,7 +8,7 @@ final class WKSourceEditorTests: XCTestCase {
     var editorViewController: WKSourceEditorViewController!
     
     override func setUpWithError() throws {
-        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "Testing Wikitext")
+        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "Testing Wikitext", localizedStrings: WKSourceEditorLocalizedStrings.testStrings)
         self.editorViewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
         editorViewController.loadViewIfNeeded()
         self.editorView = editorViewController.editorView
@@ -38,5 +38,24 @@ final class WKSourceEditorTests: XCTestCase {
 extension WKSourceEditorTests: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: Components.WKSourceEditorViewController) {
         
+    }
+}
+
+extension WKSourceEditorLocalizedStrings {
+    static var testStrings: WKSourceEditorLocalizedStrings {
+        return WKSourceEditorLocalizedStrings(
+            inputViewTextFormatting: "Text Formatting",
+            inputViewStyle: "Style",
+            inputViewClearFormatting: "Clear Formatting",
+            inputViewParagraph: "Paragraph",
+            inputViewHeading: "Heading",
+            inputViewSubheading1: "Sub-heading 1",
+            inputViewSubheading2: "Sub-heading 2",
+            inputViewSubheading3: "Sub-heading 3",
+            inputViewSubheading4: "Sub-heading 4",
+            findReplaceTypeSingle: "Replace",
+            findReplaceTypeAll: "Replace All",
+            findReplaceWith: "Replace with..."
+            )
     }
 }

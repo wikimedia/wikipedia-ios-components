@@ -18,7 +18,7 @@ class WKEditorInputMainViewController: WKComponentViewController {
         label.translatesAutoresizingMaskIntoConstraints = false
         label.adjustsFontForContentSizeCategory = true
         label.font = WKFont.for(.headline, compatibleWith: appEnvironment.traitCollection)
-        label.text = "Text formatting"
+        label.text = WKSourceEditorLocalizedStrings.current.inputViewTextFormatting
         return label
     }()
     
@@ -107,13 +107,13 @@ extension WKEditorInputMainViewController: UITableViewDataSource {
             cell = tableView.dequeueReusableCell(withIdentifier: detailReuseIdentifier, for: indexPath)
             
             if let detailCell = cell as? WKEditorSelectionDetailCell {
-                detailCell.configure(viewModel: WKEditorSelectionDetailViewModel(typeText: "Style", selectionText: "Paragraph"))
+                detailCell.configure(viewModel: WKEditorSelectionDetailViewModel(typeText: WKSourceEditorLocalizedStrings.current.inputViewStyle, selectionText: WKSourceEditorLocalizedStrings.current.inputViewParagraph))
             }
         case 3:
             cell = tableView.dequeueReusableCell(withIdentifier: destructiveReuseIdentifier, for: indexPath)
             
             if let destructiveCell = cell as? WKEditorDestructiveCell {
-                destructiveCell.configure(viewModel: WKEditorDestructiveViewModel(text: "Clear formatting"))
+                destructiveCell.configure(viewModel: WKEditorDestructiveViewModel(text: WKSourceEditorLocalizedStrings.current.inputViewClearFormatting))
             }
         default:
             fatalError()
@@ -132,7 +132,7 @@ extension WKEditorInputMainViewController: UITableViewDelegate {
         cell?.isSelected = false
         
         if indexPath.row == 2 {
-            navigationItem.backButtonTitle = "Text formatting"
+            navigationItem.backButtonTitle = WKSourceEditorLocalizedStrings.current.inputViewTextFormatting
             let headerVC = WKEditorInputHeaderSelectViewController(configuration: .standard, delegate: delegate)
             navigationController?.pushViewController(headerVC, animated: true)
         }

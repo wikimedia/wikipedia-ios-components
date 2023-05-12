@@ -67,7 +67,7 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedSourceEditor() {
-        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "", accessibilityIdentifiers: .demo)
+        let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "", accessibilityIdentifiers: .testIdentifiers, localizedStrings: .testStrings)
         let viewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
         present(viewController, animated: true)
     }
@@ -79,7 +79,7 @@ extension ViewController: WKSourceEditorViewControllerDelegate {
 }
 
 private extension WKSourceEditorAccessibilityIdentifiers {
-    static var demo: WKSourceEditorAccessibilityIdentifiers {
+    static var testIdentifiers: WKSourceEditorAccessibilityIdentifiers {
         return WKSourceEditorAccessibilityIdentifiers(
             textView: DemoSourceEditorAccessibilityIdentifiers.textView.rawValue,
             expandButton: DemoSourceEditorAccessibilityIdentifiers.expandButton.rawValue,
@@ -94,5 +94,27 @@ private extension WKSourceEditorAccessibilityIdentifiers {
             mainInputView: DemoSourceEditorAccessibilityIdentifiers.mainInputView.rawValue,
             headerSelectInputView: DemoSourceEditorAccessibilityIdentifiers.headerSelectInputView.rawValue
         )
+    }
+}
+
+public extension WKSourceEditorLocalizedStrings {
+    static var testStrings: WKSourceEditorLocalizedStrings {
+        
+        // Note: We are only using NSLocalizedString here so that they are swapped out with pseudolanguages during UI Tests.
+        // The main Wikipedia client app injects its own localized strings
+        return WKSourceEditorLocalizedStrings(
+            inputViewTextFormatting: NSLocalizedString("source-editor-text-formatting", value: "Text Formatting", comment: ""),
+            inputViewStyle: NSLocalizedString("source-editor-style", value: "Style", comment: ""),
+            inputViewClearFormatting: NSLocalizedString("source-editor-clear-formatting", value: "Clear Formatting", comment: ""),
+            inputViewParagraph: NSLocalizedString("source-editor-paragraph", value: "Paragraph", comment: ""),
+            inputViewHeading: NSLocalizedString("source-editor-heading", value: "Heading", comment: ""),
+            inputViewSubheading1: NSLocalizedString("source-editor-clear-subheading1", value: "Sub-heading 1", comment: ""),
+            inputViewSubheading2: NSLocalizedString("source-editor-clear-subheading2", value: "Sub-heading 2", comment: ""),
+            inputViewSubheading3: NSLocalizedString("source-editor-clear-subheading3", value: "Sub-heading 3", comment: ""),
+            inputViewSubheading4: NSLocalizedString("source-editor-clear-subheading4", value: "Sub-heading 4", comment: ""),
+            findReplaceTypeSingle: NSLocalizedString("source-editor-find-replace-single", value: "Replace", comment: ""),
+            findReplaceTypeAll: NSLocalizedString("source-editor-find-replace-all", value: "Replace All", comment: ""),
+            findReplaceWith: NSLocalizedString("source-editor-find-replace-with", value: "Replace with...", comment: "")
+            )
     }
 }

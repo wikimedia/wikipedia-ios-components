@@ -63,11 +63,11 @@ class WKFindAndReplaceView: WKComponentView {
         
         replaceTypeLabel.adjustsFontForContentSizeCategory = true
         replaceTypeLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
-        replaceTypeLabel.text = "Replace"
+        replaceTypeLabel.text = WKSourceEditorLocalizedStrings.current.findReplaceTypeSingle
 
         replacePlaceholderLabel.adjustsFontForContentSizeCategory = true
         replacePlaceholderLabel.font = WKFont.for(.caption1, compatibleWith: appEnvironment.traitCollection)
-        replacePlaceholderLabel.text = "Replace with..."
+        replacePlaceholderLabel.text = WKSourceEditorLocalizedStrings.current.findReplaceWith
                                         
         updateColors()
     }
