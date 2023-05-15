@@ -35,6 +35,8 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
     
     @IBOutlet private weak var scrollView: UIScrollView!
     @IBOutlet private weak var stackView: UIStackView!
+    @IBOutlet weak var primaryContainerView: UIView!
+    @IBOutlet weak var secondaryContainerView: UIView!
     
     @IBOutlet private weak var formatTextButton: WKEditorToolbarButton!
     @IBOutlet private weak var formatHeadingButton: WKEditorToolbarButton!
@@ -63,6 +65,10 @@ class WKEditorToolbarExpandingView: WKEditorToolbarView {
         super.awakeFromNib()
         stackView.isLayoutMarginsRelativeArrangement = true
         stackView.layoutMargins = UIEdgeInsets(top: 5, left: 0, bottom: 5, right: 0)
+        if UIApplication.shared.userInterfaceLayoutDirection == .rightToLeft {
+            stackView.removeArrangedSubview(primaryContainerView)
+            stackView.addArrangedSubview(primaryContainerView)
+        }
         
         expandButton.setImage(WKIcon.chevronRightCircle, for: .normal)
         expandButton.addTarget(self, action: #selector(tappedExpand), for: .touchUpInside)
