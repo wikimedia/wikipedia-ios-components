@@ -1,31 +1,4 @@
 import UIKit
-import WKData
-
-// MARK: - View Model
-
-public final class NoticeViewModel {
-
-	let networkService: WKNetworkService
-
-	var title = "Earth"
-	var noticeInfo: String = "Notice Info"
-
-	public init(networkService: WKNetworkService) {
-		self.networkService = networkService
-	}
-
-	public func fetch(completion: @escaping ([WKNotice]) -> Void) {
-		let noticeFetcher = WKNoticeFetcher(networkService: networkService)
-		noticeFetcher.fetchNotices(for: title, completion: { result in
-			if case let .success(notices) = result {
-				completion(notices)
-			} else {
-				completion([])
-			}
-		})
-	}
-
-}
 
 // MARK: - View Controller
 
@@ -74,7 +47,12 @@ public final class NoticeViewController: WKCanvasViewController {
 	@objc func fetchNotices() {
 		viewModel.fetch(completion: { info in
 			DispatchQueue.main.async {
-				self.textView.text = info.description
+				switch info {
+				case .success(let notices):
+					self.textView.text = notices.description
+				case .failure(let error):
+					self.textView.text = error.localizedDescription
+				}
 			}
 		})
 	}
