@@ -101,7 +101,6 @@ public extension WKSourceEditorLocalizedStrings {
         
         // Note: We are only using NSLocalizedString here so that they are swapped out with pseudolanguages during UI Tests.
         // The main Wikipedia client app injects its own localized strings
-        
         return WKSourceEditorLocalizedStrings(
             inputViewTextFormatting: NSLocalizedString("source-editor-text-formatting", value: "Text Formatting", comment: ""),
             inputViewStyle: NSLocalizedString("source-editor-style", value: "Style", comment: ""),
