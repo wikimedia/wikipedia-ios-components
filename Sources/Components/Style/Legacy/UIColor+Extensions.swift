@@ -31,6 +31,9 @@ public extension UIColor {
 	static let purple600 = UIColor(0x6b4ba1)
 	static let orange600 = UIColor(0xFF9500)
 
+	static let darkSearchFieldBackground = UIColor(0x8E8E93, alpha: 0.12)
+	static let lightSearchFieldBackground = UIColor(0xFFFFFF, alpha: 0.15)
+
     convenience init(_ hex: Int, alpha: CGFloat) {
         let r = CGFloat((hex & 0xFF0000) >> 16) / 255.0
         let g = CGFloat((hex & 0xFF00) >> 8) / 255.0
