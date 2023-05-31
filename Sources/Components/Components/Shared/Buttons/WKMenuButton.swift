@@ -98,8 +98,14 @@ public class WKMenuButton: WKComponentView {
 
 		button.layer.cornerRadius = 8
 		button.layer.cornerCurve = .continuous
-		button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: -8)
-		button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 8, right: 16)
+
+		if effectiveUserInterfaceLayoutDirection == .leftToRight {
+			button.titleEdgeInsets = UIEdgeInsets(top: 0, left: 4, bottom: 0, right: -8)
+			button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 8, bottom: 8, right: 16)
+		} else {
+			button.titleEdgeInsets = UIEdgeInsets(top: 0, left: -8, bottom: 0, right: 4)
+			button.contentEdgeInsets = UIEdgeInsets(top: 6, left: 16, bottom: 8, right: 8)
+		}
 	}
 
 	private func generateMenu() -> UIMenu {
