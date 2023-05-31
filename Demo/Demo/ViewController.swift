@@ -54,8 +54,6 @@ class ViewController: WKCanvasViewController {
 
 	override func viewDidAppear(_ animated: Bool) {
 		super.viewDidAppear(animated)
-
-		tappedMenuButton()
 	}
     
     private func setupInitialViews() {
