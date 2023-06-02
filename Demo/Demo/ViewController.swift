@@ -1,5 +1,7 @@
 import UIKit
 import Components
+import WKData
+import WKDataMocks
 
 class ViewController: WKCanvasViewController {
     private lazy var scrollView: UIScrollView = {
@@ -33,6 +35,14 @@ class ViewController: WKCanvasViewController {
         return button
     }()
     
+    private lazy var watchlistButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Watchlist", for: .normal)
+        button.addTarget(self, action: #selector(tappedWatchlist), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -40,6 +50,7 @@ class ViewController: WKCanvasViewController {
         
         stackView.addArrangedSubview(selectThemeButton)
         stackView.addArrangedSubview(sourceEditorButton)
+        stackView.addArrangedSubview(watchlistButton)
     }
     
     private func setupInitialViews() {
@@ -67,6 +78,22 @@ class ViewController: WKCanvasViewController {
     @objc private func tappedSourceEditor() {
         let viewModel = WKSourceEditorViewModel(configuration: .full, initialText: "")
         let viewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
+        present(viewController, animated: true)
+    }
+    
+    @objc private func tappedWatchlist() {
+        
+        let mockService = WKMockWatchlistMediaWikiNetworkService()
+        mockService.randomizeGetWatchStatusResponse = true
+        
+        WKDataEnvironment.current.mediaWikiNetworkService = mockService
+        WKDataEnvironment.current.appData = WKAppData(appLanguages: [
+            WKLanguage(languageCode: "en", languageVariantCode: nil),
+            WKLanguage(languageCode: "es", languageVariantCode: nil)
+        ])
+        
+        let viewModel = WKWatchlistViewModel()
+        let viewController = WKWatchlistViewController(viewModel: viewModel)
         present(viewController, animated: true)
     }
 }
