@@ -15,7 +15,7 @@ final class RootWindow: UIWindow {
         super.init(windowScene: windowScene)
 
 		WKAppEnvironment.current.$theme.sink(receiveValue: { theme in
-			self.overrideUserInterfaceStyle = theme.userInterfaceStyle
+			self.overrideUserInterfaceStyle = UserDefaults.standard.themeName == "Default" ? .unspecified : theme.userInterfaceStyle
 		}).store(in: &cancellables)
 
         WKAppEnvironment.updateWithTraitCollection(traitCollection)
