@@ -32,6 +32,15 @@ class ViewController: WKCanvasViewController {
         button.addTarget(self, action: #selector(tappedSourceEditor), for: .touchUpInside)
         return button
     }()
+
+	private lazy var menuButtonButton: UIButton = {
+		let button = UIButton(type: .system)
+		button.titleLabel?.adjustsFontForContentSizeCategory = true
+		button.setTitle("Menu Button", for: .normal)
+		button.addTarget(self, action: #selector(tappedMenuButton), for: .touchUpInside)
+		return button
+	}()
+
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -40,7 +49,12 @@ class ViewController: WKCanvasViewController {
         
         stackView.addArrangedSubview(selectThemeButton)
         stackView.addArrangedSubview(sourceEditorButton)
+		stackView.addArrangedSubview(menuButtonButton)
     }
+
+	override func viewDidAppear(_ animated: Bool) {
+		super.viewDidAppear(animated)
+	}
     
     private func setupInitialViews() {
         view.addSubview(scrollView)
@@ -69,6 +83,12 @@ class ViewController: WKCanvasViewController {
         let viewController = WKSourceEditorViewController(viewModel: viewModel, delegate: self)
         present(viewController, animated: true)
     }
+
+	@objc private func tappedMenuButton() {
+		let viewController = MenuButtonViewController()
+		present(viewController, animated: true)
+	}
+
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {

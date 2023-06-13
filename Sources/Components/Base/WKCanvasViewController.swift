@@ -4,6 +4,12 @@ import SwiftUI
 /// A base `UIKit` WKCanvasViewController to add Components to that automatically subscribes to `AppEnvironment` changes
 open class WKCanvasViewController: WKComponentViewController {
 
+	// MARK: - Properties
+
+	public var canvas: WKCanvas {
+		return view as! WKCanvas
+	}
+
 	// MARK: - Lifecycle
 
 	public override func loadView() {
