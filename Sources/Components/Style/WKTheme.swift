@@ -3,6 +3,8 @@ import UIKit
 public struct WKTheme: Equatable {
 
 	public let name: String
+	public let userInterfaceStyle: UIUserInterfaceStyle
+	public let keyboardAppearance: UIKeyboardAppearance
     public let text: UIColor
     public let secondaryText: UIColor
     public let link: UIColor
@@ -14,10 +16,12 @@ public struct WKTheme: Equatable {
     public let inputAccessoryButtonSelectedTint: UIColor
     public let inputAccessoryButtonSelectedBackgroundColor: UIColor
     public let keyboardBarSearchFieldBackground: UIColor
-    public let keyboardAppearance: UIKeyboardAppearance
+	public let diffCompareAccent: UIColor
 
 	public static let light = WKTheme(
         name: "Light",
+		userInterfaceStyle: .light,
+		keyboardAppearance: .light,
         text: WKColor.gray700,
         secondaryText: WKColor.gray500,
         link: WKColor.blue600,
@@ -29,55 +33,61 @@ public struct WKTheme: Equatable {
         inputAccessoryButtonSelectedTint: WKColor.gray700,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.gray200,
         keyboardBarSearchFieldBackground: WKColor.gray200,
-        keyboardAppearance: .light
+		diffCompareAccent: WKColor.orange600
 	)
     
     public static let sepia = WKTheme(
         name: "Sepia",
+		userInterfaceStyle: .light,
+		keyboardAppearance: .light,
         text: WKColor.gray700,
         secondaryText: WKColor.taupe600,
-        link: .blue600,
-        destructive: .red700,
-        border: .taupe200,
+        link: WKColor.blue600,
+        destructive: WKColor.red700,
+        border: WKColor.taupe200,
         paperBackground: WKColor.beige100,
         accessoryBackground: WKColor.beige300,
         inputAccessoryButtonTint: WKColor.gray600,
         inputAccessoryButtonSelectedTint: WKColor.gray700,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.beige400,
         keyboardBarSearchFieldBackground: WKColor.gray200,
-        keyboardAppearance: .light
+		diffCompareAccent: WKColor.orange600
     )
 
 	public static let dark = WKTheme(
 		name: "Dark",
+		userInterfaceStyle: .dark,
+		keyboardAppearance: .dark,
         text: WKColor.gray100,
         secondaryText: WKColor.gray300,
-        link: .blue300,
-        destructive: .red600,
-        border: .gray650,
+        link: WKColor.blue300,
+        destructive: WKColor.red600,
+        border: WKColor.gray650,
         paperBackground: WKColor.gray675,
         accessoryBackground: WKColor.gray700,
         inputAccessoryButtonTint: WKColor.gray100,
         inputAccessoryButtonSelectedTint: WKColor.gray100,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.gray800,
         keyboardBarSearchFieldBackground: WKColor.gray650,
-        keyboardAppearance: .dark
+		diffCompareAccent: WKColor.orange600
 	)
 
 	public static let black = WKTheme(
 		name: "Black",
+		userInterfaceStyle: .dark,
+		keyboardAppearance: .dark,
         text: WKColor.gray100,
         secondaryText: WKColor.gray300,
-        link: .blue300,
-        destructive: .red600,
-        border: .gray675,
+        link: WKColor.blue300,
+        destructive: WKColor.red600,
+        border: WKColor.gray675,
         paperBackground: WKColor.black,
         accessoryBackground: WKColor.gray700,
         inputAccessoryButtonTint: WKColor.gray100,
         inputAccessoryButtonSelectedTint: WKColor.gray100,
         inputAccessoryButtonSelectedBackgroundColor: WKColor.gray800,
         keyboardBarSearchFieldBackground: WKColor.gray650,
-        keyboardAppearance: .dark
+		diffCompareAccent: WKColor.orange600
 	)
 
 }
