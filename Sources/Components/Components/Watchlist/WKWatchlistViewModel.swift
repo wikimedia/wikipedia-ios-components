@@ -75,8 +75,15 @@ public class WKWatchlistViewModel {
         }
     }
     
-    func undoRevision(_ item: ItemViewModel) {
-        print("not implemented yet")
+    func undoRevision(_ item: ItemViewModel, summary: String) {
+        service.undo(title: item.title, revisionID: item.revisionID, summary: summary, username: item.username, project: item.project) { result in
+            switch result {
+            case .success(()):
+                print("success!")
+            case .failure(let error):
+                print(error)
+            }
+        }
     }
     
     func rollback(_ item: ItemViewModel) {

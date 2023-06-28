@@ -94,6 +94,10 @@ public final class WKWatchlistViewController: WKCanvasViewController {
             revIDLabel.text = String(item.revisionID)
             revIDLabel.setContentHuggingPriority(.required, for: .horizontal)
             
+            let usernameLabel = generateLabel()
+            usernameLabel.text = String(item.username)
+            usernameLabel.setContentHuggingPriority(.required, for: .horizontal)
+            
             let button = generateButton()
             button.setTitle("Actions", for: .normal)
             button.setTitleColor(WKAppEnvironment.current.theme.link, for: .normal)
@@ -103,6 +107,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
             
             hStackView.addArrangedSubview(titleLabel)
             hStackView.addArrangedSubview(revIDLabel)
+            hStackView.addArrangedSubview(usernameLabel)
             hStackView.addArrangedSubview(button)
             stackView.addArrangedSubview(hStackView)
         }
@@ -202,7 +207,24 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     }
     
     private func undoRevision(_ item: WKWatchlistViewModel.ItemViewModel) {
-        viewModel.undoRevision(item)
+        
+        let alertController = UIAlertController(title: "Undo edits", message: "This will undo the changes made by the revision of the article shown here. To continue, please provide a reason for undoing this edit.", preferredStyle: .alert)
+        alertController.addTextField()
+
+        let cancelAction = UIAlertAction(title: "Cancel", style: .cancel)
+        let undoAction = UIAlertAction(title: "Undo", style: .default) { [weak alertController, weak self] _ in
+            guard let summary = alertController?.textFields?[0].text else {
+                return
+            }
+            
+            self?.viewModel.undoRevision(item, summary: summary)
+        }
+        
+        alertController.addAction(cancelAction)
+        alertController.addAction(undoAction)
+
+
+        present(alertController, animated: true)
     }
     
     private func rollback(_ item: WKWatchlistViewModel.ItemViewModel) {
