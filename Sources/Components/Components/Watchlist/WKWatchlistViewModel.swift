@@ -5,11 +5,13 @@ public class WKWatchlistViewModel {
     
     class ItemViewModel {
         let title: String
+        let username: String
         let revisionID: UInt
         let project: WKProject
         
-        internal init(title: String, revisionID: UInt, project: WKProject) {
+        internal init(title: String, username: String, revisionID: UInt, project: WKProject) {
             self.title = title
+            self.username = username
             self.revisionID = revisionID
             self.project = project
         }
@@ -31,7 +33,7 @@ public class WKWatchlistViewModel {
                 
                 switch result {
                 case .success(let watchlist):
-                    self.items = watchlist.items.map { ItemViewModel(title: $0.title, revisionID: $0.revisionID, project: $0.project) }
+                    self.items = watchlist.items.map { ItemViewModel(title: $0.title, username: $0.username, revisionID: $0.revisionID, project: $0.project) }
                 case .failure(let error):
                     print(error)
                 }
@@ -77,7 +79,16 @@ public class WKWatchlistViewModel {
         print("not implemented yet")
     }
     
-    func rollbackRevision(_ item: ItemViewModel) {
-        print("not implemented yet")
+    func rollback(_ item: ItemViewModel) {
+        service.rollback(title: item.title, project: item.project, username: item.username) { result in
+            DispatchQueue.main.async {
+                switch result {
+                case .success(()):
+                    print("success!")
+                case .failure(let error):
+                    print(error)
+                }
+            }
+        }
     }
 }

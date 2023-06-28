@@ -156,7 +156,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
             
             if hasRollbackRights {
                 alert.addAction(UIAlertAction(title: "Rollback", style: .default, handler:{ (UIAlertAction)in
-                    self.rollbackRevision(item)
+                    self.rollback(item)
                 }))
             }
             
@@ -205,7 +205,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         viewModel.undoRevision(item)
     }
     
-    private func rollbackRevision(_ item: WKWatchlistViewModel.ItemViewModel) {
-        viewModel.rollbackRevision(item)
+    private func rollback(_ item: WKWatchlistViewModel.ItemViewModel) {
+        viewModel.rollback(item)
     }
 }
