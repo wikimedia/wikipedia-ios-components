@@ -12,7 +12,7 @@ public class WKMenuButton: WKComponentView {
 
 		// MARK: - Nested Types
 
-		public struct MenuItem {
+        public struct MenuItem: Equatable {
 			public let id = UUID()
 			let title: String
 			let image: UIImage?
@@ -27,14 +27,14 @@ public class WKMenuButton: WKComponentView {
 
 		// MARK: - Properties
 
-		let title: String
+		var title: String?
 		let image: UIImage?
 		let primaryColor: KeyPath<WKTheme, UIColor>
-		let menuItems: [MenuItem]
+		public let menuItems: [MenuItem]
 
 		// MARK: - Public
 
-		public init(title: String, image: UIImage? = nil, primaryColor: KeyPath<WKTheme, UIColor>,  menuItems: [MenuItem]) {
+		public init(title: String? = nil, image: UIImage? = nil, primaryColor: KeyPath<WKTheme, UIColor>,  menuItems: [MenuItem]) {
 			self.title = title
 			self.image = image
 			self.primaryColor = primaryColor
@@ -46,7 +46,7 @@ public class WKMenuButton: WKComponentView {
 	// MARK: - Properties
 
 	public weak var delegate: WKMenuButtonDelegate?
-	private let configuration: Configuration
+	public private(set) var configuration: Configuration
 
 	// MARK: - UI Elements
 
@@ -67,6 +67,11 @@ public class WKMenuButton: WKComponentView {
 	public required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
+    
+    public func updateTitle(_ title: String?) {
+        configuration.title = title
+        configure()
+    }
 
 	// MARK: - Setup
 
@@ -79,13 +84,13 @@ public class WKMenuButton: WKComponentView {
 			button.bottomAnchor.constraint(equalTo: bottomAnchor),
 		])
 
-		button.menu = generateMenu()
 		button.showsMenuAsPrimaryAction = true
 
 		configure()
 	}
 
 	private func configure() {
+        button.menu = generateMenu()
 		button.backgroundColor = theme[keyPath: configuration.primaryColor].withAlphaComponent(0.15)
 		button.tintColor = theme[keyPath: configuration.primaryColor]
 		button.setTitleColor(theme[keyPath: configuration.primaryColor], for: .normal)
@@ -132,5 +137,4 @@ public class WKMenuButton: WKComponentView {
 	public override func appEnvironmentDidChange() {
 		configure()
 	}
-
 }
