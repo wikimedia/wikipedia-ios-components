@@ -1,5 +1,7 @@
 import UIKit
 import Components
+import WKData
+import WKDataMocks
 
 class ViewController: WKCanvasViewController {
     private lazy var scrollView: UIScrollView = {
@@ -42,6 +44,14 @@ class ViewController: WKCanvasViewController {
 	}()
 
     
+    private lazy var watchlistButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Watchlist", for: .normal)
+        button.addTarget(self, action: #selector(tappedWatchlist), for: .touchUpInside)
+        return button
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
        
@@ -50,6 +60,7 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(selectThemeButton)
         stackView.addArrangedSubview(sourceEditorButton)
 		stackView.addArrangedSubview(menuButtonButton)
+        stackView.addArrangedSubview(watchlistButton)
     }
 
 	override func viewDidAppear(_ animated: Bool) {
@@ -84,11 +95,26 @@ class ViewController: WKCanvasViewController {
         present(viewController, animated: true)
     }
 
-	@objc private func tappedMenuButton() {
-		let viewController = MenuButtonViewController()
-		present(viewController, animated: true)
-	}
-
+    @objc private func tappedMenuButton() {
+        let viewController = MenuButtonViewController()
+        present(viewController, animated: true)
+    }
+    
+    @objc private func tappedWatchlist() {
+        
+        let mockService = WKMockWatchlistMediaWikiNetworkService()
+        mockService.randomizeGetWatchStatusResponse = true
+        
+        WKDataEnvironment.current.mediaWikiNetworkService = mockService
+        WKDataEnvironment.current.appData = WKAppData(appLanguages: [
+            WKLanguage(languageCode: "en", languageVariantCode: nil),
+            WKLanguage(languageCode: "es", languageVariantCode: nil)
+        ])
+        
+        let viewModel = WKWatchlistViewModel()
+        let viewController = WKWatchlistViewController(viewModel: viewModel)
+        present(viewController, animated: true)
+    }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
