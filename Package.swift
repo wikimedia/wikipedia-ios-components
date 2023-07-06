@@ -11,7 +11,7 @@ let package = Package(
             targets: ["Components"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", branch: "watchlist-api-1")
+        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", branch: "main")
     ],
     targets: [
         .target(
