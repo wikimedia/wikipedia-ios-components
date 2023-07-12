@@ -5,8 +5,8 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wikimedia/wikipedia-ios-data.git",
       "state" : {
-        "branch" : "watchlist-api-1",
-        "revision" : "d3feae0f5365d048b7c433f2be84a7e93e8ec106"
+        "branch" : "main",
+        "revision" : "9d2595265f6d726c1d29df73449225b0a36ea23a"
       }
     }
   ],
