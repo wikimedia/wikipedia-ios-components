@@ -11,7 +11,7 @@ let package = Package(
             targets: ["Components"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", branch: "diff-undo-rollback-tweaks")
+        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", branch: "main")
     ],
     targets: [
         .target(
