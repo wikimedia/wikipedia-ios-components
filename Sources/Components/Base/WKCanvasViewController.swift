@@ -6,14 +6,17 @@ open class WKCanvasViewController: WKComponentViewController {
 
 	// MARK: - Properties
 
-	public var canvas: WKCanvas {
-		return view as! WKCanvas
-	}
+	public var canvas: WKCanvas = {
+		let canvas = WKCanvas()
+		canvas.translatesAutoresizingMaskIntoConstraints = false
+		return canvas
+	}()
 
 	// MARK: - Lifecycle
 
 	public override func loadView() {
-		self.view = WKCanvas()
+		self.view = UIView()
+		addComponent(canvas, pinToEdges: true)
 	}
 
 	// MARK: - Utility
