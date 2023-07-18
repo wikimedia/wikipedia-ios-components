@@ -1,7 +1,7 @@
 import Foundation
 import WKData
 
-public class WKWatchlistViewModel {
+public class OldWKWatchlistViewModel {
     
     class ItemViewModel {
         let title: String

@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-public final class WKWatchlistViewController: WKCanvasViewController {
+public final class OldWKWatchlistViewController: WKCanvasViewController {
     
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
@@ -40,9 +40,9 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         return stackView
     }
     
-    let viewModel: WKWatchlistViewModel
+    let viewModel: OldWKWatchlistViewModel
     
-    public init(viewModel: WKWatchlistViewModel) {
+    public init(viewModel: OldWKWatchlistViewModel) {
         self.viewModel = viewModel
         super.init()
     }
@@ -126,7 +126,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         }
     }
     
-    private func presentActionSheetForItem(_ item: WKWatchlistViewModel.ItemViewModel, isWatched: Bool, hasRollbackRights: Bool) {
+    private func presentActionSheetForItem(_ item: OldWKWatchlistViewModel.ItemViewModel, isWatched: Bool, hasRollbackRights: Bool) {
         
         let alert = UIAlertController(title: item.title, message: "Please Select an Option", preferredStyle: .actionSheet)
         
@@ -168,31 +168,31 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         present(alert, animated: true)
     }
     
-    private func watchItem(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func watchItem(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .never)
     }
     
-    private func unwatchItem(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func unwatchItem(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.unwatchItem(item)
     }
     
-    private func updateItemExpiryToNever(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func updateItemExpiryToNever(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .never)
     }
     
-    private func updateItemExpiryToOneWeek(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func updateItemExpiryToOneWeek(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .oneWeek)
     }
     
-    private func updateItemExpiryToOneMonth(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func updateItemExpiryToOneMonth(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .oneMonth)
     }
     
-    private func updateItemExpiryToThreeMonths(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func updateItemExpiryToThreeMonths(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .threeMonths)
     }
     
-    private func updateItemExpiryToSixMonths(_ item: WKWatchlistViewModel.ItemViewModel) {
+    private func updateItemExpiryToSixMonths(_ item: OldWKWatchlistViewModel.ItemViewModel) {
         viewModel.watchItem(item, expiry: .sixMonths)
     }
 }
