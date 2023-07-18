@@ -8,7 +8,7 @@ class ViewController: WKCanvasViewController {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
-		scrollView.alwaysBounceVertical = true
+        scrollView.alwaysBounceVertical = true
         return scrollView
     }()
     
@@ -57,7 +57,7 @@ class ViewController: WKCanvasViewController {
     override func viewDidLoad() {
         super.viewDidLoad()
 
-		title = "Components"
+        title = "Components"
 
         setupInitialViews()
         
@@ -112,7 +112,7 @@ class ViewController: WKCanvasViewController {
         
         let viewModel = WKWatchlistViewModel()
         let viewController = WKWatchlistViewController(viewModel: viewModel)
-		navigationController?.pushViewController(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
