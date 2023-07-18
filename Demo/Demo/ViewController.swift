@@ -4,9 +4,11 @@ import WKData
 import WKDataMocks
 
 class ViewController: WKCanvasViewController {
+	
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.alwaysBounceVertical = true
         return scrollView
     }()
     
@@ -54,7 +56,9 @@ class ViewController: WKCanvasViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-       
+
+        title = "Components"
+
         setupInitialViews()
         
         stackView.addArrangedSubview(selectThemeButton)
@@ -63,10 +67,6 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(watchlistButton)
     }
 
-	override func viewDidAppear(_ animated: Bool) {
-		super.viewDidAppear(animated)
-	}
-    
     private func setupInitialViews() {
         view.addSubview(scrollView)
         scrollView.addSubview(stackView)
@@ -101,7 +101,6 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedWatchlist() {
-        
         let mockService = WKMockWatchlistMediaWikiNetworkService()
         mockService.randomizeGetWatchStatusResponse = true
         
@@ -113,7 +112,7 @@ class ViewController: WKCanvasViewController {
         
         let viewModel = WKWatchlistViewModel()
         let viewController = WKWatchlistViewController(viewModel: viewModel)
-        present(viewController, animated: true)
+        navigationController?.pushViewController(viewController, animated: true)
     }
 }
 
