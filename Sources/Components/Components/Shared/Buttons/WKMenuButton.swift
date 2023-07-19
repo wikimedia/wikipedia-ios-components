@@ -53,6 +53,7 @@ public class WKMenuButton: WKComponentView {
 	private lazy var button: WKButton = {
 		let button = WKButton(type: .custom)
 		button.translatesAutoresizingMaskIntoConstraints = false
+        button.addTarget(self, action: #selector(userDidTap), for: .touchUpInside)
 		return button
 	}()
 
@@ -131,6 +132,10 @@ public class WKMenuButton: WKComponentView {
 	private func userDidTapMenuItem(_ item: MenuItem) {
 		delegate?.wkMenuButton(self, didTapMenuItem: item)
 	}
+    
+    @objc private func userDidTap() {
+        delegate?.wkMenuButtonDidTap(self)
+    }
 
 	// MARK: - Component Conformance
 
