@@ -53,7 +53,7 @@ public class WKMenuButton: WKComponentView {
 	private lazy var button: WKButton = {
 		let button = WKButton(type: .custom)
 		button.translatesAutoresizingMaskIntoConstraints = false
-        button.addTarget(self, action: #selector(userDidTap), for: .touchUpInside)
+        button.addTarget(self, action: #selector(userDidTap), for: .touchDown)
 		return button
 	}()
 
