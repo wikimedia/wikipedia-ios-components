@@ -6,8 +6,8 @@ public class WKOnboardingViewController: WKCanvasViewController {
 
     private let hostingController: WKOnboardingHostingViewController
 
-    public override init() {
-        self.hostingController = WKOnboardingHostingViewController()
+    public init(viewModel: WKOnboardingViewModel) {
+        self.hostingController = WKOnboardingHostingViewController(viewModel: viewModel)
         super.init()
     }
 
@@ -19,15 +19,13 @@ public class WKOnboardingViewController: WKCanvasViewController {
             super.viewDidLoad()
             addComponent(hostingController, pinToEdges: true)
 
-            self.title = "Onboarding"
-
         }
 }
 
 fileprivate final class WKOnboardingHostingViewController: WKComponentHostingController<WKOnboardingView> {
 
-    init() {
-        super.init(rootView: WKOnboardingView())
+    init(viewModel: WKOnboardingViewModel) {
+        super.init(rootView: WKOnboardingView(viewModel: viewModel))
     }
 
     required init?(coder aDecoder: NSCoder) {
