@@ -18,7 +18,10 @@ struct WKWatchlistView: View {
 				WKWatchlistViewCell()
 			}
 			.listStyle(.plain)
-		}
+        }
+        .onAppear {
+            viewModel.fetchWatchlist()
+        }
 	}
 
 }
