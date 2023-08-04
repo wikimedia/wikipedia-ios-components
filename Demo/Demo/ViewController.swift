@@ -109,10 +109,10 @@ class ViewController: WKCanvasViewController {
             WKLanguage(languageCode: "en", languageVariantCode: nil),
             WKLanguage(languageCode: "es", languageVariantCode: nil)
         ])
-        
-        let viewModel = WKWatchlistViewModel()
-        let viewController = WKWatchlistViewController(viewModel: viewModel)
-        navigationController?.pushViewController(viewController, animated: true)
+
+		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter"))
+		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
+		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 }
 
