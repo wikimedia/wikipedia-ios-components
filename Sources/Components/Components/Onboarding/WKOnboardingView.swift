@@ -18,15 +18,17 @@ struct WKOnboardingView: View {
                         .ignoresSafeArea()
                     Text(viewModel.title)
                         .font(.largeTitle)
+                        .padding([.bottom, .top], 44)
                         .multilineTextAlignment(.center)
                     ForEach (1...viewModel.cells.count, id:\.self) { cell in
                         VStack {
                             WKOnboardingCell(viewModel: viewModel.cells[cell - 1])
-                                .padding(20)
-                            Spacer()
+                                .padding([.bottom, .trailing], 20)
+
                         }
                     }
                 }
+                .padding(32)
             }
         }
     }
@@ -40,18 +42,23 @@ struct WKOnboardingCell: View {
 
     var body: some View {
             HStack {
-                if let icon = viewModel.icon {
-                    Image(systemName: icon)
-                        .frame(width: 24, alignment: .top)
-                    .accessibilityHidden(true)
-                    .scaledToFill()
-                    .padding()
-                }
                 VStack {
+                    if let icon = viewModel.icon {
+                        Image(systemName: icon)
+                            .frame(width: 24, alignment: .top)
+                            .accessibilityHidden(true)
+                            .scaledToFill()
+                            .padding([.trailing], 16)
+                            .padding([.top], 5)
+                    }
+                    Spacer()
+                }
+                VStack(alignment: .leading) {
                     Text(viewModel.title)
+                        .multilineTextAlignment(.leading)
                     if let subtitle = viewModel.subtitle {
                         Text(subtitle)
-                            .multilineTextAlignment(.center)
+                            .multilineTextAlignment(.leading)
                             .foregroundColor(Color(appEnvironment.theme.secondaryText))
                             .font(.body)
                     }
