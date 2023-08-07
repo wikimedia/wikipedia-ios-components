@@ -48,6 +48,9 @@ final class MenuButtonViewController: WKCanvasViewController {
 }
 
 extension MenuButtonViewController: WKMenuButtonDelegate {
+    func wkMenuButtonDidTap(_ sender: Components.WKMenuButton) {
+        print("User tapped menu button: \(sender)")
+    }
 
 	func wkMenuButton(_ sender: WKMenuButton, didTapMenuItem item: WKMenuButton.MenuItem) {
 		print("User tapped: \(sender) \t menu item \(item.id)")
