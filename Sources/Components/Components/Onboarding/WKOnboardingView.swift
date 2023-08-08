@@ -19,8 +19,7 @@ public struct WKOnboardingView: View {
     // MARK: - Lifecycle
 
     public var body: some View {
-
-        ScrollView {
+        ScrollView(showsIndicators: true) {
             VStack {
                 Color(appEnvironment.theme.paperBackground)
                     .ignoresSafeArea()
@@ -60,13 +59,10 @@ public struct WKOnboardingView: View {
                         .frame(height: 46)
                         .background(Color(appEnvironment.theme.paperBackground))
                         .cornerRadius(8)
-
                     }
                 }
             }
             .padding(sizeClassPadding)
-
-
         }
     }
 

@@ -22,17 +22,20 @@ struct WKOnboardingCell: View {
                 }
                 Spacer()
             }
-            VStack(alignment: .leading) {
+            VStack() {
                 Text(viewModel.title)
                     .multilineTextAlignment(.leading)
                     .font(WKFont.for(.body).bold())
                     .foregroundColor(Color(appEnvironment.theme.text))
                     .padding([.bottom], 1)
+                    .frame(maxWidth: .infinity, alignment: .leading)
+
                 if let subtitle = viewModel.subtitle {
                     Text(subtitle)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(Color(appEnvironment.theme.secondaryText))
                         .font(WKFont.for(.subheadline))
+                        .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }
         }
