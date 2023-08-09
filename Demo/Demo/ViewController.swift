@@ -53,6 +53,14 @@ class ViewController: WKCanvasViewController {
         button.addTarget(self, action: #selector(tappedWatchlist), for: .touchUpInside)
         return button
     }()
+
+    private lazy var onboardingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Onboarding", for: .normal)
+        button.addTarget(self, action: #selector(tappedOboarding), for: .touchUpInside)
+        return button
+    }()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -65,6 +73,7 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(sourceEditorButton)
 		stackView.addArrangedSubview(menuButtonButton)
         stackView.addArrangedSubview(watchlistButton)
+        stackView.addArrangedSubview(onboardingButton)
     }
 
     private func setupInitialViews() {
@@ -114,9 +123,41 @@ class ViewController: WKCanvasViewController {
 		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
+
+    @objc private func tappedOboarding() {
+        let cell1 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "star"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        let cell2 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "person"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        let cell3 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "star.leadinghalf.filled"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "heart"), title: "Very long title that continues for a while", subtitle: "Small text")
+        let cell5 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: nil, title: "Title title", subtitle: "Small text")
+        let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], mainButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
+
+        let viewController = WKOnboardingViewController(viewModel: viewModel)
+        viewController.hostingController.delegate = self
+
+        present(viewController, animated: true)
+    }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+extension ViewController: WKOnboardingViewDelegate {
+    func didClickPrimaryButton() {
+        let alert = UIAlertController(title: "Hello", message: "Pressed primary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+
+    func didClickSecondaryButton() {
+        let alert = UIAlertController(title: "Hi", message: "Pressed secondary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
     }
 }
