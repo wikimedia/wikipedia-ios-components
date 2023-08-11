@@ -21,7 +21,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
                 return
             }
             
-            self.present(WKWatchlistFilterHostingController(viewModel: self.filterViewModel), animated: true)
+            self.present(WKWatchlistFilterHostingController(viewModel: self.filterViewModel, delegate: self), animated: true)
         }
         let barButton = UIBarButtonItem(title: viewModel.localizedStrings.filter, primaryAction: action)
 		return barButton
@@ -65,4 +65,10 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 		fatalError("init(coder:) has not been implemented")
 	}
 
+}
+
+extension WKWatchlistViewController: WKWatchlistFilterDelegate {
+    func watchlistFilterDidChange(_ hostingController: WKWatchlistFilterHostingController) {
+        // TODO: ask WKWatchlistViewModel to fetch again
+    }
 }

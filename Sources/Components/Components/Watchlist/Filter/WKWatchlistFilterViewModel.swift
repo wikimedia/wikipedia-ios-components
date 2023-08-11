@@ -105,7 +105,142 @@ public final class WKWatchlistFilterViewModel {
         ])
     }
     
+    func saveNewFilterSettings() {
+        let currentFilterSettings = generateNewFilterSettings()
+        dataController.saveFilterSettings(currentFilterSettings)
+    }
     
+    private func generateNewFilterSettings() -> WKWatchlistFilterSettings {
+        guard let sectionSelectViewModels = formViewModel.sections as? [WKFormSectionSelectViewModel],
+              sectionSelectViewModels.count == 8 else {
+            assertionFailure("Unexpected sections setup")
+            return WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+        }
+
+        var offProjects: [WKProject] = []
+        let wikimediaProjectsSection = sectionSelectViewModels[0]
+        let wikipediasSection = sectionSelectViewModels[1]
+
+        guard wikimediaProjectsSection.items.count == 2,
+              wikipediasSection.items.count == projectViewModels.count - 2 else {
+            assertionFailure("Unexpected projects section counts")
+            return  WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+        }
+
+        for (index, item) in wikimediaProjectsSection.items.enumerated() {
+            if !item.isSelected {
+                offProjects.append(projectViewModels[index].project)
+            }
+        }
+
+        for (index, item) in wikipediasSection.items.enumerated() {
+            if !item.isSelected {
+                let offsetIndex = index + (wikimediaProjectsSection.items.count)
+                offProjects.append(projectViewModels[offsetIndex].project)
+            }
+        }
+
+        let latestRevisionsSection = sectionSelectViewModels[2]
+        let activitySection = sectionSelectViewModels[3]
+        let automatedContributionsSection = sectionSelectViewModels[4]
+        let significanceSection = sectionSelectViewModels[5]
+        let userRegistrationSection = sectionSelectViewModels[6]
+        let typeOfChangeSection = sectionSelectViewModels[7]
+
+        guard latestRevisionsSection.items.count == 3,
+              activitySection.items.count == 3,
+              automatedContributionsSection.items.count == 3,
+              significanceSection.items.count == 3,
+              userRegistrationSection.items.count == 3,
+              typeOfChangeSection.items.count == 5 else {
+            assertionFailure("Unexpected items count")
+            return WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+        }
+
+        let latestRevisionsRequest: WKWatchlistFilterSettings.LatestRevisions
+        if latestRevisionsSection.items[0].isSelected {
+            latestRevisionsRequest = .all
+        } else if latestRevisionsSection.items[1].isSelected {
+            latestRevisionsRequest = .latestRevision
+        } else if latestRevisionsSection.items[2].isSelected {
+            latestRevisionsRequest = .notTheLatestRevision
+        } else {
+            latestRevisionsRequest = .all
+        }
+
+        let activityRequest: WKWatchlistFilterSettings.Activity
+        if activitySection.items[0].isSelected {
+            activityRequest = .all
+        } else if activitySection.items[1].isSelected {
+            activityRequest = .unseenChanges
+        } else if activitySection.items[2].isSelected {
+            activityRequest = .seenChanges
+        } else {
+            activityRequest = .all
+        }
+
+        let automatedContributionsRequest: WKWatchlistFilterSettings.AutomatedContributions
+        if automatedContributionsSection.items[0].isSelected {
+            automatedContributionsRequest = .all
+        } else if automatedContributionsSection.items[1].isSelected {
+            automatedContributionsRequest = .bot
+        } else if automatedContributionsSection.items[2].isSelected {
+            automatedContributionsRequest = .human
+        } else {
+            automatedContributionsRequest = .all
+        }
+
+        let significanceRequest: WKWatchlistFilterSettings.Significance
+        if significanceSection.items[0].isSelected {
+            significanceRequest = .all
+        } else if significanceSection.items[1].isSelected {
+            significanceRequest = .minorEdits
+        } else if significanceSection.items[2].isSelected {
+            significanceRequest = .nonMinorEdits
+        } else {
+            significanceRequest = .all
+        }
+
+        let userRegistrationRequest: WKWatchlistFilterSettings.UserRegistration
+        if userRegistrationSection.items[0].isSelected {
+            userRegistrationRequest = .all
+        } else if userRegistrationSection.items[1].isSelected {
+            userRegistrationRequest = .unregistered
+        } else if userRegistrationSection.items[2].isSelected {
+            userRegistrationRequest = .registered
+        } else {
+            userRegistrationRequest = .all
+        }
+
+        var offTypesRequest: [WKWatchlistFilterSettings.ChangeType] = []
+        if !typeOfChangeSection.items[0].isSelected {
+            offTypesRequest.append(.pageEdits)
+        }
+
+        if !typeOfChangeSection.items[1].isSelected {
+            offTypesRequest.append(.pageCreations)
+        }
+
+        if !typeOfChangeSection.items[2].isSelected {
+            offTypesRequest.append(.categoryChanges)
+        }
+
+        if !typeOfChangeSection.items[3].isSelected {
+            offTypesRequest.append(.wikidataEdits)
+        }
+
+        if !typeOfChangeSection.items[4].isSelected {
+            offTypesRequest.append(.loggedActions)
+        }
+
+        return WKWatchlistFilterSettings(offProjects: offProjects,
+                                        latestRevisions: latestRevisionsRequest,
+                                        activity: activityRequest,
+                                        automatedContributions: automatedContributionsRequest,
+                                        significance: significanceRequest,
+                                        userRegistration: userRegistrationRequest,
+                                        offTypes: offTypesRequest)
+    }
 }
 
 // MARK: - Static Init Helper Methods
