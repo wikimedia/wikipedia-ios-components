@@ -12,6 +12,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	fileprivate let hostingViewController: WKWatchlistHostingViewController
 	let viewModel: WKWatchlistViewModel
+    let filterViewModel: WKWatchlistFilterViewModel
 	weak var delegate: WKWatchlistDelegate?
 
 	fileprivate lazy var filterBarButton = {
@@ -21,8 +22,9 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-	public init(viewModel: WKWatchlistViewModel, delegate: WKWatchlistDelegate?) {
+    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistDelegate?) {
 		self.viewModel = viewModel
+        self.filterViewModel = filterViewModel
 		self.delegate = delegate
 		self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, delegate: delegate)
 		super.init()

@@ -111,12 +111,51 @@ class ViewController: WKCanvasViewController {
         ])
 
 		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter"))
-		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
+        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+private extension WKWatchlistFilterViewModel.LocalizedStrings {
+    static var demoStrings: WKWatchlistFilterViewModel.LocalizedStrings {
+        let localizedProjectNames: [WKProject: String] = [
+                    WKProject.commons: "Wikimedia Commons",
+                    WKProject.wikidata: "Wikidata",
+                    WKProject.wikipedia(WKLanguage(languageCode: "en", languageVariantCode: nil)): "English Wikipedia",
+                    WKProject.wikipedia(WKLanguage(languageCode: "es", languageVariantCode: nil)): "Spanish Wikipedia"
+                ]
+        return WKWatchlistFilterViewModel.LocalizedStrings(title: "Filter",
+                                        localizedProjectNames: localizedProjectNames,
+                                        wikimediaProjectsHeader: "Wikimedia Projects",
+                                        wikimediaProjectsFooter: "Only projects you have created an account for will appear here",
+                                        wikipediasHeader: "Wikipedias",
+                                        commonAll: "All",
+                                        latestRevisionsHeader: "Latest Revisions",
+                                        latestRevisionsLatestRevision: "Latest revision",
+                                        latestRevisionsNotLatestRevision: "Not the latest revision",
+                                        watchlistActivityHeader: "Watchlist Activity",
+                                        watchlistActivityUnseenChanges: "Unseen changes",
+                                        watchlistActivitySeenChanges: "Seen changes",
+                                        automatedContributionsHeader: "Automated Contributions",
+                                        automatedContributionsBot: "Bot",
+                                        automatedContributionsHuman: "Human (not bot)",
+                                        significanceHeader: "Significance",
+                                        significanceMinorEdits: "Minor edits",
+                                        significanceNonMinorEdits: "Non-minor edits",
+                                        userRegistrationHeader: "User registration and experience",
+                                        userRegistrationUnregistered: "Unregistered",
+                                        userRegistrationRegistered: "Registered",
+                                        typeOfChangeHeader: "Type of change",
+                                        typeOfChangePageEdits: "Page edits",
+                                        typeOfChangePageCreations: "Page creations",
+                                        typeOfChangeCategoryChanges: "Category changes",
+                                        typeOfChangeWikidataEdits: "Wikidata edits",
+                                        typeOfChangeLoggedActions: "Logged actions")
     }
 }
