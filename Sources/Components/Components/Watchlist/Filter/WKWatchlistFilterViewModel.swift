@@ -249,8 +249,26 @@ private extension WKWatchlistFilterViewModel {
     private static func projectViewModels(allProjects: [WKProject], offProjects: [WKProject], strings: WKWatchlistFilterViewModel.LocalizedStrings) -> [WKProjectViewModel] {
 
         var projectViewModels: [WKProjectViewModel] = []
-
-        for project in allProjects {
+        
+        let wikipediaProjects = allProjects.filter {
+            switch $0 {
+            case .wikipedia:
+                return true
+            default:
+                return false
+            }
+        }
+        
+        let otherProjects = allProjects.filter {
+            switch $0 {
+            case .wikipedia:
+                return false
+            default:
+                return true
+            }
+        }
+        
+        for project in otherProjects {
             var icon: UIImage? = nil
             switch project {
             case .commons:
@@ -260,8 +278,12 @@ private extension WKWatchlistFilterViewModel {
             default:
                 break
             }
-
+            
             projectViewModels.append(WKProjectViewModel(project: project, projectName: strings.localizedProjectNames[project], icon: icon, isSelected: !offProjects.contains(project)))
+        }
+        
+        for project in wikipediaProjects {
+            projectViewModels.append(WKProjectViewModel(project: project, projectName: strings.localizedProjectNames[project], icon: nil, isSelected: !offProjects.contains(project)))
         }
 
         return projectViewModels
