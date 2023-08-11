@@ -17,7 +17,7 @@ public class OldWKWatchlistViewModel {
         }
     }
     
-    private let service = WKWatchlistService()
+    private let dataController = WKWatchlistDataController()
     private(set) var items: [ItemViewModel] = []
     
     public init() {
@@ -25,7 +25,7 @@ public class OldWKWatchlistViewModel {
     }
     
     func fetchWatchlist(completion: @escaping () -> Void) {
-        service.fetchWatchlist { result in
+        dataController.fetchWatchlist { result in
             DispatchQueue.main.async {
                 defer {
                     completion()
@@ -42,7 +42,7 @@ public class OldWKWatchlistViewModel {
     }
     
     func watchItem(_ item: ItemViewModel, expiry: WKWatchlistExpiryType) {
-        service.watch(title: item.title, project: item.project, expiry: expiry) { result in
+        dataController.watch(title: item.title, project: item.project, expiry: expiry) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(()):
@@ -55,7 +55,7 @@ public class OldWKWatchlistViewModel {
     }
     
     func unwatchItem(_ item: ItemViewModel) {
-        service.unwatch(title: item.title, project: item.project) { result in
+        dataController.unwatch(title: item.title, project: item.project) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(()):
@@ -68,7 +68,7 @@ public class OldWKWatchlistViewModel {
     }
     
     func fetchWatchStatus(_ item: ItemViewModel, completion: @escaping (Result<WKPageWatchStatus, Error>) -> Void) {
-        service.fetchWatchStatus(title: item.title, project: item.project, needsRollbackRights: true) { result in
+        dataController.fetchWatchStatus(title: item.title, project: item.project, needsRollbackRights: true) { result in
             DispatchQueue.main.async {
                 completion(result)
             }

@@ -101,10 +101,10 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedWatchlist() {
-        let mockService = WKMockWatchlistMediaWikiNetworkService()
+        let mockService = WKMockWatchlistMediaWikiService()
         mockService.randomizeGetWatchStatusResponse = true
         
-        WKDataEnvironment.current.mediaWikiNetworkService = mockService
+        WKDataEnvironment.current.mediaWikiService = mockService
         WKDataEnvironment.current.appData = WKAppData(appLanguages: [
             WKLanguage(languageCode: "en", languageVariantCode: nil),
             WKLanguage(languageCode: "es", languageVariantCode: nil)
