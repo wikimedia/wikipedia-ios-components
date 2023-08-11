@@ -2,6 +2,7 @@ import Foundation
 import WKData
 
 public final class WKWatchlistFilterViewModel {
+    
     // MARK: - Nested Types
 
     public struct LocalizedStrings {
@@ -65,8 +66,11 @@ public final class WKWatchlistFilterViewModel {
     }
     
     let localizedStrings: LocalizedStrings
+    var formViewModel: WKFormViewModel
     
     public init(localizedStrings: LocalizedStrings) {
         self.localizedStrings = localizedStrings
+
+        self.formViewModel = WKFormViewModel(sections: [])
     }
 }
