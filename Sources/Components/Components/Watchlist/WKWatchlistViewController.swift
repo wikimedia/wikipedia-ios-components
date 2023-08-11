@@ -16,7 +16,14 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 	weak var delegate: WKWatchlistDelegate?
 
 	fileprivate lazy var filterBarButton = {
-		let barButton = UIBarButtonItem(title: viewModel.localizedStrings.filter, style: .plain, target: nil, action: nil)
+        let action = UIAction { [weak self] _ in
+            guard let self else {
+                return
+            }
+            
+            self.present(WKWatchlistFilterHostingController(viewModel: self.filterViewModel), animated: true)
+        }
+        let barButton = UIBarButtonItem(title: viewModel.localizedStrings.filter, primaryAction: action)
 		return barButton
 	}()
 
