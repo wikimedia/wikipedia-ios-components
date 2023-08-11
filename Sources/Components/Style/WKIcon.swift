@@ -38,4 +38,21 @@ enum WKIcon {
     static let superscript = UIImage(named: "editor/superscript", in: .module, with: nil)
     static let template = UIImage(named: "editor/template", in: .module, with: nil)
     static let underline = UIImage(named: "editor/underline", in: .module, with: nil)
+    
+    // Project icons
+    static let commons = UIImage(named: "project-icons/commons", in: .module, with: nil)
+    static let wikidata = UIImage(named: "project-icons/wikidata", in: .module, with: nil)
+}
+
+enum WKSFSymbolIcon {
+    case checkmark
+    
+    static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
+        let font = WKFont.for(font)
+        let configuration = UIImage.SymbolConfiguration(font: font)
+        switch symbol {
+        case .checkmark:
+            return UIImage(systemName: "checkmark", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        }
+    }
 }
