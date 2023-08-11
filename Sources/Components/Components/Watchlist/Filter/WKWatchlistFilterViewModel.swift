@@ -73,37 +73,45 @@ public final class WKWatchlistFilterViewModel {
         let isSelected: Bool
     }
     
+    // MARK: - Properties
+    
     let localizedStrings: LocalizedStrings
     private let projectViewModels: [WKProjectViewModel]
     let formViewModel: WKFormViewModel
     private let dataController = WKWatchlistDataController()
     
+    // MARK: - Public
+    
     public init(localizedStrings: LocalizedStrings) {
         self.localizedStrings = localizedStrings
         
+        let filterSettings = dataController.loadFilterSettings()
         let allProjects = dataController.allWatchlistProjects()
-        self.projectViewModels = Self.projectViewModels(allProjects: allProjects, strings: localizedStrings)
+        let offProjects = dataController.offWatchlistProjects()
+        self.projectViewModels = Self.projectViewModels(allProjects: allProjects, offProjects: offProjects, strings: localizedStrings)
         
         let allChangeTypes = dataController.allChangeTypes()
+        let offChangeTypes = dataController.offChangeTypes()
         
         self.formViewModel = WKFormViewModel(sections: [
             Self.section1(projectViewModels: Array(projectViewModels.prefix(2)), strings: localizedStrings),
             Self.section2(projectViewModels: Array(projectViewModels.suffix(from: 2)), strings: localizedStrings),
-            Self.section3(strings: localizedStrings),
-            Self.section4(strings: localizedStrings),
-            Self.section5(strings: localizedStrings),
-            Self.section6(strings: localizedStrings),
-            Self.section7(strings: localizedStrings),
-            Self.section8(allChangeTypes: allChangeTypes, strings: localizedStrings)
+            Self.section3(strings: localizedStrings, filterSettings: filterSettings),
+            Self.section4(strings: localizedStrings, filterSettings: filterSettings),
+            Self.section5(strings: localizedStrings, filterSettings: filterSettings),
+            Self.section6(strings: localizedStrings, filterSettings: filterSettings),
+            Self.section7(strings: localizedStrings, filterSettings: filterSettings),
+            Self.section8(allChangeTypes: allChangeTypes, offChangeTypes: offChangeTypes, strings: localizedStrings, filterSettings: filterSettings)
         ])
     }
     
+    
 }
 
-// MARK: - Static Init Methods
+// MARK: - Static Init Helper Methods
 
 private extension WKWatchlistFilterViewModel {
-    private static func projectViewModels(allProjects: [WKProject], strings: WKWatchlistFilterViewModel.LocalizedStrings) -> [WKProjectViewModel] {
+    private static func projectViewModels(allProjects: [WKProject], offProjects: [WKProject], strings: WKWatchlistFilterViewModel.LocalizedStrings) -> [WKProjectViewModel] {
 
         var projectViewModels: [WKProjectViewModel] = []
 
@@ -118,7 +126,7 @@ private extension WKWatchlistFilterViewModel {
                 break
             }
 
-            projectViewModels.append(WKProjectViewModel(project: project, projectName: strings.localizedProjectNames[project], icon: icon, isSelected: true))
+            projectViewModels.append(WKProjectViewModel(project: project, projectName: strings.localizedProjectNames[project], icon: icon, isSelected: !offProjects.contains(project)))
         }
 
         return projectViewModels
@@ -143,68 +151,72 @@ private extension WKWatchlistFilterViewModel {
         return WKFormSectionSelectViewModel(header: strings.wikipediasHeader, items: items, selectType: .multi)
     }
 
-    private static func section3(strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
+    private static func section3(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: true),
-            WKFormItemSelectViewModel(title: strings.latestRevisionsLatestRevision, isSelected: false),
-            WKFormItemSelectViewModel(title: strings.latestRevisionsNotLatestRevision, isSelected: false)
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.latestRevisions == .all),
+            WKFormItemSelectViewModel(title: strings.latestRevisionsLatestRevision, isSelected: filterSettings.latestRevisions == .latestRevision),
+            WKFormItemSelectViewModel(title: strings.latestRevisionsNotLatestRevision, isSelected: filterSettings.latestRevisions == .notTheLatestRevision)
         ]
         return WKFormSectionSelectViewModel(header: strings.latestRevisionsHeader, items: items, selectType: .single)
     }
 
-    private static func section4(strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
+    private static func section4(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: true),
-            WKFormItemSelectViewModel(title: strings.watchlistActivityUnseenChanges, isSelected: false),
-            WKFormItemSelectViewModel(title: strings.watchlistActivitySeenChanges, isSelected: false)
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.activity == .all),
+            WKFormItemSelectViewModel(title: strings.watchlistActivityUnseenChanges, isSelected: filterSettings.activity == .unseenChanges),
+            WKFormItemSelectViewModel(title: strings.watchlistActivitySeenChanges, isSelected: filterSettings.activity == .seenChanges)
         ]
         return WKFormSectionSelectViewModel(header: strings.watchlistActivityHeader, items: items, selectType: .single)
     }
 
-    private static func section5(strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
+    private static func section5(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: true),
-            WKFormItemSelectViewModel(title: strings.automatedContributionsBot, isSelected: false),
-            WKFormItemSelectViewModel(title: strings.automatedContributionsHuman, isSelected: false)
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.automatedContributions == .all),
+            WKFormItemSelectViewModel(title: strings.automatedContributionsBot, isSelected: filterSettings.automatedContributions == .bot),
+            WKFormItemSelectViewModel(title: strings.automatedContributionsHuman, isSelected: filterSettings.automatedContributions == .human)
         ]
         return WKFormSectionSelectViewModel(header: strings.automatedContributionsHeader, items: items, selectType: .single)
     }
 
-    private static func section6(strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
+    private static func section6(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: true),
-            WKFormItemSelectViewModel(title: strings.significanceMinorEdits, isSelected: false),
-            WKFormItemSelectViewModel(title: strings.significanceNonMinorEdits, isSelected: false)
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.significance == .all),
+            WKFormItemSelectViewModel(title: strings.significanceMinorEdits, isSelected: filterSettings.significance == .minorEdits),
+            WKFormItemSelectViewModel(title: strings.significanceNonMinorEdits, isSelected: filterSettings.significance == .nonMinorEdits)
         ]
         return WKFormSectionSelectViewModel(header: strings.significanceHeader, items: items, selectType: .single)
     }
 
-    private static func section7(strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
+    private static func section7(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: true),
-            WKFormItemSelectViewModel(title: strings.userRegistrationUnregistered, isSelected: false),
-            WKFormItemSelectViewModel(title: strings.userRegistrationRegistered, isSelected: false)
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.userRegistration == .all),
+            WKFormItemSelectViewModel(title: strings.userRegistrationUnregistered, isSelected: filterSettings.userRegistration == .unregistered),
+            WKFormItemSelectViewModel(title: strings.userRegistrationRegistered, isSelected: filterSettings.userRegistration == .registered)
         ]
         return WKFormSectionSelectViewModel(header: strings.userRegistrationHeader, items: items, selectType: .single)
     }
 
-    private static func section8(allChangeTypes: [WKWatchlistFilterSettings.ChangeType], strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionViewModel {
+    private static func section8(allChangeTypes: [WKWatchlistFilterSettings.ChangeType], offChangeTypes: [WKWatchlistFilterSettings.ChangeType], strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionViewModel {
 
         var items: [WKFormItemSelectViewModel] = []
         for changeType in allChangeTypes {
             
+            var title: String
+            
             switch changeType {
             case .categoryChanges:
-                items.append(WKFormItemSelectViewModel(title: strings.typeOfChangeCategoryChanges, isSelected: true))
+                title = strings.typeOfChangeCategoryChanges
             case .loggedActions:
-                items.append(WKFormItemSelectViewModel(title: strings.typeOfChangeLoggedActions, isSelected: true))
+                title = strings.typeOfChangeLoggedActions
             case .pageCreations:
-                items.append(WKFormItemSelectViewModel(title: strings.typeOfChangePageCreations, isSelected: true))
+                title = strings.typeOfChangePageCreations
             case .pageEdits:
-                items.append(WKFormItemSelectViewModel(title: strings.typeOfChangePageEdits, isSelected: true))
+                title = strings.typeOfChangePageEdits
             case .wikidataEdits:
-                items.append(WKFormItemSelectViewModel(title: strings.typeOfChangeWikidataEdits, isSelected: true))
+                title = strings.typeOfChangeWikidataEdits
             }
+            
+            items.append(WKFormItemSelectViewModel(title: title, isSelected: !offChangeTypes.contains(changeType)))
         }
 
         return WKFormSectionSelectViewModel(header: strings.typeOfChangeHeader, items: items, selectType: .multi)
