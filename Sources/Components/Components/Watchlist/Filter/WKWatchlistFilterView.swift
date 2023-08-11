@@ -6,7 +6,7 @@ struct WKWatchlistFilterView: View {
 
     var body: some View {
         NavigationView {
-            Text("")
+            WKFormView(viewModel: viewModel.formViewModel)
                 .navigationTitle(viewModel.localizedStrings.title)
                 .navigationBarTitleDisplayMode(.inline)
         }
