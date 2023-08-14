@@ -13,9 +13,8 @@ struct WKFormSelectMultiRowView: View {
     var body: some View {
         HStack {
             if let image = viewModel.image {
-                Image(uiImage: image)
-                    .padding(6)
-                    .foregroundColor(Color(theme.secondaryText))
+                WKRoundedRectIconView(configuration: .init(icon: image, foregroundColor: \.icon, backgroundColor: \.iconBackground))
+                    .padding(.trailing, 6)
             }
             WKToggleView(title: viewModel.title ?? "", isSelected: $viewModel.isSelected)
         }

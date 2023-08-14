@@ -19,9 +19,8 @@ struct WKFormSelectSingleRowView: View {
         }) {
             HStack {
                 if let image = viewModel.image {
-                    Image(uiImage: image)
-                        .padding(6)
-                        .foregroundColor(Color(theme.secondaryText))
+                    WKRoundedRectIconView(configuration: .init(icon: image, foregroundColor: \.icon, backgroundColor: \.iconBackground))
+                        .padding(.trailing, 6)
                 }
                 Text(viewModel.title ?? "")
                     .foregroundColor(Color(theme.text))
