@@ -26,4 +26,8 @@ class WKWatchlistFilterHostingController: WKComponentHostingController<WKWatchli
         viewModel.saveNewFilterSettings()
         delegate?.watchlistFilterDidChange(self)
     }
+    
+    public override func appEnvironmentDidChange() {
+        self.overrideUserInterfaceStyle = WKAppEnvironment.current.theme.userInterfaceStyle
+    }
 }
