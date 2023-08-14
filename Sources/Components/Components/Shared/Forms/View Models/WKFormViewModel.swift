@@ -1,9 +1,9 @@
 import Foundation
 
-final class WKFormViewModel {
+public final class WKFormViewModel {
     let sections: [WKFormSectionViewModel]
 
-    init(sections: [WKFormSectionViewModel]) {
+    public init(sections: [WKFormSectionViewModel]) {
         self.sections = sections
     }
 }

@@ -3,8 +3,8 @@ import Foundation
 import SwiftUI
 import Combine
 
-final class WKFormSectionSelectViewModel: WKFormSectionViewModel {
-    enum SelectType {
+public final class WKFormSectionSelectViewModel: WKFormSectionViewModel {
+    public enum SelectType {
         case single
         case multi
     }
@@ -13,7 +13,7 @@ final class WKFormSectionSelectViewModel: WKFormSectionViewModel {
     let selectType: SelectType
     private var subscribers: Set<AnyCancellable> = []
 
-    init(header: String? = nil, footer: String? = nil, items: [WKFormItemSelectViewModel], selectType: SelectType) {
+    public init(header: String? = nil, footer: String? = nil, items: [WKFormItemSelectViewModel], selectType: SelectType) {
         self.items = items
         self.selectType = selectType
         

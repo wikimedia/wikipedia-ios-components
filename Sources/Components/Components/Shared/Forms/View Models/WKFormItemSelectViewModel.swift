@@ -1,18 +1,18 @@
 import Foundation
 import UIKit
 
-final class WKFormItemSelectViewModel: ObservableObject, Identifiable, Equatable {
+public final class WKFormItemSelectViewModel: ObservableObject, Identifiable, Equatable {
 
-    static func == (lhs: WKFormItemSelectViewModel, rhs: WKFormItemSelectViewModel) -> Bool {
+    public static func == (lhs: WKFormItemSelectViewModel, rhs: WKFormItemSelectViewModel) -> Bool {
         return lhs.id == rhs.id
     }
 
-    let id = UUID()
+    public let id = UUID()
     let image: UIImage?
     let title: String?
-    @Published var isSelected: Bool
+    @Published public var isSelected: Bool
 
-    init(image: UIImage? = nil, title: String?, isSelected: Bool) {
+    public init(image: UIImage? = nil, title: String?, isSelected: Bool) {
         self.image = image
         self.title = title
         self.isSelected = isSelected

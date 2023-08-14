@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WKFormView: View {
+public struct WKFormView: View {
     
     @ObservedObject var appEnvironment = WKAppEnvironment.current
 
@@ -8,9 +8,13 @@ struct WKFormView: View {
         return appEnvironment.theme
     }
 
-    let viewModel: WKFormViewModel
+    public let viewModel: WKFormViewModel
     
-    var body: some View {
+    public init(viewModel: WKFormViewModel) {
+        self.viewModel = viewModel
+    }
+    
+    public var body: some View {
         List {
             ForEach(viewModel.sections) { section in
                 if let selectSection = section as? WKFormSectionSelectViewModel {
