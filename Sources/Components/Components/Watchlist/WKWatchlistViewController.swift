@@ -35,12 +35,26 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 		addComponent(hostingViewController, pinToEdges: true)
-
 		self.title = viewModel.localizedStrings.title
-		self.navigationController?.setNavigationBarHidden(false, animated: true)
 		navigationItem.rightBarButtonItem = filterBarButton
 	}
 
+    public override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        
+        if viewModel.configuration.showNavBarUponAppearance {
+            navigationController?.setNavigationBarHidden(false, animated: false)
+        }
+        
+    }
+    
+    public override func viewWillDisappear(_ animated: Bool) {
+        super.viewWillDisappear(animated)
+        
+        if viewModel.configuration.hideNavBarUponDisappearance {
+            self.navigationController?.setNavigationBarHidden(true, animated: false)
+        }
+    }
 }
 
 fileprivate final class WKWatchlistHostingViewController: WKComponentHostingController<WKWatchlistView> {
