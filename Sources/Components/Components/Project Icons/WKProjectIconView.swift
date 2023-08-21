@@ -18,7 +18,7 @@ public struct WKProjectIconView: View {
             HStack {
                 Text(capitalizedText)
                     .frame(idealWidth: 20, idealHeight: 20, alignment: .center)
-                    .background(Color.clear)
+                    .background(Color(appEnvironment.theme.paperBackground))
                     .font(WKFont.for(.caption1))
                     .foregroundColor(Color(appEnvironment.theme.secondaryText))
                     .padding(4)
@@ -32,6 +32,7 @@ public struct WKProjectIconView: View {
             if let image = UIImage(named: "project-commons") {
                 Image(uiImage: image)
                 .frame(minWidth: 20, maxHeight: 20, alignment: .center)
+                .background(Color(appEnvironment.theme.paperBackground))
                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
             }
 
@@ -39,6 +40,7 @@ public struct WKProjectIconView: View {
             if let image = UIImage(named: "project-wikidata") {
                 Image(uiImage: image)
                 .frame(minWidth: 20, maxHeight: 20, alignment: .center)
+                .background(Color(appEnvironment.theme.paperBackground))
                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
             }
         }
