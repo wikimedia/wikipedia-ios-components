@@ -30,18 +30,18 @@ public struct WKProjectIconView: View {
                 )
 
             case .wikidata:
-//                if let image = UIImage(named: "project-commons") {
-                    Image(systemName: "star")
+                if let image = UIImage(named: "project-commons") {
+                    Image(uiImage: image)
                     .frame(minWidth: 20, maxHeight: 20, alignment: .center)
                     .foregroundColor(Color(appEnvironment.theme.secondaryText))
-//                }
+                }
 
             case .commons:
-//                if let image = UIImage(named: "project-wikidata") {
-                    Image(systemName: "star.fill")
+                if let image = UIImage(named: "project-wikidata") {
+                    Image(uiImage: image)
                     .frame(minWidth: 20, maxHeight: 20, alignment: .center)
                     .foregroundColor(Color(appEnvironment.theme.secondaryText))
-//                }
+                }
             }
         }
     }
