@@ -8,7 +8,7 @@ public struct WKTheme: Equatable {
     public let text: UIColor
     public let secondaryText: UIColor
     public let link: UIColor
-	public let accent: UIColor
+    public let accent: UIColor
     public let destructive: UIColor
     public let border: UIColor
     public let paperBackground: UIColor
@@ -26,7 +26,7 @@ public struct WKTheme: Equatable {
         text: WKColor.gray700,
         secondaryText: WKColor.gray500,
         link: WKColor.blue600,
-		accent: WKColor.green600,
+        accent: WKColor.green600,
         destructive: WKColor.red600,
         border: WKColor.gray400,
         paperBackground: WKColor.white,
@@ -45,7 +45,7 @@ public struct WKTheme: Equatable {
         text: WKColor.gray700,
         secondaryText: WKColor.taupe600,
         link: WKColor.blue600,
-		accent: WKColor.green600,
+        accent: WKColor.green600,
         destructive: WKColor.red700,
         border: WKColor.taupe200,
         paperBackground: WKColor.beige100,
@@ -64,7 +64,7 @@ public struct WKTheme: Equatable {
         text: WKColor.gray100,
         secondaryText: WKColor.gray300,
         link: WKColor.blue300,
-		accent: WKColor.green600,
+        accent: WKColor.green600,
         destructive: WKColor.red600,
         border: WKColor.gray650,
         paperBackground: WKColor.gray675,
@@ -83,7 +83,7 @@ public struct WKTheme: Equatable {
         text: WKColor.gray100,
         secondaryText: WKColor.gray300,
         link: WKColor.blue300,
-		accent: WKColor.green600,
+        accent: WKColor.green600,
         destructive: WKColor.red600,
         border: WKColor.gray675,
         paperBackground: WKColor.black,
