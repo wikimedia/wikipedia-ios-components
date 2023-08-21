@@ -57,7 +57,7 @@ class ViewController: WKCanvasViewController {
     private lazy var projectIconsButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
-        button.setTitle("ProjectIcons", for: .normal)
+        button.setTitle("Project Icons", for: .normal)
         button.addTarget(self, action: #selector(tappedIconsButton), for: .touchUpInside)
         return button
     }()
