@@ -21,7 +21,7 @@ public struct WKProjectIconView: View {
                     .background(Color(appEnvironment.theme.paperBackground))
                     .font(WKFont.for(.caption1))
                     .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                    .padding(4)
+                    .padding(2)
 
             }
             .overlay(RoundedRectangle(cornerRadius: 4)
@@ -29,7 +29,7 @@ public struct WKProjectIconView: View {
             )
 
         case .wikidata:
-            if let image = UIImage(named: "project-commons") {
+            if let image = UIImage(named: "project-commons", in: Bundle.module, compatibleWith: nil) {
                 Image(uiImage: image)
                 .frame(minWidth: 20, maxHeight: 20, alignment: .center)
                 .background(Color(appEnvironment.theme.paperBackground))
@@ -37,7 +37,7 @@ public struct WKProjectIconView: View {
             }
 
         case .commons:
-            if let image = UIImage(named: "project-wikidata") {
+            if let image = UIImage(named: "project-wikidata", in: Bundle.module, compatibleWith: nil) {
                 Image(uiImage: image)
                 .frame(minWidth: 20, maxHeight: 20, alignment: .center)
                 .background(Color(appEnvironment.theme.paperBackground))
