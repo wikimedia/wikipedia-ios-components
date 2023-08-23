@@ -14,7 +14,7 @@ public final class WKWatchlistViewModel {
 		}
 	}
     
-    public struct Configuration {
+    public struct PresentationConfiguration {
         let showNavBarUponAppearance: Bool
         let hideNavBarUponDisappearance: Bool
         
@@ -27,13 +27,13 @@ public final class WKWatchlistViewModel {
 	// MARK: - Properties
 
 	var localizedStrings: LocalizedStrings
-    let configuration: Configuration
+    let presentationConfiguration: PresentationConfiguration
 
 	// MARK: - Lifecycle
 
-    public init(localizedStrings: LocalizedStrings, configuration: Configuration) {
+    public init(localizedStrings: LocalizedStrings, presentationConfiguration: PresentationConfiguration) {
 		self.localizedStrings = localizedStrings
-        self.configuration = configuration
+        self.presentationConfiguration = presentationConfiguration
 	}
 	
 }

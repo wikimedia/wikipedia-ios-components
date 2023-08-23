@@ -42,7 +42,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
-        if viewModel.configuration.showNavBarUponAppearance {
+        if viewModel.presentationConfiguration.showNavBarUponAppearance {
             navigationController?.setNavigationBarHidden(false, animated: false)
         }
         
@@ -51,7 +51,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
-        if viewModel.configuration.hideNavBarUponDisappearance {
+        if viewModel.presentationConfiguration.hideNavBarUponDisappearance {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
     }
