@@ -21,13 +21,6 @@ public final class WKWatchlistViewModel: ObservableObject {
 	struct ItemViewModel: Identifiable {
 		public let id = UUID()
 
-		static var dateFormatter = {
-			let dateFormatter = DateFormatter()
-			dateFormatter.timeStyle = .short
-			dateFormatter.dateStyle = .none
-			return dateFormatter
-		}()
-
 		let title: String
 		let commentHTML: String
 		let commentWikitext: String
@@ -49,7 +42,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 		}
 
 		var timestampString: String {
-			return ItemViewModel.dateFormatter.string(from: timestamp)
+			return DateFormatter.wkShortTimeFormatter.string(from: timestamp)
 		}
 
 		func bytesString(localizedStrings: LocalizedStrings) -> String {
@@ -75,18 +68,11 @@ public final class WKWatchlistViewModel: ObservableObject {
 	struct SectionViewModel: Identifiable {
 		public let id = UUID()
 
-		static var dateFormatter = {
-			let dateFormatter = DateFormatter()
-			dateFormatter.timeStyle = .none
-			dateFormatter.dateStyle = .full
-			return dateFormatter
-		}()
-
 		let date: Date
 		let items: [ItemViewModel]
 
 		var title: String {
-			return SectionViewModel.dateFormatter.string(from: date)
+			return DateFormatter.wkFullDateFormatter.string(from: date)
 		}
 	}
     
