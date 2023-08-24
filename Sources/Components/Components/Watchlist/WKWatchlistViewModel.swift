@@ -9,14 +9,12 @@ public final class WKWatchlistViewModel: ObservableObject {
 	public struct LocalizedStrings {
 		public var title: String
 		public var filter: String
-		public var byte: String
-		public var bytes: String
+		public var byteChange: ((Int) -> String) // for injecting localized plurals via client app
 
-		public init(title: String, filter: String, byte: String, bytes: String) {
+		public init(title: String, filter: String, byteChange: @escaping ((Int) -> String)) {
 			self.title = title
 			self.filter = filter
-			self.byte = byte
-			self.bytes = bytes
+			self.byteChange = byteChange
 		}
 	}
 
@@ -55,18 +53,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 		}
 
 		func bytesString(localizedStrings: LocalizedStrings) -> String {
-			// May be problematic for certain languages
-			if byteChange == 0 {
-				return "\(byteChange) \(localizedStrings.bytes)"
-			} else if byteChange == 1 {
-				return "+\(byteChange) \(localizedStrings.byte)"
-			} else if byteChange > 1{
-				return "+\(byteChange) \(localizedStrings.bytes)"
-			} else if byteChange == -1 {
-				return "\(byteChange) \(localizedStrings.byte)"
-			} else {
-				return "\(byteChange) \(localizedStrings.bytes)"
-			}
+			return localizedStrings.byteChange(byteChange)
 		}
 
 		var bytesTextColorKeyPath: KeyPath<WKTheme, UIColor> {

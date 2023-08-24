@@ -110,7 +110,13 @@ class ViewController: WKCanvasViewController {
             WKLanguage(languageCode: "es", languageVariantCode: nil)
         ])
 
-		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byte: "Byte", bytes: "Bytes"), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+        let byteChange: (Int) -> String = { bytes in
+			return bytes == 0 || bytes > 1 || bytes < -1
+                ? "\(bytes) bytes"
+                : "\(bytes) byte"
+        }
+
+		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
 		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
