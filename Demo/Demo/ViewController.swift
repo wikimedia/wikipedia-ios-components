@@ -131,6 +131,7 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
                     WKProject.wikipedia(WKLanguage(languageCode: "es", languageVariantCode: nil)): "Spanish Wikipedia"
                 ]
         return WKWatchlistFilterViewModel.LocalizedStrings(title: "Filter",
+                                        doneTitle: "Done",
                                         localizedProjectNames: localizedProjectNames,
                                         wikimediaProjectsHeader: "Wikimedia Projects",
                                         wikimediaProjectsFooter: "Only projects you have created an account for will appear here",

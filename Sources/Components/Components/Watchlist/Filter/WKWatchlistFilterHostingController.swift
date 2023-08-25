@@ -10,10 +10,10 @@ class WKWatchlistFilterHostingController: WKComponentHostingController<WKWatchli
     private let viewModel: WKWatchlistFilterViewModel
     private weak var delegate: WKWatchlistFilterDelegate?
     
-    public init(viewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistFilterDelegate) {
+    public init(viewModel: WKWatchlistFilterViewModel, filterView: WKWatchlistFilterView, delegate: WKWatchlistFilterDelegate) {
         self.viewModel = viewModel
         self.delegate = delegate
-        super.init(rootView: WKWatchlistFilterView(viewModel: viewModel))
+        super.init(rootView: filterView)
     }
 
     public required init?(coder aDecoder: NSCoder) {
@@ -22,12 +22,7 @@ class WKWatchlistFilterHostingController: WKComponentHostingController<WKWatchli
     
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
         viewModel.saveNewFilterSettings()
         delegate?.watchlistFilterDidChange(self)
-    }
-    
-    public override func appEnvironmentDidChange() {
-        self.overrideUserInterfaceStyle = WKAppEnvironment.current.theme.userInterfaceStyle
     }
 }
