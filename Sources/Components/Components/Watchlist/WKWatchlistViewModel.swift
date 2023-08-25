@@ -91,7 +91,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	var localizedStrings: LocalizedStrings
     let presentationConfiguration: PresentationConfiguration
 
-	private let service = WKWatchlistService()
+	private let dataController = WKWatchlistDataController()
 	private var items: [ItemViewModel] = []
 
 	@Published var sections: [SectionViewModel] = []
@@ -105,7 +105,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	}
 
 	public func fetchWatchlist() {
-		service.fetchWatchlist { result in
+        dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in

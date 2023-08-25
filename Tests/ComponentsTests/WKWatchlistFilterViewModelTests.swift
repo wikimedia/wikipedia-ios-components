@@ -7,7 +7,7 @@
 
 import XCTest
 @testable import Components
-import WKData
+@testable import WKData
 import WKDataMocks
 
 final class WKWatchlistFilterViewModelTests: XCTestCase {
@@ -317,9 +317,9 @@ final class WKWatchlistFilterViewModelTests: XCTestCase {
                      WKProject.wikipedia(WKLanguage(languageCode: "es", languageVariantCode: nil)): "Spanish Wikipedia"
                  ]
          return WKWatchlistFilterViewModel.LocalizedStrings(title: "Filter",
+                                         doneTitle: "Done",
                                          localizedProjectNames: localizedProjectNames,
                                          wikimediaProjectsHeader: "Wikimedia Projects",
-                                         wikimediaProjectsFooter: "Only projects you have created an account for will appear here",
                                          wikipediasHeader: "Wikipedias",
                                          commonAll: "All",
                                          latestRevisionsHeader: "Latest Revisions",
