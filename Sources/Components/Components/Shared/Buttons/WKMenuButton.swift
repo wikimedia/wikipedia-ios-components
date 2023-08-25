@@ -76,6 +76,10 @@ public class WKMenuButton: WKComponentView {
 
 	// MARK: - Setup
 
+    public override var intrinsicContentSize: CGSize {
+        return button.intrinsicContentSize
+    }
+
     private func setup() {
         addSubview(button)
         NSLayoutConstraint.activate([
