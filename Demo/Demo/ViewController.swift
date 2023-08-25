@@ -134,7 +134,6 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
                                         doneTitle: "Done",
                                         localizedProjectNames: localizedProjectNames,
                                         wikimediaProjectsHeader: "Wikimedia Projects",
-                                        wikimediaProjectsFooter: "Only projects you have created an account for will appear here",
                                         wikipediasHeader: "Wikipedias",
                                         commonAll: "All",
                                         latestRevisionsHeader: "Latest Revisions",

@@ -11,7 +11,6 @@ public final class WKWatchlistFilterViewModel {
         let doneTitle: String
         let localizedProjectNames: [WKProject: String]
         let wikimediaProjectsHeader: String
-        let wikimediaProjectsFooter: String
         let wikipediasHeader: String
         let commonAll: String
         let latestRevisionsHeader: String
@@ -36,12 +35,11 @@ public final class WKWatchlistFilterViewModel {
         let typeOfChangeWikidataEdits: String
         let typeOfChangeLoggedActions: String
 
-        public init(title: String, doneTitle: String, localizedProjectNames: [WKProject : String], wikimediaProjectsHeader: String, wikimediaProjectsFooter: String, wikipediasHeader: String, commonAll: String, latestRevisionsHeader: String, latestRevisionsLatestRevision: String, latestRevisionsNotLatestRevision: String, watchlistActivityHeader: String, watchlistActivityUnseenChanges: String, watchlistActivitySeenChanges: String, automatedContributionsHeader: String, automatedContributionsBot: String, automatedContributionsHuman: String, significanceHeader: String, significanceMinorEdits: String, significanceNonMinorEdits: String, userRegistrationHeader: String, userRegistrationUnregistered: String, userRegistrationRegistered: String, typeOfChangeHeader: String, typeOfChangePageEdits: String, typeOfChangePageCreations: String, typeOfChangeCategoryChanges: String, typeOfChangeWikidataEdits: String, typeOfChangeLoggedActions: String) {
+        public init(title: String, doneTitle: String, localizedProjectNames: [WKProject : String], wikimediaProjectsHeader: String, wikipediasHeader: String, commonAll: String, latestRevisionsHeader: String, latestRevisionsLatestRevision: String, latestRevisionsNotLatestRevision: String, watchlistActivityHeader: String, watchlistActivityUnseenChanges: String, watchlistActivitySeenChanges: String, automatedContributionsHeader: String, automatedContributionsBot: String, automatedContributionsHuman: String, significanceHeader: String, significanceMinorEdits: String, significanceNonMinorEdits: String, userRegistrationHeader: String, userRegistrationUnregistered: String, userRegistrationRegistered: String, typeOfChangeHeader: String, typeOfChangePageEdits: String, typeOfChangePageCreations: String, typeOfChangeCategoryChanges: String, typeOfChangeWikidataEdits: String, typeOfChangeLoggedActions: String) {
             self.title = title
             self.doneTitle = doneTitle
             self.localizedProjectNames = localizedProjectNames
             self.wikimediaProjectsHeader = wikimediaProjectsHeader
-            self.wikimediaProjectsFooter = wikimediaProjectsFooter
             self.wikipediasHeader = wikipediasHeader
             self.commonAll = commonAll
             self.latestRevisionsHeader = latestRevisionsHeader
@@ -298,7 +296,7 @@ private extension WKWatchlistFilterViewModel {
 
         }
 
-        return WKFormSectionSelectViewModel(header: strings.wikimediaProjectsHeader, footer: strings.wikimediaProjectsFooter, items: items, selectType: .multi)
+        return WKFormSectionSelectViewModel(header: strings.wikimediaProjectsHeader, items: items, selectType: .multi)
     }
 
     private static func section2(projectViewModels: [WKProjectViewModel], strings: WKWatchlistFilterViewModel.LocalizedStrings) -> WKFormSectionSelectViewModel {
