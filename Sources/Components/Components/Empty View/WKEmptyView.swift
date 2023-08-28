@@ -1,9 +1,15 @@
 import SwiftUI
 
+public protocol WKEmptyViewDelegate: Any {
+    func didPressPrimaryButton()
+    func didPressFilterButton()
+}
+
 public struct WKEmptyView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     var viewModel: WKEmptyViewModel
+    var delegate: WKEmptyViewDelegate?
 
     public var body: some View {
         GeometryReader { geometry in
@@ -33,7 +39,7 @@ public struct WKEmptyView: View {
                         }
                         if viewModel.type == .noItems, let buttonTitle = viewModel.buttonTitle {
                             Button(action: {
-                                print("")
+                                delegate?.didPressPrimaryButton()
                             }, label: {
                                 Text(buttonTitle)
                                     .font(Font(WKFont.for(.boldBody)))
@@ -55,13 +61,37 @@ public struct WKEmptyView: View {
         }
     }
 
-    private func getFilterMessage() -> String {
-        if let activeFilters = viewModel.activeFilters {
+}
 
-            return "filter text\(String(activeFilters))"
+struct WKEmptyViewFilterView: View {
+    var body: some View {
+
+        @ObservedObject var appEnvironment = WKAppEnvironment.current
+        var delegate: WKEmptyViewDelegate?
+        // get localized strings
+        HStack(spacing: 0) {
+            Text("Modify")
+                .font(Font(WKFont.for(.footnote)))
+                .foregroundColor(Color(appEnvironment.theme.secondaryText))
+                .multilineTextAlignment(.center)
+                .padding(0)
+            Button(action: {
+                delegate?.didPressFilterButton()
+            }, label: {
+                Text("3 filters")
+                    .font(Font(WKFont.for(.footnote)))
+                    .foregroundColor(Color(appEnvironment.theme.link))
+                    .padding(2)
+                    .frame(height: 30)
+                    .background(Color(appEnvironment.theme.paperBackground))
+            })
+            .padding(0)
+            Text("to see more Watchlist items.")
+                .font(Font(WKFont.for(.footnote)))
+                .foregroundColor(Color(appEnvironment.theme.secondaryText))
+                .multilineTextAlignment(.center)
+                .padding(0)
         }
-
-        return ""
     }
 
 }
