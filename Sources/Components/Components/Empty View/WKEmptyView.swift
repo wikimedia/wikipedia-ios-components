@@ -19,18 +19,15 @@ public struct WKEmptyView: View {
                     VStack {
                         Spacer()
                         Image(uiImage: viewModel.image)
-                            .frame(width: 132, height: 117)
+                            .frame(width: 132, height: 118)
                         Text(viewModel.title)
                             .font(WKFont.for(.boldBody))
                             .foregroundColor(Color(appEnvironment.theme.text))
                             .padding([.top], 12)
                             .padding([.bottom], 8)
                             .multilineTextAlignment(.center)
-                         if let filter = viewModel.activeFilters, viewModel.type == .filter, filter > 0 {
-                            Text(getFilterMessage())
-                                .font(Font(WKFont.for(.footnote)))
-                                .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                                .multilineTextAlignment(.center)
+                        if  viewModel.type == .filter {
+                          WKEmptyViewFilterView()
                         } else {
                             Text(viewModel.subtitle)
                                 .font(Font(WKFont.for(.footnote)))
@@ -64,10 +61,12 @@ public struct WKEmptyView: View {
 }
 
 struct WKEmptyViewFilterView: View {
+
+    @ObservedObject var appEnvironment = WKAppEnvironment.current
+    var delegate: WKEmptyViewDelegate?
+
     var body: some View {
 
-        @ObservedObject var appEnvironment = WKAppEnvironment.current
-        var delegate: WKEmptyViewDelegate?
         // get localized strings
         HStack(spacing: 0) {
             Text("Modify")
