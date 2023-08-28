@@ -12,6 +12,7 @@ public struct WKTheme: Equatable {
     public let destructive: UIColor
     public let border: UIColor
     public let paperBackground: UIColor
+    public let baseBackground: UIColor
     public let accessoryBackground: UIColor
     public let inputAccessoryButtonTint: UIColor
     public let inputAccessoryButtonSelectedTint: UIColor
@@ -30,6 +31,7 @@ public struct WKTheme: Equatable {
         destructive: WKColor.red600,
         border: WKColor.gray400,
         paperBackground: WKColor.white,
+        baseBackground: WKColor.gray200,
         accessoryBackground: WKColor.white,
         inputAccessoryButtonTint: WKColor.gray600,
         inputAccessoryButtonSelectedTint: WKColor.gray700,
@@ -49,6 +51,7 @@ public struct WKTheme: Equatable {
         destructive: WKColor.red700,
         border: WKColor.taupe200,
         paperBackground: WKColor.beige100,
+        baseBackground: WKColor.beige400,
         accessoryBackground: WKColor.beige300,
         inputAccessoryButtonTint: WKColor.gray600,
         inputAccessoryButtonSelectedTint: WKColor.gray700,
@@ -68,6 +71,7 @@ public struct WKTheme: Equatable {
         destructive: WKColor.red600,
         border: WKColor.gray650,
         paperBackground: WKColor.gray675,
+        baseBackground: WKColor.gray800,
         accessoryBackground: WKColor.gray700,
         inputAccessoryButtonTint: WKColor.gray100,
         inputAccessoryButtonSelectedTint: WKColor.gray100,
@@ -87,6 +91,7 @@ public struct WKTheme: Equatable {
         destructive: WKColor.red600,
         border: WKColor.gray675,
         paperBackground: WKColor.black,
+        baseBackground: WKColor.gray800,
         accessoryBackground: WKColor.gray700,
         inputAccessoryButtonTint: WKColor.gray100,
         inputAccessoryButtonSelectedTint: WKColor.gray100,
