@@ -8,8 +8,8 @@ public struct WKEmptyView: View {
     public var body: some View {
         GeometryReader { geometry in
             ZStack {
+                Color(appEnvironment.theme.paperBackground)
                 ScrollView {
-                    Color(appEnvironment.theme.paperBackground)
                     VStack {
                         Spacer()
                         Image(uiImage: viewModel.image)
@@ -20,7 +20,7 @@ public struct WKEmptyView: View {
                             .padding([.top], 12)
                             .padding([.bottom], 8)
                             .multilineTextAlignment(.center)
-                        if viewModel.type == .filter {
+                         if let filter = viewModel.activeFilters, viewModel.type == .filter, filter > 0 {
                             Text(getFilterMessage())
                                 .font(Font(WKFont.for(.footnote)))
                                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
@@ -56,11 +56,12 @@ public struct WKEmptyView: View {
     }
 
     private func getFilterMessage() -> String {
-        let activeFilters = viewModel.activeFilters
+        if let activeFilters = viewModel.activeFilters {
 
-        return "filter text\(String(describing: activeFilters))"
+            return "filter text\(String(activeFilters))"
+        }
 
-
+        return ""
     }
 
 }
