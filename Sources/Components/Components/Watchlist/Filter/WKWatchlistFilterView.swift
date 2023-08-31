@@ -27,5 +27,8 @@ struct WKWatchlistFilterView: View {
                 )
         }
         .navigationViewStyle(.stack)
+        .accessibilityAction(.escape) {
+            doneAction()
+        }
     }
 }

@@ -10,7 +10,7 @@ struct WKFormSectionSelectView: View {
     let viewModel: WKFormSectionSelectViewModel
 
     var body: some View {
-        Section(header: Text(viewModel.header ?? ""), footer: Text(viewModel.footer ?? "")) {
+        Section {
             ForEach(viewModel.items) { item in
                 switch viewModel.selectType {
                 case .multi:
@@ -18,6 +18,14 @@ struct WKFormSectionSelectView: View {
                 case .single:
                     WKFormSelectSingleRowView(viewModel: item)
                 }
+            }
+        } header: {
+            if let header = viewModel.header {
+                Text(header)
+            }
+        } footer: {
+            if let footer = viewModel.footer {
+                Text(footer)
             }
         }
     }

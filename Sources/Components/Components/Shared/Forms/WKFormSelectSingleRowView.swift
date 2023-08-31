@@ -30,5 +30,6 @@ struct WKFormSelectSingleRowView: View {
                 }
             }
         }
+        .accessibilityAddTraits(viewModel.isSelected ? [.isSelected] : [])
     }
 }
