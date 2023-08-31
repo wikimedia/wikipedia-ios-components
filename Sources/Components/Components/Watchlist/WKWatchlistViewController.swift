@@ -1,5 +1,6 @@
 import UIKit
 import SwiftUI
+import Combine
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
@@ -30,6 +31,8 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         let barButton = UIBarButtonItem(title: viewModel.localizedStrings.filter, primaryAction: action)
 		return barButton
 	}()
+    
+    private var subscribers: Set<AnyCancellable> = []
 
 	// MARK: - Lifecycle
 
@@ -50,6 +53,17 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 		addComponent(hostingViewController, pinToEdges: true)
 		self.title = viewModel.localizedStrings.title
 		navigationItem.rightBarButtonItem = filterBarButton
+        viewModel.$activeFilterCount.sink { [weak self] newCount in
+            guard let self else {
+                return
+            }
+            
+            self.filterBarButton.title =
+                newCount == 0 ?
+                self.viewModel.localizedStrings.filter :
+                self.viewModel.localizedStrings.filter + " (\(newCount))"
+            
+        }.store(in: &subscribers)
 	}
 
     public override func viewWillAppear(_ animated: Bool) {
@@ -87,6 +101,6 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 
 extension WKWatchlistViewController: WKWatchlistFilterDelegate {
     func watchlistFilterDidChange(_ hostingController: WKWatchlistFilterHostingController) {
-        // TODO: ask WKWatchlistViewModel to fetch again
+        viewModel.fetchWatchlist()
     }
 }

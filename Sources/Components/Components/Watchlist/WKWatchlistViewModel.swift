@@ -95,6 +95,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	private var items: [ItemViewModel] = []
 
 	@Published var sections: [SectionViewModel] = []
+    @Published var activeFilterCount: Int = 0
 
 	// MARK: - Lifecycle
 
@@ -113,6 +114,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()
+                self.activeFilterCount = watchlist.activeFilterCount
 			case .failure(_):
 				break
 			}
