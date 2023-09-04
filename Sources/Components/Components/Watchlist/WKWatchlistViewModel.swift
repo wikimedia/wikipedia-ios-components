@@ -29,8 +29,9 @@ public final class WKWatchlistViewModel: ObservableObject {
 		let revisionID: UInt
 		let byteChange: Int
 		let project: WKProject
+        let emptyViewModel: WKEmptyViewModel
 
-		public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, byteChange: Int, project: WKProject) {
+        public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, byteChange: Int, project: WKProject, emptyViewModel: WKEmptyViewModel) {
 			self.title = title
 			self.commentHTML = commentHTML
 			self.commentWikitext = commentWikitext
@@ -39,6 +40,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			self.revisionID = revisionID
 			self.byteChange = byteChange
 			self.project = project
+            self.emptyViewModel = emptyViewModel
 		}
 
 		var timestampString: String {

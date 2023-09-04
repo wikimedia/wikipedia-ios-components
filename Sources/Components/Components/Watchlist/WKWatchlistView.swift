@@ -13,7 +13,11 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-			WKWatchlistContentView(viewModel: viewModel, delegate: delegate)
+            if viewModel.sections.count > 0 {
+                WKWatchlistContentView(viewModel: viewModel, delegate: delegate)
+            } else {
+                WKEmptyView(viewModel: <#T##WKEmptyViewModel#>)
+            }
 		}
 	}
 
