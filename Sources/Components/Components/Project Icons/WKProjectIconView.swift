@@ -13,7 +13,7 @@ public struct WKProjectIconView: View {
     public var body: some View {
         switch project {
         case .wikipedia(let wKLanguage):
-            let capitalizedText = wKLanguage.languageCode.uppercased()
+            let capitalizedText = wKLanguage.languageCode.localizedUppercase
             HStack {
                 Text(capitalizedText)
                     .background(Color(appEnvironment.theme.paperBackground))
