@@ -35,31 +35,12 @@ public struct WKOnboardingView: View {
                         }
                     }
                     Spacer()
+                    
+                    WKPrimaryButton(title: viewModel.mainButtonTitle, action: mainButtonAction)
+                    
                     VStack {
-                        Button(action: {
-                            mainButtonAction?()
-                        }, label: {
-                            Text(viewModel.mainButtonTitle)
-                        })
-                        .font(Font(WKFont.for(.boldSubheadline)))
-                        .foregroundColor(Color(appEnvironment.theme.paperBackground))
-                        .frame(maxWidth: .infinity)
-                        .frame(height: 46)
-                        .background(Color(appEnvironment.theme.link))
-                        .cornerRadius(8)
-
-                        if let secondaryButton = viewModel.secondaryButtonTitle {
-                            Button(action: {
-                                secondaryButtonAction?()
-                            }, label: {
-                                Text(secondaryButton)
-                            })
-                            .font(Font(WKFont.for(.boldSubheadline)))
-                            .foregroundColor(Color(appEnvironment.theme.link))
-                            .frame(maxWidth: .infinity)
-                            .frame(height: 46)
-                            .background(Color(appEnvironment.theme.paperBackground))
-                            .cornerRadius(8)
+                        if let secondaryTitle = viewModel.secondaryButtonTitle {
+                            WKSecondaryButton(title: secondaryTitle, action: secondaryButtonAction)
                         }
                     }
                 }
