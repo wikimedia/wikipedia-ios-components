@@ -13,9 +13,9 @@ struct WKPrimaryButton: View {
             action?()
         }, label: {
             Text(title)
+                .font(Font(WKFont.for(.boldSubheadline)))
+                .foregroundColor(Color(WKColor.white))
         })
-        .font(Font(WKFont.for(.boldSubheadline)))
-        .foregroundColor(Color(appEnvironment.theme.paperBackground))
         .frame(maxWidth: .infinity)
         .frame(height: 46)
         .background(Color(appEnvironment.theme.link))

@@ -26,6 +26,7 @@ public struct WKOnboardingView: View {
                 VStack {
                     Text(viewModel.title)
                         .font(Font(WKFont.for(.boldTitle)))
+                        .foregroundColor(Color(appEnvironment.theme.text))
                         .padding([.bottom, .top], 44)
                         .multilineTextAlignment(.center)
                     ForEach (1...viewModel.cells.count, id:\.self) { cell in
