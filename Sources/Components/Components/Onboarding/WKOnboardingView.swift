@@ -5,7 +5,7 @@ public struct WKOnboardingView: View {
     // MARK: - Properties
 
     var viewModel: WKOnboardingViewModel
-    var mainButtonAction: (() -> Void)?
+    var primaryButtonAction: (() -> Void)?
     var secondaryButtonAction: (() -> Void)?
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
@@ -36,7 +36,7 @@ public struct WKOnboardingView: View {
                     }
                     Spacer()
                     
-                    WKPrimaryButton(title: viewModel.mainButtonTitle, action: mainButtonAction)
+                    WKPrimaryButton(title: viewModel.primaryButtonTitle, action: primaryButtonAction)
                     
                     VStack {
                         if let secondaryTitle = viewModel.secondaryButtonTitle {

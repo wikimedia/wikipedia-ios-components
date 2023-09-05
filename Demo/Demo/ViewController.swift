@@ -144,7 +144,7 @@ class ViewController: WKCanvasViewController {
         let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell4Image, title: "Very long title that continues for a while", subtitle: "Small text")
         
         let cell5 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: nil, title: "Title title", subtitle: "Small text")
-        let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], mainButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
+        let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], primaryButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
 
         let viewController = WKOnboardingViewController(viewModel: viewModel)
         viewController.hostingController.delegate = self

@@ -36,7 +36,7 @@ public final class WKOnboardingHostingViewController: WKComponentHostingControll
     // MARK: - Properties
     init(viewModel: WKOnboardingViewModel) {
         super.init(rootView: WKOnboardingView(viewModel: viewModel))
-        self.rootView.mainButtonAction = { [weak self] in
+        self.rootView.primaryButtonAction = { [weak self] in
             self?.primaryButtonAction()
         }
 

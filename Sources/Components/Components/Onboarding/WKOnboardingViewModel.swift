@@ -6,15 +6,15 @@ public struct WKOnboardingViewModel {
 
     var title: String
     var cells: [WKOnboardingCellViewModel]
-    var mainButtonTitle: String
+    var primaryButtonTitle: String
     var secondaryButtonTitle: String?
 
     // MARK: - Lifecycle
 
-    public init(title: String, cells: [WKOnboardingCellViewModel], mainButtonTitle: String, secondaryButtonTitle: String?) {
+    public init(title: String, cells: [WKOnboardingCellViewModel], primaryButtonTitle: String, secondaryButtonTitle: String?) {
         self.title = title
         self.cells = cells
-        self.mainButtonTitle = mainButtonTitle
+        self.primaryButtonTitle = primaryButtonTitle
         self.secondaryButtonTitle = secondaryButtonTitle
     }
 
