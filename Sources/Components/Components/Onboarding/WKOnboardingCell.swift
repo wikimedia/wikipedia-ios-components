@@ -25,7 +25,7 @@ struct WKOnboardingCell: View {
             VStack() {
                 Text(viewModel.title)
                     .multilineTextAlignment(.leading)
-                    .font(WKFont.for(.body).bold())
+                    .font(Font(WKFont.for(.boldBody)))
                     .foregroundColor(Color(appEnvironment.theme.text))
                     .padding([.bottom], 1)
                     .frame(maxWidth: .infinity, alignment: .leading)
@@ -34,7 +34,7 @@ struct WKOnboardingCell: View {
                     Text(subtitle)
                         .multilineTextAlignment(.leading)
                         .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                        .font(WKFont.for(.subheadline))
+                        .font(Font(WKFont.for(.subheadline)))
                         .frame(maxWidth: .infinity, alignment: .leading)
                 }
             }

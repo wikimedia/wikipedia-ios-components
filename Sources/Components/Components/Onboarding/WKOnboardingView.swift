@@ -25,7 +25,7 @@ public struct WKOnboardingView: View {
             ScrollView(showsIndicators: true) {
                 VStack {
                     Text(viewModel.title)
-                        .font(WKFont.for(.title).bold())
+                        .font(Font(WKFont.for(.boldTitle)))
                         .padding([.bottom, .top], 44)
                         .multilineTextAlignment(.center)
                     ForEach (1...viewModel.cells.count, id:\.self) { cell in
@@ -41,7 +41,7 @@ public struct WKOnboardingView: View {
                         }, label: {
                             Text(viewModel.mainButtonTitle)
                         })
-                        .font(WKFont.for(.subheadline).bold())
+                        .font(Font(WKFont.for(.boldSubheadline)))
                         .foregroundColor(Color(appEnvironment.theme.paperBackground))
                         .frame(maxWidth: .infinity)
                         .frame(height: 46)
@@ -54,7 +54,7 @@ public struct WKOnboardingView: View {
                             }, label: {
                                 Text(secondaryButton)
                             })
-                            .font(WKFont.for(.subheadline).bold())
+                            .font(Font(WKFont.for(.boldSubheadline)))
                             .foregroundColor(Color(appEnvironment.theme.link))
                             .frame(maxWidth: .infinity)
                             .frame(height: 46)
