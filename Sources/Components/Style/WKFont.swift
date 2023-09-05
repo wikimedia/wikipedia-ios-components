@@ -6,7 +6,10 @@ enum WKFont {
     case headline
     case title
 	case body
-    case subheadline
+	case smallBody
+	case callout
+	case subheadline
+	case boldSubheadline
     case caption1
 	case boldFootnote
 
@@ -18,8 +21,17 @@ enum WKFont {
             return UIFont.preferredFont(forTextStyle: .title1, compatibleWith: traitCollection)
 		case .body:
 			return UIFont.preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
-        case .subheadline:
-            return UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+		case .smallBody:
+			return UIFontMetrics(forTextStyle: .body).scaledFont(for: UIFont.systemFont(ofSize: 15, weight: .regular))
+		case .callout:
+			return UIFont.preferredFont(forTextStyle: .callout, compatibleWith: traitCollection)
+		case .subheadline:
+			return UIFont.preferredFont(forTextStyle: .subheadline, compatibleWith: traitCollection)
+		case .boldSubheadline:
+			guard let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .subheadline, compatibleWith: traitCollection).withSymbolicTraits(.traitBold) else {
+				fatalError()
+			}
+			return UIFont(descriptor: descriptor, size: 0)
         case .caption1:
             return UIFont.preferredFont(forTextStyle: .caption1, compatibleWith: traitCollection)
 		case .boldFootnote:
@@ -28,23 +40,5 @@ enum WKFont {
 			}
 			return UIFont(descriptor: descriptor, size: 0)
 		}
-
 	}
-
-    static func `for`(_ font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> Font {
-        switch font {
-        case .headline:
-            return Font.headline
-        case .title:
-            return Font.title
-        case .body:
-            return Font.body
-        case .subheadline:
-            return Font.subheadline
-        case .caption1:
-            return Font.caption
-        case .boldFootnote:
-            return Font.footnote.bold()
-        }
-    }
 }
