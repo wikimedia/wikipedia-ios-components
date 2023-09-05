@@ -1,7 +1,7 @@
 import UIKit
 import SwiftUI
 
-enum WKFont {
+public enum WKFont {
 
     case headline
     case title

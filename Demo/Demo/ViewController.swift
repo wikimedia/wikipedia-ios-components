@@ -131,10 +131,18 @@ class ViewController: WKCanvasViewController {
     }
 
     @objc private func tappedOboarding() {
-        let cell1 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "star"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
-        let cell2 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "person"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
-        let cell3 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "star.leadinghalf.filled"), title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
-        let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: UIImage(systemName: "heart"), title: "Very long title that continues for a while", subtitle: "Small text")
+        let cell1Image = WKSFSymbolIcon.for(symbol: .star, font: .body)
+        let cell1 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell1Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell2Image = WKSFSymbolIcon.for(symbol: .person, font: .body)
+        let cell2 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell2Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell3Image = WKSFSymbolIcon.for(symbol: .starLeadingHalfFilled, font: .body)
+        let cell3 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell3Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell4Image = WKSFSymbolIcon.for(symbol: .heart, font: .body)
+        let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell4Image, title: "Very long title that continues for a while", subtitle: "Small text")
+        
         let cell5 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: nil, title: "Title title", subtitle: "Small text")
         let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], mainButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
 

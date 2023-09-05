@@ -15,9 +15,8 @@ struct WKOnboardingCell: View {
             VStack {
                 if let icon = viewModel.icon {
                     Image(uiImage: icon)
-                        .frame(width: 24, alignment: .top)
+                        .foregroundColor(Color(appEnvironment.theme.link))
                         .accessibilityHidden(true)
-                        .scaledToFill()
                         .padding([.trailing], 12)
                 }
                 Spacer()
