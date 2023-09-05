@@ -35,7 +35,6 @@
 		67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKAppEnvironment+Extensions.swift"; sourceTree = "<group>"; };
 		67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectThemeViewController.swift; sourceTree = "<group>"; };
-		837FE6CA2A9027A5002E443E /* SampleViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; name = SampleViewController.swift; path = Demo/SampleViewController.swift; sourceTree = "<group>"; };
 		837FE6CC2A9028C8002E443E /* SampleViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SampleViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,7 +61,6 @@
 		6771E7A1299C00050012002D = {
 			isa = PBXGroup;
 			children = (
-				837FE6CA2A9027A5002E443E /* SampleViewController.swift */,
 				6735988F299ED71F002EE8D1 /* wikipedia-ios-components */,
 				6771E7AC299C00050012002D /* Demo */,
 				6771E7AB299C00050012002D /* Products */,
