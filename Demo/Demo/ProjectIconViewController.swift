@@ -3,12 +3,12 @@ import UIKit
 import Components
 import WKData
 
-final public class SampleViewController: WKCanvasViewController {
+final public class ProjectIconViewController: WKCanvasViewController {
 
-   var hostingController: SampleSwiftUIHostingViewController
+   var hostingController: ProjectIconHostingViewController
 
     override init() {
-       self.hostingController = SampleSwiftUIHostingViewController()
+       self.hostingController = ProjectIconHostingViewController()
        super.init()
    }
 
@@ -22,10 +22,10 @@ final public class SampleViewController: WKCanvasViewController {
    }
 }
 
-final class SampleSwiftUIHostingViewController: WKComponentHostingController<SampleView>, UIAdaptivePresentationControllerDelegate {
+final class ProjectIconHostingViewController: WKComponentHostingController<ProjectIconView>, UIAdaptivePresentationControllerDelegate {
 
    init() {
-       super.init(rootView: SampleView())
+       super.init(rootView: ProjectIconView())
 
    }
 
@@ -35,7 +35,7 @@ final class SampleSwiftUIHostingViewController: WKComponentHostingController<Sam
 
 }
 
-public struct SampleView: View {
+public struct ProjectIconView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
 

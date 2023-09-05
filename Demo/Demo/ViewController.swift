@@ -131,7 +131,7 @@ class ViewController: WKCanvasViewController {
     }
 
     @objc private func tappedIconsButton() {
-        let viewController = SampleViewController()
+        let viewController = ProjectIconViewController()
         present(viewController, animated: true)
     }
 }
