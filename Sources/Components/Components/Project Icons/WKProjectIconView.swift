@@ -3,13 +3,12 @@ import WKData
 
 public struct WKProjectIconView: View {
 
-    public var project: WKProject
+    @ObservedObject var appEnvironment = WKAppEnvironment.current
+    private let project: WKProject
 
     public init(project: WKProject) {
         self.project = project
     }
-
-    @ObservedObject var appEnvironment = WKAppEnvironment.current
 
     public var body: some View {
         switch project {
