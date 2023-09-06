@@ -1,10 +1,3 @@
-//
-//  WKWatchlistFilterViewModelTests.swift
-//  
-//
-//  Created by Toni Sevener on 8/11/23.
-//
-
 import XCTest
 @testable import Components
 @testable import WKData
