@@ -18,6 +18,7 @@
 		67D4AD632A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */; };
 		67D4AD662A044FA700F3D066 /* UserDefaults+Extensions.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */; };
 		67D4AD672A044FA700F3D066 /* SelectThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */; };
+		837FE6CD2A9028C8002E443E /* ProjectIconViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 837FE6CC2A9028C8002E443E /* ProjectIconViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -34,6 +35,7 @@
 		67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "WKAppEnvironment+Extensions.swift"; sourceTree = "<group>"; };
 		67D4AD642A044FA700F3D066 /* UserDefaults+Extensions.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = "UserDefaults+Extensions.swift"; sourceTree = "<group>"; };
 		67D4AD652A044FA700F3D066 /* SelectThemeViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SelectThemeViewController.swift; sourceTree = "<group>"; };
+		837FE6CC2A9028C8002E443E /* ProjectIconViewController.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = ProjectIconViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,6 +82,7 @@
 				00FBBBB72A14205100453DE5 /* Menu Button */,
 				6771E7AD299C00050012002D /* AppDelegate.swift */,
 				6771E7AF299C00050012002D /* SceneDelegate.swift */,
+				837FE6CC2A9028C8002E443E /* ProjectIconViewController.swift */,
 				6771E7B1299C00050012002D /* ViewController.swift */,
 				006B8EF92A005EE300D01FC2 /* RootWindow.swift */,
 				67D4AD622A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift */,
@@ -172,6 +175,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				837FE6CD2A9028C8002E443E /* ProjectIconViewController.swift in Sources */,
 				67D4AD632A044F9D00F3D066 /* WKAppEnvironment+Extensions.swift in Sources */,
 				00FBBBB92A14206600453DE5 /* MenuButtonViewController.swift in Sources */,
 				6771E7B2299C00050012002D /* ViewController.swift in Sources */,

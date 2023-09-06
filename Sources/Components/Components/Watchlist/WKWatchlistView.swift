@@ -93,13 +93,7 @@ private struct WKWatchlistViewCell: View {
 										context[.firstTextBaseline]
 									}
 								Spacer()
-								// TODO: Replace with project source view
-								Image(systemName: "square")
-									.resizable()
-									.scaledToFit()
-									.font(Font.body.weight(.thin))
-									.foregroundColor(Color(appEnvironment.theme.secondaryText))
-									.frame(width: 22, height: 22)
+                                WKProjectIconView(project: itemViewModel.project)
 							}
 
 							if !itemViewModel.comment.isEmpty {

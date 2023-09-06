@@ -91,10 +91,11 @@ public final class WKWatchlistViewModel: ObservableObject {
 	var localizedStrings: LocalizedStrings
     let presentationConfiguration: PresentationConfiguration
 
-	private let service = WKWatchlistService()
+	private let dataController = WKWatchlistDataController()
 	private var items: [ItemViewModel] = []
 
 	@Published var sections: [SectionViewModel] = []
+    @Published var activeFilterCount: Int = 0
 
 	// MARK: - Lifecycle
 
@@ -105,7 +106,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	}
 
 	public func fetchWatchlist() {
-		service.fetchWatchlist { result in
+        dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in
@@ -113,6 +114,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()
+                self.activeFilterCount = watchlist.activeFilterCount
 			case .failure(_):
 				break
 			}
