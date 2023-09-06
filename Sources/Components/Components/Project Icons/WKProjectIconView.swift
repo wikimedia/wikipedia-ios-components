@@ -17,7 +17,7 @@ public struct WKProjectIconView: View {
             HStack {
                 Text(capitalizedText)
                     .background(Color(appEnvironment.theme.paperBackground))
-                    .font(WKFont.for(.caption1))
+                    .font(Font(WKFont.for(.caption1)))
                     .foregroundColor(Color(appEnvironment.theme.secondaryText))
                     .padding([.leading, .trailing], 3)
                     .padding([.top, .bottom], 4)

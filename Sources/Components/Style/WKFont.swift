@@ -37,17 +37,5 @@ enum WKFont {
 			}
 			return UIFont(descriptor: descriptor, size: 0)
 		}
-
 	}
-
-    // This method was added correctlyon the Onboarding modal PR and should be completely replaced when that PR is merged and this PR is updated against main
-    static func `for`(_ font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> Font {
-
-        switch font {
-        case .caption1:
-            return Font.caption
-        default:
-            return Font.body
-        }
-    }
 }
