@@ -4,7 +4,7 @@ import WKData
 import WKDataMocks
 
 class ViewController: WKCanvasViewController {
-	
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +53,15 @@ class ViewController: WKCanvasViewController {
         button.addTarget(self, action: #selector(tappedWatchlist), for: .touchUpInside)
         return button
     }()
-    
+
+    private lazy var projectIconsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Project Icons", for: .normal)
+        button.addTarget(self, action: #selector(tappedIconsButton), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +73,7 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(sourceEditorButton)
 		stackView.addArrangedSubview(menuButtonButton)
         stackView.addArrangedSubview(watchlistButton)
+        stackView.addArrangedSubview(projectIconsButton)
     }
 
     private func setupInitialViews() {
@@ -120,6 +129,11 @@ class ViewController: WKCanvasViewController {
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
         let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
+    }
+
+    @objc private func tappedIconsButton() {
+        let viewController = ProjectIconViewController()
+        present(viewController, animated: true)
     }
 }
 
