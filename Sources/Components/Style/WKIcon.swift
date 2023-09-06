@@ -1,7 +1,7 @@
 import Foundation
 import UIKit
 
-enum WKIcon {
+public enum WKIcon {
     
     static let checkmark = UIImage(named: "checkmark", in: .module, with: nil)
     static let chevronDown = UIImage(named: "chevron-down", in: .module, with: nil)
@@ -44,15 +44,27 @@ enum WKIcon {
     static let wikidata = UIImage(named: "project-icons/wikidata", in: .module, with: nil)
 }
 
-enum WKSFSymbolIcon {
+public enum WKSFSymbolIcon {
     case checkmark
+    case star
+    case person
+    case starLeadingHalfFilled
+    case heart
     
-    static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
+    public static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
         let font = WKFont.for(font)
         let configuration = UIImage.SymbolConfiguration(font: font)
         switch symbol {
         case .checkmark:
             return UIImage(systemName: "checkmark", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        case .star:
+            return UIImage(systemName: "star", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        case .person:
+            return UIImage(systemName: "person", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        case .starLeadingHalfFilled:
+            return UIImage(systemName: "star.leadinghalf.filled", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        case .heart:
+            return UIImage(systemName: "heart", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         }
     }
 }

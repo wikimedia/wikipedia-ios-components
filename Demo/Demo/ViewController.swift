@@ -54,6 +54,14 @@ class ViewController: WKCanvasViewController {
         return button
     }()
 
+    private lazy var onboardingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Onboarding", for: .normal)
+        button.addTarget(self, action: #selector(tappedOboarding), for: .touchUpInside)
+        return button
+    }()
+    
     private lazy var projectIconsButton: UIButton = {
         let button = UIButton(type: .system)
         button.titleLabel?.adjustsFontForContentSizeCategory = true
@@ -73,6 +81,7 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(sourceEditorButton)
 		stackView.addArrangedSubview(menuButtonButton)
         stackView.addArrangedSubview(watchlistButton)
+        stackView.addArrangedSubview(onboardingButton)
         stackView.addArrangedSubview(projectIconsButton)
     }
 
@@ -131,6 +140,28 @@ class ViewController: WKCanvasViewController {
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 
+    @objc private func tappedOboarding() {
+        let cell1Image = WKSFSymbolIcon.for(symbol: .star, font: .body)
+        let cell1 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell1Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell2Image = WKSFSymbolIcon.for(symbol: .person, font: .body)
+        let cell2 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell2Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell3Image = WKSFSymbolIcon.for(symbol: .starLeadingHalfFilled, font: .body)
+        let cell3 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell3Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell4Image = WKSFSymbolIcon.for(symbol: .heart, font: .body)
+        let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell4Image, title: "Very long title that continues for a while", subtitle: "Small text")
+        
+        let cell5 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: nil, title: "Title title", subtitle: "Small text")
+        let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], primaryButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
+        
+        let viewController = WKOnboardingViewController(viewModel: viewModel)
+        viewController.hostingController.delegate = self
+        
+        present(viewController, animated: true)
+    }
+
     @objc private func tappedIconsButton() {
         let viewController = ProjectIconViewController()
         present(viewController, animated: true)
@@ -139,6 +170,24 @@ class ViewController: WKCanvasViewController {
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+extension ViewController: WKOnboardingViewDelegate {
+    func didClickPrimaryButton() {
+        let alert = UIAlertController(title: "Hello", message: "Pressed primary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+    
+    func didClickSecondaryButton() {
+        let alert = UIAlertController(title: "Hi", message: "Pressed secondary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
     }
 }
 
