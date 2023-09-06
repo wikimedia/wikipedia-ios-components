@@ -44,29 +44,19 @@ public enum WKIcon {
     static let wikidata = UIImage(named: "project-icons/wikidata", in: .module, with: nil)
 }
 
-enum WKSFSymbolIcon {
+public enum WKSFSymbolIcon {
     case checkmark
+    case star
+    case person
+    case starLeadingHalfFilled
+    case heart
     
-    static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
+    public static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
         let font = WKFont.for(font)
         let configuration = UIImage.SymbolConfiguration(font: font)
         switch symbol {
         case .checkmark:
             return UIImage(systemName: "checkmark", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
-        }
-    }
-}
-
-public enum WKSFSymbolIcon {
-    case star
-    case person
-    case starLeadingHalfFilled
-    case heart
-
-    public static func `for`(symbol: WKSFSymbolIcon, font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
-        let font = WKFont.for(font)
-        let configuration = UIImage.SymbolConfiguration(font: font)
-        switch symbol {
         case .star:
             return UIImage(systemName: "star", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         case .person:

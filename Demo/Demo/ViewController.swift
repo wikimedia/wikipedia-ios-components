@@ -158,6 +158,8 @@ class ViewController: WKCanvasViewController {
         
         let viewController = WKOnboardingViewController(viewModel: viewModel)
         viewController.hostingController.delegate = self
+        
+        present(viewController, animated: true)
     }
 
     @objc private func tappedIconsButton() {
