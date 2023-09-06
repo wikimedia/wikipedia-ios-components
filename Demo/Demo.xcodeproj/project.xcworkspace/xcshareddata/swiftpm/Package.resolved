@@ -5,7 +5,7 @@
       "kind" : "remoteSourceControl",
       "location" : "https://github.com/wikimedia/wikipedia-ios-data.git",
       "state" : {
-        "revision" : "265a097f2e15eda379bce7045874c96674fbe810"
+        "revision" : "6ded1c0031015c9713fbbb68a00de5bef60aeda8"
       }
     }
   ],
