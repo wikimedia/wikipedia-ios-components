@@ -101,28 +101,67 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedWatchlist() {
-        let mockService = WKMockWatchlistMediaWikiNetworkService()
+        let mockService = WKMockWatchlistMediaWikiService()
         mockService.randomizeGetWatchStatusResponse = true
         
-        WKDataEnvironment.current.mediaWikiNetworkService = mockService
+        WKDataEnvironment.current.mediaWikiService = mockService
         WKDataEnvironment.current.appData = WKAppData(appLanguages: [
             WKLanguage(languageCode: "en", languageVariantCode: nil),
             WKLanguage(languageCode: "es", languageVariantCode: nil)
         ])
 
         let byteChange: (Int) -> String = { bytes in
-			return bytes == 0 || bytes > 1 || bytes < -1
+            return bytes == 0 || bytes > 1 || bytes < -1
                 ? "\(bytes) bytes"
                 : "\(bytes) byte"
         }
-
-		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
-		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
+        
+        let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+private extension WKWatchlistFilterViewModel.LocalizedStrings {
+    static var demoStrings: WKWatchlistFilterViewModel.LocalizedStrings {
+        let localizedProjectNames: [WKProject: String] = [
+                    WKProject.commons: "Wikimedia Commons",
+                    WKProject.wikidata: "Wikidata",
+                    WKProject.wikipedia(WKLanguage(languageCode: "en", languageVariantCode: nil)): "English Wikipedia",
+                    WKProject.wikipedia(WKLanguage(languageCode: "es", languageVariantCode: nil)): "Spanish Wikipedia"
+                ]
+        return WKWatchlistFilterViewModel.LocalizedStrings(title: "Filter",
+                                        doneTitle: "Done",
+                                        localizedProjectNames: localizedProjectNames,
+                                        wikimediaProjectsHeader: "Wikimedia Projects",
+                                        wikipediasHeader: "Wikipedias",
+                                        commonAll: "All",
+                                        latestRevisionsHeader: "Latest Revisions",
+                                        latestRevisionsLatestRevision: "Latest revision",
+                                        latestRevisionsNotLatestRevision: "Not the latest revision",
+                                        watchlistActivityHeader: "Watchlist Activity",
+                                        watchlistActivityUnseenChanges: "Unseen changes",
+                                        watchlistActivitySeenChanges: "Seen changes",
+                                        automatedContributionsHeader: "Automated Contributions",
+                                        automatedContributionsBot: "Bot",
+                                        automatedContributionsHuman: "Human (not bot)",
+                                        significanceHeader: "Significance",
+                                        significanceMinorEdits: "Minor edits",
+                                        significanceNonMinorEdits: "Non-minor edits",
+                                        userRegistrationHeader: "User registration and experience",
+                                        userRegistrationUnregistered: "Unregistered",
+                                        userRegistrationRegistered: "Registered",
+                                        typeOfChangeHeader: "Type of change",
+                                        typeOfChangePageEdits: "Page edits",
+                                        typeOfChangePageCreations: "Page creations",
+                                        typeOfChangeCategoryChanges: "Category changes",
+                                        typeOfChangeWikidataEdits: "Wikidata edits",
+                                        typeOfChangeLoggedActions: "Logged actions")
     }
 }

@@ -11,7 +11,7 @@ let package = Package(
             targets: ["Components"]),
     ],
     dependencies: [
-        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", revision: "40b124b17dd325aa2901054778ce19b8939935b2")
+        .package(url: "https://github.com/wikimedia/wikipedia-ios-data.git", revision: "6ded1c0031015c9713fbbb68a00de5bef60aeda8")
     ],
     targets: [
         .target(
