@@ -135,8 +135,11 @@ class ViewController: WKCanvasViewController {
         }
         
         let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle", filterSubtitle: "Filtersubtitle", buttonTitle: "Button title")
+        let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(systemName: "star") ?? UIImage(), type: .noItems)
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: nil)
+
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 

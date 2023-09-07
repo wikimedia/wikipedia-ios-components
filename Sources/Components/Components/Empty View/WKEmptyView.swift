@@ -8,7 +8,7 @@ public protocol WKEmptyViewDelegate: Any {
 public struct WKEmptyView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
-    var viewModel: WKEmptyViewModel
+    @ObservedObject var viewModel: WKEmptyViewModel
     var delegate: WKEmptyViewDelegate?
 
     public var body: some View {
@@ -20,7 +20,7 @@ public struct WKEmptyView: View {
                         Spacer()
                         Image(uiImage: viewModel.image)
                             .frame(width: 132, height: 118)
-                        Text(viewModel.title)
+                        Text(viewModel.localizedStrings.title)
                             .font(Font(WKFont.for(.boldBody)))
                             .foregroundColor(Color(appEnvironment.theme.text))
                             .padding([.top], 12)
@@ -29,16 +29,16 @@ public struct WKEmptyView: View {
                         if  viewModel.type == .filter {
                           WKEmptyViewFilterView()
                         } else {
-                            Text(viewModel.subtitle)
+                            Text(viewModel.localizedStrings.subtitle)
                                 .font(Font(WKFont.for(.footnote)))
                                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
                                 .multilineTextAlignment(.center)
                         }
-                        if viewModel.type == .noItems, let buttonTitle = viewModel.buttonTitle {
+                        if viewModel.type == .noItems {
                             Button(action: {
                                 delegate?.didPressPrimaryButton()
                             }, label: {
-                                Text(buttonTitle)
+                                Text(viewModel.localizedStrings.buttonTitle)
                                     .font(Font(WKFont.for(.boldBody)))
                                     .foregroundColor(Color(appEnvironment.theme.link))
                                     .padding()

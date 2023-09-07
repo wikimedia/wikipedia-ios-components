@@ -1,34 +1,34 @@
 import UIKit
 
-struct WKEmptyViewModel {
+public class WKEmptyViewModel: ObservableObject {
 
-    enum EmptyStateType: Equatable {
+    public enum EmptyStateType {
         case noItems
         case filter
     }
 
-    struct EmptyStateFilterSubtitleModel {
-        var modifyString: String
-        var filterString: String
-        var viewMoreString: String
+    public struct LocalizedStrings {
+        public var title: String
+        public var subtitle: String
+        public var filterSubtitle: String
+        public var buttonTitle: String
+
+        public init(title: String, subtitle: String, filterSubtitle: String, buttonTitle: String) {
+            self.title = title
+            self.subtitle = subtitle
+            self.filterSubtitle = filterSubtitle
+            self.buttonTitle = buttonTitle
+        }
     }
 
+    var localizedStrings: LocalizedStrings
     var image: UIImage
-    var title: String
-    var subtitle: String
-    var filterSubtitle: EmptyStateFilterSubtitleModel
-    var buttonTitle: String?
     var type: EmptyStateType
-    var activeFilters: Int?
 
-    init(image: UIImage, title: String, subtitle: String, filterSubtitle: EmptyStateFilterSubtitleModel, buttonTitle: String?, type: EmptyStateType, activeFilters: Int? = nil) {
+    public init(localizedStrings: LocalizedStrings, image: UIImage, type: EmptyStateType) {
+        self.localizedStrings = localizedStrings
         self.image = image
-        self.title = title
-        self.subtitle = subtitle
-        self.filterSubtitle = filterSubtitle
-        self.buttonTitle = buttonTitle
         self.type = type
-        self.activeFilters = activeFilters
     }
 
 }

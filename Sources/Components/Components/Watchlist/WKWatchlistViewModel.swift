@@ -29,9 +29,8 @@ public final class WKWatchlistViewModel: ObservableObject {
 		let revisionID: UInt
 		let byteChange: Int
 		let project: WKProject
-        let emptyViewModel: WKEmptyViewModel
 
-        public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, byteChange: Int, project: WKProject, emptyViewModel: WKEmptyViewModel) {
+        public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, byteChange: Int, project: WKProject) {
 			self.title = title
 			self.commentHTML = commentHTML
 			self.commentWikitext = commentWikitext
@@ -40,7 +39,6 @@ public final class WKWatchlistViewModel: ObservableObject {
 			self.revisionID = revisionID
 			self.byteChange = byteChange
 			self.project = project
-            self.emptyViewModel = emptyViewModel
 		}
 
 		var timestampString: String {
@@ -108,13 +106,12 @@ public final class WKWatchlistViewModel: ObservableObject {
 	}
 
 	public func fetchWatchlist() {
-        let emptyViewModelSub = WKEmptyViewModel.EmptyStateFilterSubtitleModel(modifyString: "", filterString: "", viewMoreString: "")
-        let emptyViewModel = WKEmptyViewModel(image: UIImage(), title: "", subtitle: "", filterSubtitle: emptyViewModelSub, buttonTitle: "", type: .filter)
+
         dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in
-                    let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project, emptyViewModel: emptyViewModel)
+                    let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()

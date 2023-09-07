@@ -5,6 +5,7 @@ struct WKWatchlistView: View {
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
  	@ObservedObject var viewModel: WKWatchlistViewModel
+    var emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
 
 	// MARK: - Lifecycle
@@ -16,7 +17,7 @@ struct WKWatchlistView: View {
             if viewModel.sections.count > 0 {
                 WKWatchlistContentView(viewModel: viewModel, delegate: delegate)
             } else {
-//                WKEmptyView(viewModel: <#T##WKEmptyViewModel#>)
+                WKEmptyView(viewModel: emptyViewModel)
             }
 		}
 	}
