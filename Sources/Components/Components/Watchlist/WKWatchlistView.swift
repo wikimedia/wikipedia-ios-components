@@ -5,7 +5,9 @@ struct WKWatchlistView: View {
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
  	@ObservedObject var viewModel: WKWatchlistViewModel
+	
 	weak var delegate: WKWatchlistDelegate?
+	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	// MARK: - Lifecycle
 
@@ -13,7 +15,7 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-			WKWatchlistContentView(viewModel: viewModel, delegate: delegate)
+			WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
 		}
 	}
 
@@ -25,7 +27,9 @@ private struct WKWatchlistContentView: View {
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
 	@ObservedObject var viewModel: WKWatchlistViewModel
+
 	weak var delegate: WKWatchlistDelegate?
+	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	var body: some View {
 		ScrollView {
@@ -38,7 +42,11 @@ private struct WKWatchlistContentView: View {
 							.padding([.top, .bottom], 6)
 							.frame(maxWidth: .infinity, alignment: .leading)
 						ForEach(section.items) { item in
-							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings)
+							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonDelegate: menuButtonDelegate)
+								.contentShape(Rectangle())
+								.onTapGesture {
+									delegate?.watchlistUserDidTapDiff(revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
+								}
 						}
 						.padding([.top, .bottom], 6)
 						Spacer()
@@ -60,6 +68,8 @@ private struct WKWatchlistViewCell: View {
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
 	let itemViewModel: WKWatchlistViewModel.ItemViewModel
 	let localizedStrings: WKWatchlistViewModel.LocalizedStrings
+
+	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	var body: some View {
 			if #available(iOS 15.0, *) {
@@ -103,15 +113,20 @@ private struct WKWatchlistViewCell: View {
 									.frame(maxWidth: .infinity, alignment: .topLeading)
 							}
 
-							// TODO: Replace with user button
-							Menu(itemViewModel.username) {
-								Button("User page", action: { })
-								Button("User talk page", action: { })
-								Button("User contributions", action: { })
-								Button("Thank", action: { })
+							HStack {
+								WKSwiftUIMenuButton(configuration: WKMenuButton.Configuration(
+									title: itemViewModel.username,
+									image: UIImage(systemName: "person.fill"),
+									primaryColor: \.link,
+									menuItems: [
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .userPage)),
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .userTalkPage)),
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
+									]
+								), menuButtonDelegate: menuButtonDelegate)
+								Spacer()
 							}
-							.font(Font(WKFont.for(.boldFootnote)))
-							.foregroundColor(Color(appEnvironment.theme.link))
 						}
 					}
 					.padding([.top, .bottom], 12)
