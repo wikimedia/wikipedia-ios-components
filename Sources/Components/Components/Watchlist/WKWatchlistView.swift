@@ -7,6 +7,7 @@ struct WKWatchlistView: View {
  	@ObservedObject var viewModel: WKWatchlistViewModel
     var emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
+    weak var emptyViewDelegate: WKEmptyViewDelegate?
 
 	// MARK: - Lifecycle
 
@@ -16,11 +17,11 @@ struct WKWatchlistView: View {
 				.ignoresSafeArea()
 
             if viewModel.sections.count > 0 {
-                WKEmptyView(viewModel: emptyViewModel, delegate: delegate, type: .filter)
+                WKWatchlistContentView(viewModel: viewModel, delegate: delegate)
             } else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
-                WKEmptyView(viewModel: emptyViewModel, delegate: delegate, type: .filter)
+                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
             } else {
-                WKEmptyView(viewModel: emptyViewModel, delegate: delegate, type: .noItems)
+                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
             }
 		}
 	}

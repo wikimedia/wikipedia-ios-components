@@ -1,10 +1,15 @@
 import SwiftUI
 
+public protocol WKEmptyViewDelegate: AnyObject {
+    func emptyViewDidTapSearch()
+    func emptyViewDidTapFilters()
+}
+
 public struct WKEmptyView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     @ObservedObject var viewModel: WKEmptyViewModel
-    var delegate: WKWatchlistDelegate?
+    var delegate: WKEmptyViewDelegate?
     var type: WKEmptyViewModel.EmptyStateType
 
     public var body: some View {
@@ -31,7 +36,7 @@ public struct WKEmptyView: View {
                                 .multilineTextAlignment(.center)
                         }
                         if type == .noItems {
-                            WKSecondaryButton(title: viewModel.localizedStrings.buttonTitle, action: delegate?.emptyViewDidTapExplore)
+                            WKSecondaryButton(title: viewModel.localizedStrings.buttonTitle, action: delegate?.emptyViewDidTapSearch)
                                 .padding([.leading, .trailing], 32)
                         }
                         Spacer()
@@ -48,7 +53,7 @@ public struct WKEmptyView: View {
 struct WKEmptyViewFilterView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
-    var delegate: WKWatchlistDelegate?
+    var delegate: WKEmptyViewDelegate?
     var viewModel: WKEmptyViewModel
 
     var body: some View {
