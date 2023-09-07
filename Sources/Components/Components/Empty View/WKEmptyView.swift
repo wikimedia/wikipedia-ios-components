@@ -35,19 +35,8 @@ public struct WKEmptyView: View {
                                 .multilineTextAlignment(.center)
                         }
                         if viewModel.type == .noItems {
-                            Button(action: {
-                                delegate?.didPressPrimaryButton()
-                            }, label: {
-                                Text(viewModel.localizedStrings.buttonTitle)
-                                    .font(Font(WKFont.for(.boldBody)))
-                                    .foregroundColor(Color(appEnvironment.theme.link))
-                                    .padding()
-                                    .frame(maxWidth: .infinity)
-                                    .frame(height: 46)
-                                    .background(Color(appEnvironment.theme.baseBackground))
-                                    .cornerRadius(8)
-                                    .padding()
-                            })
+                            WKSecondaryButton(title: viewModel.localizedStrings.buttonTitle, action: delegate?.didPressPrimaryButton)
+                                .padding([.leading, .trailing], 32)
                         }
                         Spacer()
                     }

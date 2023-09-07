@@ -1,12 +1,12 @@
 import SwiftUI
 
-struct WKSecondaryButton: View {
-    
+struct WKGhostButton: View {
+
     @ObservedObject var appEnvironment = WKAppEnvironment.current
-    
+
     let title: String
     let action: (() -> Void)?
-    
+
     var body: some View {
         Button(action: {
             action?()
@@ -17,7 +17,7 @@ struct WKSecondaryButton: View {
         })
         .frame(maxWidth: .infinity)
         .frame(height: 46)
-        .background(Color(appEnvironment.theme.baseBackground))
+        .background(Color(appEnvironment.theme.paperBackground))
         .cornerRadius(8)
     }
 }
