@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import Components
 import WKData
 import WKDataMocks
@@ -114,10 +115,20 @@ class ViewController: WKCanvasViewController {
     }
 
     @objc private func tappedMenuButton() {
-        let viewController = MenuButtonViewController()
-        present(viewController, animated: true)
-    }
-    
+		let actionSheet = UIAlertController(title: "Select UI Framework", message: nil, preferredStyle: .actionSheet)
+		actionSheet.addAction(UIAlertAction(title: "SwiftUI", style: .default, handler: { _ in
+			let canvas = WKCanvasViewController()
+			canvas.addComponent(WKComponentHostingController(rootView: SwiftUIMenuButtonView()), pinToEdges: true)
+			self.present(canvas, animated: true)
+		}))
+		actionSheet.addAction(UIAlertAction(title: "UIKit", style: .default, handler: { _ in
+			let viewController = MenuButtonViewController()
+			self.present(viewController, animated: true)
+		}))
+		actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+		present(actionSheet, animated: true)
+	}
+
     @objc private func tappedWatchlist() {
         let mockService = WKMockWatchlistMediaWikiService()
         mockService.randomizeGetWatchStatusResponse = true
@@ -134,9 +145,9 @@ class ViewController: WKCanvasViewController {
                 : "\(bytes) byte"
         }
         
-        let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+        let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", userButtonUserPage: "User page", userButtonTalkPage: "User talk page", userButtonContributions: "User contributions", userButtonThank: "Thank", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
+		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: self, menuButtonDelegate: self)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 
@@ -227,4 +238,29 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
                                         typeOfChangeWikidataEdits: "Wikidata edits",
                                         typeOfChangeLoggedActions: "Logged actions")
     }
+}
+
+extension ViewController: WKWatchlistDelegate {
+	
+	func watchlistDidDismiss() {
+		print("Watchlist: did dismiss")
+	}
+	
+	func watchlistUserDidTapUser(username: String, action: Components.WKWatchlistUserButtonAction) {
+		print("Watchlist: user did tap \(username) → \(action)")
+	}
+	
+
+	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt) {
+		print("Watchlist: user did tap diff \(revisionID) → \(oldRevisionID)")
+	}
+
+}
+
+extension ViewController: WKMenuButtonDelegate {
+
+	func wkSwiftUIMenuButtonUserDidTap(configuration: WKMenuButton.Configuration, item: WKMenuButton.MenuItem?) {
+		print("WKMenuButton: user tapped \(String(describing: configuration.title)) → \(String(describing: item?.title))")
+	}
+
 }
