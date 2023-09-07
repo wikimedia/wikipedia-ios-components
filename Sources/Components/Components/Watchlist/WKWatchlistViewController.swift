@@ -5,6 +5,8 @@ import Combine
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
 	func watchlistDidTapDiff()
+    func emptyViewDidTapExplore()
+    func emptyViewDidTapFilters()
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
@@ -23,11 +25,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
                 return
             }
             
-            var filterView = WKWatchlistFilterView(viewModel: filterViewModel, doneAction: { [weak self] in
-                self?.dismiss(animated: true)
-            })
-            
-            self.present(WKWatchlistFilterHostingController(viewModel: self.filterViewModel, filterView: filterView, delegate: self), animated: true)
+            self.showFilterView()
         }
         let barButton = UIBarButtonItem(title: viewModel.localizedStrings.filter, primaryAction: action)
 		return barButton
@@ -64,7 +62,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
                 newCount == 0 ?
                 self.viewModel.localizedStrings.filter :
                 self.viewModel.localizedStrings.filter + " (\(newCount))"
-            
+            self.emptyViewModel.numberOfFilters = newCount
         }.store(in: &subscribers)
 	}
 
@@ -83,6 +81,14 @@ public final class WKWatchlistViewController: WKCanvasViewController {
         if viewModel.presentationConfiguration.hideNavBarUponDisappearance {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
+    }
+
+    public func showFilterView() {
+        let filterView = WKWatchlistFilterView(viewModel: filterViewModel, doneAction: { [weak self] in
+            self?.dismiss(animated: true)
+        })
+
+        self.present(WKWatchlistFilterHostingController(viewModel: self.filterViewModel, filterView: filterView, delegate: self), animated: true)
     }
 }
 

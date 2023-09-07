@@ -23,7 +23,7 @@ final class WKEmptyViewController: WKCanvasViewController {
 final class WKEmptyViewHostingController: WKComponentHostingController<WKEmptyView> {
 
     init(viewModel: WKEmptyViewModel) {
-        super.init(rootView: WKEmptyView(viewModel: viewModel))
+        super.init(rootView: WKEmptyView(viewModel: viewModel, type: .noItems))
 
     }
 

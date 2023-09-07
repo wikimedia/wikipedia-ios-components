@@ -1,15 +1,11 @@
 import SwiftUI
 
-public protocol WKEmptyViewDelegate: Any {
-    func didPressPrimaryButton()
-    func didPressFilterButton()
-}
-
 public struct WKEmptyView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     @ObservedObject var viewModel: WKEmptyViewModel
-    var delegate: WKEmptyViewDelegate?
+    var delegate: WKWatchlistDelegate?
+    var type: WKEmptyViewModel.EmptyStateType
 
     public var body: some View {
         GeometryReader { geometry in
@@ -26,16 +22,16 @@ public struct WKEmptyView: View {
                             .padding([.top], 12)
                             .padding([.bottom], 8)
                             .multilineTextAlignment(.center)
-                        if  viewModel.type == .filter {
-                          WKEmptyViewFilterView()
+                        if type == .filter {
+                            WKEmptyViewFilterView(delegate: delegate, viewModel: viewModel)
                         } else {
                             Text(viewModel.localizedStrings.subtitle)
                                 .font(Font(WKFont.for(.footnote)))
                                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
                                 .multilineTextAlignment(.center)
                         }
-                        if viewModel.type == .noItems {
-                            WKSecondaryButton(title: viewModel.localizedStrings.buttonTitle, action: delegate?.didPressPrimaryButton)
+                        if type == .noItems {
+                            WKSecondaryButton(title: viewModel.localizedStrings.buttonTitle, action: delegate?.emptyViewDidTapExplore)
                                 .padding([.leading, .trailing], 32)
                         }
                         Spacer()
@@ -52,21 +48,22 @@ public struct WKEmptyView: View {
 struct WKEmptyViewFilterView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
-    var delegate: WKEmptyViewDelegate?
+    var delegate: WKWatchlistDelegate?
+    var viewModel: WKEmptyViewModel
 
     var body: some View {
 
-        // get localized strings
         HStack(spacing: 0) {
-            Text("Modify")
+            Text(viewModel.localizedStrings.filterSubtitleModify)
                 .font(Font(WKFont.for(.footnote)))
                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
                 .multilineTextAlignment(.center)
                 .padding(0)
             Button(action: {
-                delegate?.didPressFilterButton()
+                
+                delegate?.emptyViewDidTapFilters()
             }, label: {
-                Text("3 filters")
+                Text(viewModel.filterString(localizedStrings: viewModel.localizedStrings))
                     .font(Font(WKFont.for(.footnote)))
                     .foregroundColor(Color(appEnvironment.theme.link))
                     .padding(2)
@@ -74,7 +71,7 @@ struct WKEmptyViewFilterView: View {
                     .background(Color(appEnvironment.theme.paperBackground))
             })
             .padding(0)
-            Text("to see more Watchlist items.")
+            Text(viewModel.localizedStrings.filterSubtitleSeeMore)
                 .font(Font(WKFont.for(.footnote)))
                 .foregroundColor(Color(appEnvironment.theme.secondaryText))
                 .multilineTextAlignment(.center)
