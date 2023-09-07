@@ -4,7 +4,7 @@ import WKData
 import WKDataMocks
 
 class ViewController: WKCanvasViewController {
-	
+
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.translatesAutoresizingMaskIntoConstraints = false
@@ -53,7 +53,23 @@ class ViewController: WKCanvasViewController {
         button.addTarget(self, action: #selector(tappedWatchlist), for: .touchUpInside)
         return button
     }()
+
+    private lazy var onboardingButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Onboarding", for: .normal)
+        button.addTarget(self, action: #selector(tappedOboarding), for: .touchUpInside)
+        return button
+    }()
     
+    private lazy var projectIconsButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Project Icons", for: .normal)
+        button.addTarget(self, action: #selector(tappedIconsButton), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -65,6 +81,8 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(sourceEditorButton)
 		stackView.addArrangedSubview(menuButtonButton)
         stackView.addArrangedSubview(watchlistButton)
+        stackView.addArrangedSubview(onboardingButton)
+        stackView.addArrangedSubview(projectIconsButton)
     }
 
     private func setupInitialViews() {
@@ -101,28 +119,112 @@ class ViewController: WKCanvasViewController {
     }
     
     @objc private func tappedWatchlist() {
-        let mockService = WKMockWatchlistMediaWikiNetworkService()
+        let mockService = WKMockWatchlistMediaWikiService()
         mockService.randomizeGetWatchStatusResponse = true
         
-        WKDataEnvironment.current.mediaWikiNetworkService = mockService
+        WKDataEnvironment.current.mediaWikiService = mockService
         WKDataEnvironment.current.appData = WKAppData(appLanguages: [
             WKLanguage(languageCode: "en", languageVariantCode: nil),
             WKLanguage(languageCode: "es", languageVariantCode: nil)
         ])
 
         let byteChange: (Int) -> String = { bytes in
-			return bytes == 0 || bytes > 1 || bytes < -1
+            return bytes == 0 || bytes > 1 || bytes < -1
                 ? "\(bytes) bytes"
                 : "\(bytes) byte"
         }
-
-		let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
-		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, delegate: nil)
+        
+        let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
+    }
+
+    @objc private func tappedOboarding() {
+        let cell1Image = WKSFSymbolIcon.for(symbol: .star, font: .body)
+        let cell1 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell1Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell2Image = WKSFSymbolIcon.for(symbol: .person, font: .body)
+        let cell2 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell2Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell3Image = WKSFSymbolIcon.for(symbol: .starLeadingHalfFilled, font: .body)
+        let cell3 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell3Image, title: "Short title", subtitle: "The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in The Watchlist is a tool that lets you keep track of changes made to pages or articles you're interested in")
+        
+        let cell4Image = WKSFSymbolIcon.for(symbol: .heart, font: .body)
+        let cell4 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: cell4Image, title: "Very long title that continues for a while", subtitle: "Small text")
+        
+        let cell5 = WKOnboardingViewModel.WKOnboardingCellViewModel(icon: nil, title: "Title title", subtitle: "Small text")
+        let viewModel = WKOnboardingViewModel(title: "Onboarding Modal Component", cells: [cell1, cell2, cell3, cell4, cell5], primaryButtonTitle: "Primary button", secondaryButtonTitle: "Secondary button")
+        
+        let viewController = WKOnboardingViewController(viewModel: viewModel)
+        viewController.hostingController.delegate = self
+        
+        present(viewController, animated: true)
+    }
+
+    @objc private func tappedIconsButton() {
+        let viewController = ProjectIconViewController()
+        present(viewController, animated: true)
     }
 }
 
 extension ViewController: WKSourceEditorViewControllerDelegate {
     func sourceEditorViewControllerDidTapFind(sourceEditorViewController: WKSourceEditorViewController) {
+    }
+}
+
+extension ViewController: WKOnboardingViewDelegate {
+    func didClickPrimaryButton() {
+        let alert = UIAlertController(title: "Hello", message: "Pressed primary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+    
+    func didClickSecondaryButton() {
+        let alert = UIAlertController(title: "Hi", message: "Pressed secondary button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+}
+
+private extension WKWatchlistFilterViewModel.LocalizedStrings {
+    static var demoStrings: WKWatchlistFilterViewModel.LocalizedStrings {
+        let localizedProjectNames: [WKProject: String] = [
+                    WKProject.commons: "Wikimedia Commons",
+                    WKProject.wikidata: "Wikidata",
+                    WKProject.wikipedia(WKLanguage(languageCode: "en", languageVariantCode: nil)): "English Wikipedia",
+                    WKProject.wikipedia(WKLanguage(languageCode: "es", languageVariantCode: nil)): "Spanish Wikipedia"
+                ]
+        return WKWatchlistFilterViewModel.LocalizedStrings(title: "Filter",
+                                        doneTitle: "Done",
+                                        localizedProjectNames: localizedProjectNames,
+                                        wikimediaProjectsHeader: "Wikimedia Projects",
+                                        wikipediasHeader: "Wikipedias",
+                                        commonAll: "All",
+                                        latestRevisionsHeader: "Latest Revisions",
+                                        latestRevisionsLatestRevision: "Latest revision",
+                                        latestRevisionsNotLatestRevision: "Not the latest revision",
+                                        watchlistActivityHeader: "Watchlist Activity",
+                                        watchlistActivityUnseenChanges: "Unseen changes",
+                                        watchlistActivitySeenChanges: "Seen changes",
+                                        automatedContributionsHeader: "Automated Contributions",
+                                        automatedContributionsBot: "Bot",
+                                        automatedContributionsHuman: "Human (not bot)",
+                                        significanceHeader: "Significance",
+                                        significanceMinorEdits: "Minor edits",
+                                        significanceNonMinorEdits: "Non-minor edits",
+                                        userRegistrationHeader: "User registration and experience",
+                                        userRegistrationUnregistered: "Unregistered",
+                                        userRegistrationRegistered: "Registered",
+                                        typeOfChangeHeader: "Type of change",
+                                        typeOfChangePageEdits: "Page edits",
+                                        typeOfChangePageCreations: "Page creations",
+                                        typeOfChangeCategoryChanges: "Category changes",
+                                        typeOfChangeWikidataEdits: "Wikidata edits",
+                                        typeOfChangeLoggedActions: "Logged actions")
     }
 }

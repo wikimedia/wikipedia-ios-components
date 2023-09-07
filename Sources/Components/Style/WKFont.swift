@@ -1,9 +1,11 @@
 import UIKit
 import SwiftUI
 
-enum WKFont {
+public enum WKFont {
 
     case headline
+    case title
+    case boldTitle
 	case body
     case boldBody
 	case smallBody
@@ -18,6 +20,13 @@ enum WKFont {
 		switch font {
         case .headline:
             return UIFont.preferredFont(forTextStyle: .headline, compatibleWith: traitCollection)
+        case .title:
+            return UIFont.preferredFont(forTextStyle: .title1, compatibleWith: traitCollection)
+        case .boldTitle:
+            guard let descriptor = UIFontDescriptor.preferredFontDescriptor(withTextStyle: .title1, compatibleWith: traitCollection).withSymbolicTraits(.traitBold) else {
+                fatalError()
+            }
+            return UIFont(descriptor: descriptor, size: 0)
 		case .body:
 			return UIFont.preferredFont(forTextStyle: .body, compatibleWith: traitCollection)
         case .boldBody:
@@ -48,15 +57,15 @@ enum WKFont {
 		}
 	}
 
-    //the other styles were added on the onboarding PR
-    static func `for`(_ font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> Font {
-            switch font {
-            case .boldBody:
-                return Font.body.bold()
-            case .footnote:
-                return Font.footnote
-            default:
-                return Font.body
-            }
-        }
+//    //the other styles were added on the onboarding PR
+//    static func `for`(_ font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> Font {
+//            switch font {
+//            case .boldBody:
+//                return Font.body.bold()
+//            case .footnote:
+//                return Font.footnote
+//            default:
+//                return Font.body
+//            }
+//        }
 }

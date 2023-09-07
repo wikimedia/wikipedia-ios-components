@@ -21,7 +21,7 @@ public struct WKEmptyView: View {
                         Image(uiImage: viewModel.image)
                             .frame(width: 132, height: 118)
                         Text(viewModel.title)
-                            .font(WKFont.for(.boldBody))
+                            .font(Font(WKFont.for(.boldBody)))
                             .foregroundColor(Color(appEnvironment.theme.text))
                             .padding([.top], 12)
                             .padding([.bottom], 8)

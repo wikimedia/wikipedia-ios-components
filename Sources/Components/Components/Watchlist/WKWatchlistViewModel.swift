@@ -93,10 +93,11 @@ public final class WKWatchlistViewModel: ObservableObject {
 	var localizedStrings: LocalizedStrings
     let presentationConfiguration: PresentationConfiguration
 
-	private let service = WKWatchlistService()
+	private let dataController = WKWatchlistDataController()
 	private var items: [ItemViewModel] = []
 
 	@Published var sections: [SectionViewModel] = []
+    @Published var activeFilterCount: Int = 0
 
 	// MARK: - Lifecycle
 
@@ -107,14 +108,17 @@ public final class WKWatchlistViewModel: ObservableObject {
 	}
 
 	public func fetchWatchlist() {
-		service.fetchWatchlist { result in
+        let emptyViewModelSub = WKEmptyViewModel.EmptyStateFilterSubtitleModel(modifyString: "", filterString: "", viewMoreString: "")
+        let emptyViewModel = WKEmptyViewModel(image: UIImage(), title: "", subtitle: "", filterSubtitle: emptyViewModelSub, buttonTitle: "", type: .filter)
+        dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in
-					let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
+                    let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project, emptyViewModel: emptyViewModel)
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()
+                self.activeFilterCount = watchlist.activeFilterCount
 			case .failure(_):
 				break
 			}
