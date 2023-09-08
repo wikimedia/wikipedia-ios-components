@@ -67,6 +67,7 @@ struct WKEmptyViewFilterView: View {
         Text(attributedString)
             .font(Font(WKFont.for(.footnote)))
             .padding(2)
+            .foregroundColor(Color(appEnvironment.theme.secondaryText))
             .frame(height: 30)
             .environment(\.openURL, OpenURLAction { url in
                     delegate?.emptyViewDidTapFilters()
