@@ -7,7 +7,7 @@ final class MenuButtonViewController: WKCanvasViewController {
 
 	static let buttonConfiguration1 = WKMenuButton.Configuration(
 		title: "Username",
-		   image: UIImage(systemName: "person.fill"),
+        image: WKSFSymbolIcon.for(symbol: .personFilled),
 		   primaryColor: \.link,
 		   menuItems: [
 			   WKMenuButton.MenuItem(title: "User page", image: UIImage(systemName: "person.fill")),
@@ -18,7 +18,7 @@ final class MenuButtonViewController: WKCanvasViewController {
 
 	static let buttonConfiguration2 = WKMenuButton.Configuration(
 		title: "Username",
-		   image: UIImage(systemName: "person.fill"),
+		   image: WKSFSymbolIcon.for(symbol: .personFilled),
 		   primaryColor: \.diffCompareAccent,
 		   menuItems: [
 			   WKMenuButton.MenuItem(title: "User page", image: UIImage(systemName: "person.fill")),
