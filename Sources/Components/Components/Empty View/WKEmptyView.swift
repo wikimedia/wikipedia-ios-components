@@ -60,32 +60,17 @@ struct WKEmptyViewFilterView: View {
 
     var body: some View {
 
-        if #available(iOS 15, *) { //TODO: remove check after updating deployment target
-            var attributedString: AttributedString {
-                let subtitle = viewModel.filterSubtitleString(localizedStrings: viewModel.localizedStrings)
-                let subtitleNumberOfFilters = viewModel.filterString(localizedStrings: viewModel.localizedStrings)
-                var attributedString = AttributedString(subtitle)
-                attributedString.foregroundColor = Color(appEnvironment.theme.secondaryText)
-
-                let range = attributedString.range(of: subtitleNumberOfFilters)!
-                attributedString[range].foregroundColor = Color(appEnvironment.theme.link)
-                
-                return attributedString
-            }
-
-            HStack(spacing: 0) {
-                Button(action: {
-                    delegate?.emptyViewDidTapFilters()
-                }, label: {
-                    Text(attributedString)
-                        .font(Font(WKFont.for(.footnote)))
-                        .foregroundColor(Color(appEnvironment.theme.link))
-                        .padding(2)
-                        .frame(height: 30)
-                        .background(Color(appEnvironment.theme.paperBackground))
-                })
-                .padding(0)
-            }
+        var attributedString: AttributedString {
+            return viewModel.filterString(localizedStrings: viewModel.localizedStrings)
         }
+        
+        Text(attributedString)
+            .font(Font(WKFont.for(.footnote)))
+            .padding(2)
+            .frame(height: 30)
+            .environment(\.openURL, OpenURLAction { url in
+                    delegate?.emptyViewDidTapFilters()
+                    return .handled
+                })
     }
 }
