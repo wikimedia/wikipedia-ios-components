@@ -10,12 +10,14 @@ public struct WKEmptyView: View {
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     @ObservedObject var viewModel: WKEmptyViewModel
     var delegate: WKEmptyViewDelegate?
-    var type: WKEmptyViewModel.EmptyStateType
+    var type: WKEmptyViewStateType
 
     public var body: some View {
         GeometryReader { geometry in
+
             ZStack {
                 Color(appEnvironment.theme.paperBackground)
+                    .ignoresSafeArea()
                 ScrollView {
                     VStack {
                         Spacer()

@@ -70,6 +70,22 @@ class ViewController: WKCanvasViewController {
         return button
     }()
 
+    private lazy var emptyViewButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Empty View", for: .normal)
+        button.addTarget(self, action: #selector(tappedEmptyViewRegularButton), for: .touchUpInside)
+        return button
+    }()
+
+    private lazy var emptyViewFilterButton: UIButton = {
+        let button = UIButton(type: .system)
+        button.titleLabel?.adjustsFontForContentSizeCategory = true
+        button.setTitle("Empty View - Filter option", for: .normal)
+        button.addTarget(self, action: #selector(tappedEmptyViewFilterButton), for: .touchUpInside)
+        return button
+    }()
+
     override func viewDidLoad() {
         super.viewDidLoad()
 
@@ -83,6 +99,8 @@ class ViewController: WKCanvasViewController {
         stackView.addArrangedSubview(watchlistButton)
         stackView.addArrangedSubview(onboardingButton)
         stackView.addArrangedSubview(projectIconsButton)
+        stackView.addArrangedSubview(emptyViewButton)
+        stackView.addArrangedSubview(emptyViewFilterButton)
     }
 
     private func setupInitialViews() {
@@ -133,12 +151,16 @@ class ViewController: WKCanvasViewController {
                 ? "\(bytes) bytes"
                 : "\(bytes) byte"
         }
-        
+        let filters: (Int) -> String = { filters in
+            return filters == 0
+                ? "\(filters) filters"
+                : "\(filters) filter"
+        }
         let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
-        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle", filterSubtitle: "Filtersubtitle", buttonTitle: "Button title")
-        let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(systemName: "star") ?? UIImage(), type: .noItems)
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+        let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: viewModel.activeFilterCount)
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: nil)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: nil, emptyViewDelegate: self)
 
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
@@ -167,6 +189,32 @@ class ViewController: WKCanvasViewController {
 
     @objc private func tappedIconsButton() {
         let viewController = ProjectIconViewController()
+        present(viewController, animated: true)
+    }
+
+    @objc func tappedEmptyViewRegularButton() {
+        let filters: (Int) -> String = { filters in
+            return filters == 0
+                ? "\(filters) filters"
+                : "\(filters) filter"
+        }
+
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+        let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: 3)
+        let viewController = WKEmptyViewController(viewModel: emptyViewModel, type: .noItems, delegate: self)
+        present(viewController, animated: true)
+    }
+
+    @objc func tappedEmptyViewFilterButton() {
+        let filters: (Int) -> String = { filters in
+            return filters == 0
+                ? "\(filters) filters"
+                : "\(filters) filter"
+        }
+
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+        let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: 3)
+        let viewController = WKEmptyViewController(viewModel: emptyViewModel, type: .filter, delegate: self)
         present(viewController, animated: true)
     }
 }
@@ -230,4 +278,23 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
                                         typeOfChangeWikidataEdits: "Wikidata edits",
                                         typeOfChangeLoggedActions: "Logged actions")
     }
+}
+
+extension ViewController: WKEmptyViewDelegate {
+    func emptyViewDidTapSearch() {
+        let alert = UIAlertController(title: "Hello", message: "Pressed button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+
+    func emptyViewDidTapFilters() {
+        let alert = UIAlertController(title: "Hello", message: "Pressed filter button", preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
+        if let presentedViewController {
+            presentedViewController.present(alert, animated: true)
+        }
+    }
+
 }
