@@ -1,14 +1,24 @@
 import UIKit
 import SwiftUI
 import Combine
+import WKData
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
-	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt)
+	func watchlistUserDidTapDiff(project: WKProject, articleTitle: String, revisionID: UInt, oldRevisionID: UInt)
 	func watchlistUserDidTapUser(username: String, action: WKWatchlistUserButtonAction)
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
+	
+	// MARK: - Nested Types
+
+	public enum PresentationState {
+		case appearing
+		case disappearing
+	}
+
+	public typealias ReachabilityHandler = ((PresentationState) -> ())?
 
 	// MARK: - Properties
 
@@ -17,6 +27,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     let filterViewModel: WKWatchlistFilterViewModel
 	weak var delegate: WKWatchlistDelegate?
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
+	var reachabilityHandler: ReachabilityHandler
 
 	fileprivate lazy var filterBarButton = {
         let action = UIAction { [weak self] _ in
@@ -38,10 +49,11 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-	public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
+	public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?, reachabilityHandler: ReachabilityHandler) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
 		self.delegate = delegate
+		self.reachabilityHandler = reachabilityHandler
 		self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
 		super.init()
 	}
@@ -71,6 +83,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+		reachabilityHandler?(.appearing)
         if viewModel.presentationConfiguration.showNavBarUponAppearance {
             navigationController?.setNavigationBarHidden(false, animated: false)
         }
@@ -79,7 +92,8 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
-        
+
+		reachabilityHandler?(.disappearing)
         if viewModel.presentationConfiguration.hideNavBarUponDisappearance {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
