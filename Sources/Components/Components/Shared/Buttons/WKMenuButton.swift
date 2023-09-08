@@ -12,9 +12,9 @@ public class WKMenuButton: WKComponentView {
 
 		// MARK: - Nested Types
 
-        public struct MenuItem: Equatable {
+        public struct MenuItem: Equatable, Identifiable {
             public let id = UUID()
-            let title: String
+            public let title: String
             let image: UIImage?
             let attributes: UIMenu.Attributes
 
@@ -27,7 +27,7 @@ public class WKMenuButton: WKComponentView {
 
         // MARK: - Properties
 
-        var title: String?
+        public var title: String?
         let image: UIImage?
         let primaryColor: KeyPath<WKTheme, UIColor>
         public let menuItems: [MenuItem]

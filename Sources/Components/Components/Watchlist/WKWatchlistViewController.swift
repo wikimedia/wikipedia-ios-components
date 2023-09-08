@@ -4,7 +4,8 @@ import Combine
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
-	func watchlistDidTapDiff()
+	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt)
+	func watchlistUserDidTapUser(username: String, action: WKWatchlistUserButtonAction)
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
@@ -15,6 +16,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 	let viewModel: WKWatchlistViewModel
     let filterViewModel: WKWatchlistFilterViewModel
 	weak var delegate: WKWatchlistDelegate?
+	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	fileprivate lazy var filterBarButton = {
         let action = UIAction { [weak self] _ in
@@ -36,11 +38,11 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistDelegate?) {
+	public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
 		self.delegate = delegate
-		self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, delegate: delegate)
+		self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
 		super.init()
 	}
 
@@ -88,9 +90,9 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 
 	let viewModel: WKWatchlistViewModel
 
-	init(viewModel: WKWatchlistViewModel, delegate: WKWatchlistDelegate?) {
+	init(viewModel: WKWatchlistViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
 		self.viewModel = viewModel
-		super.init(rootView: WKWatchlistView(viewModel: viewModel, delegate: delegate))
+		super.init(rootView: WKWatchlistView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate))
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -104,3 +106,4 @@ extension WKWatchlistViewController: WKWatchlistFilterDelegate {
         viewModel.fetchWatchlist()
     }
 }
+

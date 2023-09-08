@@ -9,11 +9,20 @@ public final class WKWatchlistViewModel: ObservableObject {
 	public struct LocalizedStrings {
 		public var title: String
 		public var filter: String
+		public var userButtonUserPage: String
+		public var userButtonTalkPage: String
+		public var userButtonContributions: String
+		public var userButtonThank: String
+
 		public var byteChange: ((Int) -> String) // for injecting localized plurals via client app
 
-		public init(title: String, filter: String, byteChange: @escaping ((Int) -> String)) {
+		public init(title: String, filter: String, userButtonUserPage: String, userButtonTalkPage: String, userButtonContributions: String, userButtonThank: String, byteChange: @escaping ((Int) -> String)) {
 			self.title = title
 			self.filter = filter
+			self.userButtonUserPage = userButtonUserPage
+			self.userButtonTalkPage = userButtonTalkPage
+			self.userButtonContributions = userButtonContributions
+			self.userButtonThank = userButtonThank
 			self.byteChange = byteChange
 		}
 	}
@@ -27,16 +36,18 @@ public final class WKWatchlistViewModel: ObservableObject {
 		let timestamp: Date
 		let username: String
 		let revisionID: UInt
+		let oldRevisionID: UInt
 		let byteChange: Int
 		let project: WKProject
 
-		public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, byteChange: Int, project: WKProject) {
+		public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, oldRevisionID: UInt, byteChange: Int, project: WKProject) {
 			self.title = title
 			self.commentHTML = commentHTML
 			self.commentWikitext = commentWikitext
 			self.timestamp = timestamp
 			self.username = username
 			self.revisionID = revisionID
+			self.oldRevisionID = oldRevisionID
 			self.byteChange = byteChange
 			self.project = project
 		}
@@ -110,7 +121,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in
-					let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
+					let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()
