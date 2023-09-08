@@ -147,7 +147,7 @@ class ViewController: WKCanvasViewController {
         
         let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", userButtonUserPage: "User page", userButtonTalkPage: "User talk page", userButtonContributions: "User contributions", userButtonThank: "Thank", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
-		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: self, menuButtonDelegate: self)
+		let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, delegate: self, menuButtonDelegate: self, reachabilityHandler: nil)
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
 
@@ -249,10 +249,9 @@ extension ViewController: WKWatchlistDelegate {
 	func watchlistUserDidTapUser(username: String, action: Components.WKWatchlistUserButtonAction) {
 		print("Watchlist: user did tap \(username) → \(action)")
 	}
-	
 
-	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt) {
-		print("Watchlist: user did tap diff \(revisionID) → \(oldRevisionID)")
+	func watchlistUserDidTapDiff(project: WKProject, articleTitle: String, revisionID: UInt, oldRevisionID: UInt) {
+		print("Watchlist: user did tap diff \(project) → \(articleTitle) → \(revisionID) → \(oldRevisionID)")
 	}
 
 }
