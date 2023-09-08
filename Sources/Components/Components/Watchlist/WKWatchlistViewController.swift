@@ -5,6 +5,7 @@ import Combine
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
 	func watchlistDidTapDiff()
+    func emptyViewDidTapSearch()
 
 }
 
@@ -17,7 +18,6 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     let filterViewModel: WKWatchlistFilterViewModel
     let emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
-    weak var emptyViewdelegate: WKEmptyViewDelegate?
 
 	fileprivate lazy var filterBarButton = {
         let action = UIAction { [weak self] _ in
@@ -35,14 +35,15 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, emptyViewDelegate: WKEmptyViewDelegate?) {
+    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
         self.emptyViewModel = emptyViewModel
 		self.delegate = delegate
-        self.emptyViewdelegate = emptyViewDelegate
-        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, emptyViewDelegate: emptyViewDelegate)
+        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate)
 		super.init()
+        
+        self.hostingViewController.emptyViewDelegate = self
 	}
 
 	required init?(coder: NSCoder) {
@@ -97,13 +98,16 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 
 	let viewModel: WKWatchlistViewModel
     let emptyViewModel: WKEmptyViewModel
-    let emptyViewDelegate: WKEmptyViewDelegate?
+    var emptyViewDelegate: WKEmptyViewDelegate? = nil {
+        didSet {
+            rootView.emptyViewDelegate = emptyViewDelegate
+        }
+    }
 
-    init(viewModel: WKWatchlistViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, emptyViewDelegate: WKEmptyViewDelegate?) {
+    init(viewModel: WKWatchlistViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?) {
 		self.viewModel = viewModel
         self.emptyViewModel = emptyViewModel
-        self.emptyViewDelegate = emptyViewDelegate
-        super.init(rootView: WKWatchlistView(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, emptyViewDelegate: emptyViewDelegate))
+        super.init(rootView: WKWatchlistView(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate))
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -115,5 +119,15 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 extension WKWatchlistViewController: WKWatchlistFilterDelegate {
     func watchlistFilterDidChange(_ hostingController: WKWatchlistFilterHostingController) {
         viewModel.fetchWatchlist()
+    }
+}
+
+extension WKWatchlistViewController: WKEmptyViewDelegate {
+    public func emptyViewDidTapSearch() {
+        delegate?.emptyViewDidTapSearch()
+    }
+    
+    public func emptyViewDidTapFilters() {
+        showFilterView()
     }
 }
