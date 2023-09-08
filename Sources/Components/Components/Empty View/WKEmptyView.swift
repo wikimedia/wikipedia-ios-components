@@ -62,14 +62,14 @@ struct WKEmptyViewFilterView: View {
 
         if #available(iOS 15, *) { //TODO: remove check after updating deployment target
             var attributedString: AttributedString {
-                let str1 = viewModel.localizedStrings.filterSubtitleModify + " "
-                let str2 = viewModel.filterString(localizedStrings: viewModel.localizedStrings)
-                let str3 = " " + viewModel.localizedStrings.filterSubtitleSeeMore
-                var attributedString = AttributedString(str1 + str2 + str3)
-
+                let subtitle = viewModel.filterSubtitleString(localizedStrings: viewModel.localizedStrings)
+                let subtitleNumberOfFilters = viewModel.filterString(localizedStrings: viewModel.localizedStrings)
+                var attributedString = AttributedString(subtitle)
                 attributedString.foregroundColor = Color(appEnvironment.theme.secondaryText)
-                let range = attributedString.range(of: viewModel.filterString(localizedStrings: viewModel.localizedStrings))!
+
+                let range = attributedString.range(of: subtitleNumberOfFilters)!
                 attributedString[range].foregroundColor = Color(appEnvironment.theme.link)
+                
                 return attributedString
             }
 
