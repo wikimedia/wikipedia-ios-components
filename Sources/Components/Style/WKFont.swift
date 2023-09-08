@@ -56,16 +56,4 @@ public enum WKFont {
 			return UIFont(descriptor: descriptor, size: 0)
 		}
 	}
-
-//    //the other styles were added on the onboarding PR
-//    static func `for`(_ font: WKFont, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> Font {
-//            switch font {
-//            case .boldBody:
-//                return Font.body.bold()
-//            case .footnote:
-//                return Font.footnote
-//            default:
-//                return Font.body
-//            }
-//        }
 }
