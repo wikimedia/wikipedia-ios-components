@@ -4,8 +4,9 @@ import Combine
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
-	func watchlistDidTapDiff()
     func emptyViewDidTapSearch()
+	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt)
+	func watchlistUserDidTapUser(username: String, action: WKWatchlistUserButtonAction)
 
 }
 
@@ -18,6 +19,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     let filterViewModel: WKWatchlistFilterViewModel
     let emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
+	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	fileprivate lazy var filterBarButton = {
         let action = UIAction { [weak self] _ in
@@ -35,14 +37,14 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?) {
+    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
         self.emptyViewModel = emptyViewModel
 		self.delegate = delegate
-        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate)
+        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
 		super.init()
-        
+
         self.hostingViewController.emptyViewDelegate = self
 	}
 
@@ -104,10 +106,10 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
         }
     }
 
-    init(viewModel: WKWatchlistViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?) {
+    init(viewModel: WKWatchlistViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
 		self.viewModel = viewModel
         self.emptyViewModel = emptyViewModel
-        super.init(rootView: WKWatchlistView(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate))
+        super.init(rootView: WKWatchlistView(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate))
 	}
 
 	required init?(coder aDecoder: NSCoder) {
@@ -123,11 +125,11 @@ extension WKWatchlistViewController: WKWatchlistFilterDelegate {
 }
 
 extension WKWatchlistViewController: WKEmptyViewDelegate {
-    public func emptyViewDidTapSearch() {
+    public func didTapSearch() {
         delegate?.emptyViewDidTapSearch()
     }
     
-    public func emptyViewDidTapFilters() {
+    public func didTapFilters() {
         showFilterView()
     }
 }

@@ -1,4 +1,5 @@
 import UIKit
+import SwiftUI
 import Components
 import WKData
 import WKDataMocks
@@ -132,10 +133,20 @@ class ViewController: WKCanvasViewController {
     }
 
     @objc private func tappedMenuButton() {
-        let viewController = MenuButtonViewController()
-        present(viewController, animated: true)
-    }
-    
+		let actionSheet = UIAlertController(title: "Select UI Framework", message: nil, preferredStyle: .actionSheet)
+		actionSheet.addAction(UIAlertAction(title: "SwiftUI", style: .default, handler: { _ in
+			let canvas = WKCanvasViewController()
+			canvas.addComponent(WKComponentHostingController(rootView: SwiftUIMenuButtonView()), pinToEdges: true)
+			self.present(canvas, animated: true)
+		}))
+		actionSheet.addAction(UIAlertAction(title: "UIKit", style: .default, handler: { _ in
+			let viewController = MenuButtonViewController()
+			self.present(viewController, animated: true)
+		}))
+		actionSheet.addAction(UIAlertAction(title: "Cancel", style: .cancel))
+		present(actionSheet, animated: true)
+	}
+
     @objc private func tappedWatchlist() {
         let mockService = WKMockWatchlistMediaWikiService()
         mockService.randomizeGetWatchStatusResponse = true
@@ -151,16 +162,24 @@ class ViewController: WKCanvasViewController {
                 ? "\(bytes) bytes"
                 : "\(bytes) byte"
         }
-        let filters: (Int) -> String = { filters in
-            return filters == 0
-                ? "\(filters) filters"
-                : "\(filters) filter"
+
+        let filters: (Int) -> AttributedString = { filters in
+            return filters == 1
+                ? AttributedString("You have \(filters) filters")
+                : AttributedString("You have \(filters) filter")
         }
-        let viewModel = WKWatchlistViewModel(localizedStrings: WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", byteChange: byteChange), presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
-        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+
+        let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
+        )
+        let viewModel = WKWatchlistViewModel(localizedStrings: localizedStrings, presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
+
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "subtitle subtitle subtitle", titleFilter: "Title", buttonTitle: "Button title", attributedFilterString: filters)
+
         let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: viewModel.activeFilterCount)
+
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: nil, emptyViewDelegate: self)
+
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self, menuButtonDelegate: self)
 
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
@@ -193,27 +212,31 @@ class ViewController: WKCanvasViewController {
     }
 
     @objc func tappedEmptyViewRegularButton() {
-        let filters: (Int) -> String = { filters in
-            return filters == 0
-                ? "\(filters) filters"
-                : "\(filters) filter"
+        let filters: (Int) -> AttributedString = { filters in
+            return filters == 1
+                ? AttributedString("You have \(filters) filters")
+                : AttributedString("You have \(filters) filter")
         }
 
-        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "subtitle subtitle subtitle", titleFilter: "Title", buttonTitle: "Button title", attributedFilterString: filters)
+
         let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: 3)
+
         let viewController = WKEmptyViewController(viewModel: emptyViewModel, type: .noItems, delegate: self)
         present(viewController, animated: true)
     }
 
     @objc func tappedEmptyViewFilterButton() {
-        let filters: (Int) -> String = { filters in
-            return filters == 0
-                ? "\(filters) filters"
-                : "\(filters) filter"
+        let filters: (Int) -> AttributedString = { filters in
+            return filters == 1
+                ? AttributedString("You have \(filters) filters")
+                : AttributedString("You have \(filters) filter")
         }
 
-        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "Subtitle subtitle subtitle subtitle subtitle subtitle", titleFilter: "Title filter", filterSubtitleModify: "Modify", filterSubtitleSeeMore: "to see more Watchlist items", buttonTitle: "Button Title", numberOfFilters: filters)
+        let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "subtitle subtitle subtitle", titleFilter: "Title", buttonTitle: "Button title", attributedFilterString: filters)
+
         let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: 3)
+
         let viewController = WKEmptyViewController(viewModel: emptyViewModel, type: .filter, delegate: self)
         present(viewController, animated: true)
     }
@@ -281,7 +304,7 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
 }
 
 extension ViewController: WKEmptyViewDelegate {
-    func emptyViewDidTapSearch() {
+    func didTapSearch() {
         let alert = UIAlertController(title: "Hello", message: "Pressed button", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         if let presentedViewController {
@@ -289,7 +312,7 @@ extension ViewController: WKEmptyViewDelegate {
         }
     }
 
-    func emptyViewDidTapFilters() {
+    func didTapFilters() {
         let alert = UIAlertController(title: "Hello", message: "Pressed filter button", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
         if let presentedViewController {
@@ -297,4 +320,32 @@ extension ViewController: WKEmptyViewDelegate {
         }
     }
 
+}
+
+extension ViewController: WKWatchlistDelegate {
+
+    func watchlistDidDismiss() {
+        print("Watchlist: did dismiss")
+    }
+
+    public func emptyViewDidTapSearch() {
+        print("Empty view: did tap search")
+    }
+
+    func watchlistUserDidTapUser(username: String, action: Components.WKWatchlistUserButtonAction) {
+        print("Watchlist: user did tap \(username) → \(action)")
+    }
+
+
+    func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt) {
+        print("Watchlist: user did tap diff \(revisionID) → \(oldRevisionID)")
+    }
+
+}
+
+extension ViewController: WKMenuButtonDelegate {
+
+    func wkSwiftUIMenuButtonUserDidTap(configuration: WKMenuButton.Configuration, item: WKMenuButton.MenuItem?) {
+        print("WKMenuButton: user tapped \(String(describing: configuration.title)) → \(String(describing: item?.title))")
+    }
 }
