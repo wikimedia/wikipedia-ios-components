@@ -6,19 +6,15 @@ public class WKEmptyViewModel: ObservableObject {
         public var title: String
         public var subtitle: String
         public var titleFilter: String
-        public var filterSubtitleModify: String
-        public var filterSubtitleSeeMore: String
         public var buttonTitle: String
-        public var numberOfFilters: ((Int) -> String)
+        public var attributedFilterString: ((Int) -> AttributedString)
 
-        public init(title: String, subtitle: String, titleFilter: String, filterSubtitleModify: String, filterSubtitleSeeMore: String, buttonTitle: String, numberOfFilters: @escaping ((Int) -> String)) {
+        public init(title: String, subtitle: String, titleFilter: String, buttonTitle: String, attributedFilterString: @escaping ((Int) -> AttributedString)) {
             self.title = title
             self.subtitle = subtitle
             self.titleFilter = titleFilter
-            self.filterSubtitleModify = filterSubtitleModify
-            self.filterSubtitleSeeMore = filterSubtitleSeeMore
             self.buttonTitle = buttonTitle
-            self.numberOfFilters = numberOfFilters
+            self.attributedFilterString = attributedFilterString
         }
     }
 
@@ -32,8 +28,8 @@ public class WKEmptyViewModel: ObservableObject {
         self.numberOfFilters = numberOfFilters
     }
     
-    func filterString(localizedStrings: LocalizedStrings) -> String {
-        return localizedStrings.numberOfFilters(numberOfFilters)
+    func filterString(localizedStrings: LocalizedStrings) -> AttributedString {
+        return localizedStrings.attributedFilterString(numberOfFilters)
     }
 }
 

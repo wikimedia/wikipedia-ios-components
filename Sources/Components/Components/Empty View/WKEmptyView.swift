@@ -60,30 +60,17 @@ struct WKEmptyViewFilterView: View {
 
     var body: some View {
 
-        HStack(spacing: 0) {
-            Text(viewModel.localizedStrings.filterSubtitleModify)
-                .font(Font(WKFont.for(.footnote)))
-                .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                .multilineTextAlignment(.center)
-                .padding(0)
-            Button(action: {
-                
-                delegate?.emptyViewDidTapFilters()
-            }, label: {
-                Text(viewModel.filterString(localizedStrings: viewModel.localizedStrings))
-                    .font(Font(WKFont.for(.footnote)))
-                    .foregroundColor(Color(appEnvironment.theme.link))
-                    .padding(2)
-                    .frame(height: 30)
-                    .background(Color(appEnvironment.theme.paperBackground))
-            })
-            .padding(0)
-            Text(viewModel.localizedStrings.filterSubtitleSeeMore)
-                .font(Font(WKFont.for(.footnote)))
-                .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                .multilineTextAlignment(.center)
-                .padding(0)
+        var attributedString: AttributedString {
+            return viewModel.filterString(localizedStrings: viewModel.localizedStrings)
         }
+        
+        Text(attributedString)
+            .font(Font(WKFont.for(.footnote)))
+            .padding(2)
+            .frame(height: 30)
+            .environment(\.openURL, OpenURLAction { url in
+                    delegate?.emptyViewDidTapFilters()
+                    return .handled
+                })
     }
-
 }
