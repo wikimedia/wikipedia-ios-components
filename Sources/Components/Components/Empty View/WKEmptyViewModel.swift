@@ -24,18 +24,17 @@ public class WKEmptyViewModel: ObservableObject {
 
     var localizedStrings: LocalizedStrings
     var image: UIImage
-    var numberOfFilters: Int
+    @Published var numberOfFilters: Int
 
     public init(localizedStrings: LocalizedStrings, image: UIImage, numberOfFilters: Int) {
         self.localizedStrings = localizedStrings
         self.image = image
         self.numberOfFilters = numberOfFilters
     }
-
+    
     func filterString(localizedStrings: LocalizedStrings) -> String {
         return localizedStrings.numberOfFilters(numberOfFilters)
     }
-
 }
 
 

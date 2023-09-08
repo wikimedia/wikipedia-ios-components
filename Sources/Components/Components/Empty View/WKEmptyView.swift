@@ -56,7 +56,7 @@ struct WKEmptyViewFilterView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     var delegate: WKEmptyViewDelegate?
-    var viewModel: WKEmptyViewModel
+    @ObservedObject var viewModel: WKEmptyViewModel
 
     var body: some View {
 

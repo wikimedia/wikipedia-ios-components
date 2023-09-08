@@ -25,7 +25,6 @@ struct WKWatchlistView: View {
             }
 		}
 	}
-
 }
 
 // MARK: - Private: WKWatchlistContentView
