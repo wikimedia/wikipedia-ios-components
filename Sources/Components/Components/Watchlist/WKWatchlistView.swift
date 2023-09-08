@@ -5,7 +5,7 @@ struct WKWatchlistView: View {
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
  	@ObservedObject var viewModel: WKWatchlistViewModel
-	
+
 	weak var delegate: WKWatchlistDelegate?
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
@@ -15,7 +15,13 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-			WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+			if viewModel.hasPerformedInitialFetch {
+				WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+			} else {
+				ProgressView()
+			}
+		}.onAppear {
+			viewModel.fetchWatchlist()
 		}
 	}
 
@@ -45,7 +51,7 @@ private struct WKWatchlistContentView: View {
 							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonDelegate: menuButtonDelegate)
 								.contentShape(Rectangle())
 								.onTapGesture {
-									delegate?.watchlistUserDidTapDiff(revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
+									delegate?.watchlistUserDidTapDiff(project: item.project, articleTitle: item.title, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
 								}
 						}
 						.padding([.top, .bottom], 6)
