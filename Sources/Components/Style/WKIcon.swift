@@ -50,10 +50,10 @@ public enum WKSFSymbolIcon {
     case checkmark
     case star
     case person
+	case personFilled
     case starLeadingHalfFilled
     case heart
-	case userPage
-	case userTalkPage
+	case conversation
 
 	public static func `for`(symbol: WKSFSymbolIcon, font: WKFont = .body, compatibleWith traitCollection: UITraitCollection = WKAppEnvironment.current.traitCollection) -> UIImage? {
         let font = WKFont.for(font)
@@ -65,13 +65,13 @@ public enum WKSFSymbolIcon {
             return UIImage(systemName: "star", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         case .person:
             return UIImage(systemName: "person", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
+        case .personFilled:
+            return UIImage(systemName: "person.fill", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         case .starLeadingHalfFilled:
             return UIImage(systemName: "star.leadinghalf.filled", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         case .heart:
             return UIImage(systemName: "heart", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
-		case .userPage:
-            return UIImage(systemName: "person", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
-		case .userTalkPage:
+		case .conversation:
             return UIImage(systemName: "bubble.left.and.bubble.right", withConfiguration: configuration)?.withRenderingMode(.alwaysTemplate)
         }
     }

@@ -116,11 +116,11 @@ private struct WKWatchlistViewCell: View {
 							HStack {
 								WKSwiftUIMenuButton(configuration: WKMenuButton.Configuration(
 									title: itemViewModel.username,
-									image: UIImage(systemName: "person.fill"),
+									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
 									menuItems: [
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .userPage)),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .userTalkPage)),
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .person)),
+										WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .conversation)),
 										WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
 										WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
 									]
