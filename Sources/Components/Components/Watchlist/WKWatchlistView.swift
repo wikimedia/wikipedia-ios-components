@@ -7,7 +7,7 @@ struct WKWatchlistView: View {
  	@ObservedObject var viewModel: WKWatchlistViewModel
     var emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
-    weak var emptyViewDelegate: WKEmptyViewDelegate?
+    weak var emptyViewDelegate: WKEmptyViewDelegate? = nil
 
 	// MARK: - Lifecycle
 
