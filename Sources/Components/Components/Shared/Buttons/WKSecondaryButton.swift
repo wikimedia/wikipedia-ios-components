@@ -17,7 +17,7 @@ struct WKSecondaryButton: View {
         })
         .frame(maxWidth: .infinity)
         .frame(height: 46)
-        .background(Color(appEnvironment.theme.baseBackground))
+        .background(Color(appEnvironment.theme.paperBackground))
         .cornerRadius(8)
     }
 }

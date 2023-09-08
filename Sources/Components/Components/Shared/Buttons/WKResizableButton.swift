@@ -1,6 +1,6 @@
 import SwiftUI
 
-struct WKGhostButton: View {
+struct WKResizableButton: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
 
@@ -14,10 +14,10 @@ struct WKGhostButton: View {
             Text(title)
                 .font(Font(WKFont.for(.boldSubheadline)))
                 .foregroundColor(Color(appEnvironment.theme.link))
+                .padding(12)
         })
-        .frame(maxWidth: .infinity)
         .frame(height: 46)
-        .background(Color(appEnvironment.theme.paperBackground))
+        .background(Color(appEnvironment.theme.baseBackground))
         .cornerRadius(8)
     }
 }
