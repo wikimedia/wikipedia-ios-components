@@ -60,30 +60,32 @@ struct WKEmptyViewFilterView: View {
 
     var body: some View {
 
-        HStack(spacing: 0) {
-            Text(viewModel.localizedStrings.filterSubtitleModify)
-                .font(Font(WKFont.for(.footnote)))
-                .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                .multilineTextAlignment(.center)
+        if #available(iOS 15, *) { //TODO: remove check after updating deployment target
+            var attributedString: AttributedString {
+                let str1 = viewModel.localizedStrings.filterSubtitleModify + " "
+                let str2 = viewModel.filterString(localizedStrings: viewModel.localizedStrings)
+                let str3 = " " + viewModel.localizedStrings.filterSubtitleSeeMore
+                var attributedString = AttributedString(str1 + str2 + str3)
+
+                attributedString.foregroundColor = Color(appEnvironment.theme.secondaryText)
+                let range = attributedString.range(of: viewModel.filterString(localizedStrings: viewModel.localizedStrings))!
+                attributedString[range].foregroundColor = Color(appEnvironment.theme.link)
+                return attributedString
+            }
+
+            HStack(spacing: 0) {
+                Button(action: {
+                    delegate?.emptyViewDidTapFilters()
+                }, label: {
+                    Text(attributedString)
+                        .font(Font(WKFont.for(.footnote)))
+                        .foregroundColor(Color(appEnvironment.theme.link))
+                        .padding(2)
+                        .frame(height: 30)
+                        .background(Color(appEnvironment.theme.paperBackground))
+                })
                 .padding(0)
-            Button(action: {
-                
-                delegate?.emptyViewDidTapFilters()
-            }, label: {
-                Text(viewModel.filterString(localizedStrings: viewModel.localizedStrings))
-                    .font(Font(WKFont.for(.footnote)))
-                    .foregroundColor(Color(appEnvironment.theme.link))
-                    .padding(2)
-                    .frame(height: 30)
-                    .background(Color(appEnvironment.theme.paperBackground))
-            })
-            .padding(0)
-            Text(viewModel.localizedStrings.filterSubtitleSeeMore)
-                .font(Font(WKFont.for(.footnote)))
-                .foregroundColor(Color(appEnvironment.theme.secondaryText))
-                .multilineTextAlignment(.center)
-                .padding(0)
+            }
         }
     }
-
 }
