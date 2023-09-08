@@ -29,7 +29,6 @@ public struct WKSwiftUIMenuButton: View {
 			}, label: {
 				HStack {
 					Image(uiImage: configuration.image ?? UIImage())
-						.renderingMode(.template)
 						.foregroundColor(Color(appEnvironment.theme[keyPath: configuration.primaryColor]))
 					Spacer()
 						.frame(width: 8)
