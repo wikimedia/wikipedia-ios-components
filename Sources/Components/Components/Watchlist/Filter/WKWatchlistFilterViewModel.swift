@@ -79,11 +79,13 @@ public final class WKWatchlistFilterViewModel {
     private let projectViewModels: [WKProjectViewModel]
     let formViewModel: WKFormViewModel
     private let dataController = WKWatchlistDataController()
+    let overrideUserInterfaceStyle: UIUserInterfaceStyle
     
     // MARK: - Public
     
-    public init(localizedStrings: LocalizedStrings) {
+    public init(localizedStrings: LocalizedStrings, overrideUserInterfaceStyle: UIUserInterfaceStyle) {
         self.localizedStrings = localizedStrings
+        self.overrideUserInterfaceStyle = overrideUserInterfaceStyle
         
         let filterSettings = dataController.loadFilterSettings()
         let allProjects = dataController.allWatchlistProjects()
