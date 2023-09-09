@@ -165,8 +165,8 @@ class ViewController: WKCanvasViewController {
 
         let filters: (Int) -> AttributedString = { filters in
             return filters == 1
-                ? AttributedString("You have \(filters) filters")
-                : AttributedString("You have \(filters) filter")
+                ? AttributedString("You have \(filters) filter")
+                : AttributedString("You have \(filters) filters")
         }
 
         let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
@@ -229,8 +229,8 @@ class ViewController: WKCanvasViewController {
     @objc func tappedEmptyViewFilterButton() {
         let filters: (Int) -> AttributedString = { filters in
             return filters == 1
-                ? AttributedString("You have \(filters) filters")
-                : AttributedString("You have \(filters) filter")
+                ? AttributedString("You have \(filters) filter")
+                : AttributedString("You have \(filters) filters")
         }
 
         let emptyViewLocalizedStrings = WKEmptyViewModel.LocalizedStrings(title: "Title", subtitle: "subtitle subtitle subtitle", titleFilter: "Title", buttonTitle: "Button title", attributedFilterString: filters)

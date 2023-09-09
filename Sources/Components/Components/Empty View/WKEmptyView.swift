@@ -9,7 +9,7 @@ public struct WKEmptyView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
     @ObservedObject var viewModel: WKEmptyViewModel
-    var delegate: WKEmptyViewDelegate?
+    weak var delegate: WKEmptyViewDelegate?
     var type: WKEmptyViewStateType
 
     public var body: some View {
@@ -55,7 +55,7 @@ public struct WKEmptyView: View {
 struct WKEmptyViewFilterView: View {
 
     @ObservedObject var appEnvironment = WKAppEnvironment.current
-    var delegate: WKEmptyViewDelegate?
+    weak var delegate: WKEmptyViewDelegate?
     @ObservedObject var viewModel: WKEmptyViewModel
 
     var body: some View {
