@@ -16,17 +16,27 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-
-            if viewModel.sections.count > 0 {
-                WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
-            } else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
-                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
-            } else {
-                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
-            }
-
+			contentView
+		}.onAppear {
+			viewModel.fetchWatchlist()
 		}
 	}
+
+	@ViewBuilder
+	var contentView: some View {
+		if viewModel.hasPerformedInitialFetch {
+			if viewModel.sections.count > 0 {
+				WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+			} else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
+				WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
+			} else {
+				WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
+			}
+		} else {
+			ProgressView()
+		}
+	}
+
 }
 
 // MARK: - Private: WKWatchlistContentView
@@ -53,7 +63,7 @@ private struct WKWatchlistContentView: View {
 							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonDelegate: menuButtonDelegate)
 								.contentShape(Rectangle())
 								.onTapGesture {
-									delegate?.watchlistUserDidTapDiff(revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
+									delegate?.watchlistUserDidTapDiff(project: item.project, title: item.title, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
 								}
 						}
 						.padding([.top, .bottom], 6)

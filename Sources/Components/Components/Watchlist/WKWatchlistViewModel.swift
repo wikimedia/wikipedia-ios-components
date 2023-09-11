@@ -107,17 +107,16 @@ public final class WKWatchlistViewModel: ObservableObject {
 
 	@Published var sections: [SectionViewModel] = []
     @Published public var activeFilterCount: Int = 0
+	@Published var hasPerformedInitialFetch = false
 
 	// MARK: - Lifecycle
 
     public init(localizedStrings: LocalizedStrings, presentationConfiguration: PresentationConfiguration) {
 		self.localizedStrings = localizedStrings
         self.presentationConfiguration = presentationConfiguration
-		fetchWatchlist()
 	}
 
 	public func fetchWatchlist() {
-
         dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
@@ -130,6 +129,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			case .failure(_):
 				break
 			}
+			self.hasPerformedInitialFetch = true
 		}
 	}
 

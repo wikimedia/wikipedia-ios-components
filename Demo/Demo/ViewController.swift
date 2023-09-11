@@ -169,7 +169,7 @@ class ViewController: WKCanvasViewController {
                 : AttributedString("You have \(filters) filters")
         }
 
-        let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
+        let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
         )
         let viewModel = WKWatchlistViewModel(localizedStrings: localizedStrings, presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
 
@@ -336,11 +336,9 @@ extension ViewController: WKWatchlistDelegate {
         print("Watchlist: user did tap \(username) → \(action)")
     }
 
-
-    func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt) {
-        print("Watchlist: user did tap diff \(revisionID) → \(oldRevisionID)")
-    }
-
+	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt) {
+			print("Watchlist: user did tap diff \(project) → \(title) → \(revisionID) → \(oldRevisionID)")
+		}
 }
 
 extension ViewController: WKMenuButtonDelegate {
