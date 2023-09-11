@@ -106,7 +106,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	private var items: [ItemViewModel] = []
 
 	@Published var sections: [SectionViewModel] = []
-    @Published var activeFilterCount: Int = 0
+    @Published public var activeFilterCount: Int = 0
 
 	// MARK: - Lifecycle
 
@@ -117,6 +117,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	}
 
 	public func fetchWatchlist() {
+
         dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):

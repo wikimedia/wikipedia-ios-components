@@ -5,8 +5,9 @@ struct WKWatchlistView: View {
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
  	@ObservedObject var viewModel: WKWatchlistViewModel
-	
+    var emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
+    weak var emptyViewDelegate: WKEmptyViewDelegate? = nil
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
 	// MARK: - Lifecycle
@@ -15,10 +16,17 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-			WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+
+            if viewModel.sections.count > 0 {
+                WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+            } else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
+                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
+            } else {
+                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
+            }
+
 		}
 	}
-
 }
 
 // MARK: - Private: WKWatchlistContentView
