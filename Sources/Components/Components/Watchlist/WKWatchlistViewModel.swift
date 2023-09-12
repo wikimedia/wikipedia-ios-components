@@ -109,11 +109,19 @@ public final class WKWatchlistViewModel: ObservableObject {
     @Published public var activeFilterCount: Int = 0
 	@Published var hasPerformedInitialFetch = false
 
+	let menuButtonItems: [WKMenuButton.MenuItem]
+
 	// MARK: - Lifecycle
 
     public init(localizedStrings: LocalizedStrings, presentationConfiguration: PresentationConfiguration) {
 		self.localizedStrings = localizedStrings
         self.presentationConfiguration = presentationConfiguration
+		self.menuButtonItems = [
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .person)),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .conversation)),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
+		]
 	}
 
 	public func fetchWatchlist() {
