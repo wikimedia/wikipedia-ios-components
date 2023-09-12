@@ -60,7 +60,7 @@ private struct WKWatchlistContentView: View {
 							.padding([.top, .bottom], 6)
 							.frame(maxWidth: .infinity, alignment: .leading)
 						ForEach(section.items) { item in
-							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonDelegate: menuButtonDelegate)
+							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonItems: viewModel.menuButtonItems, menuButtonDelegate: menuButtonDelegate)
 								.contentShape(Rectangle())
 								.onTapGesture {
 									delegate?.watchlistUserDidTapDiff(project: item.project, title: item.title, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
@@ -86,6 +86,7 @@ private struct WKWatchlistViewCell: View {
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
 	let itemViewModel: WKWatchlistViewModel.ItemViewModel
 	let localizedStrings: WKWatchlistViewModel.LocalizedStrings
+	let menuButtonItems: [WKMenuButton.MenuItem]
 
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
@@ -136,12 +137,7 @@ private struct WKWatchlistViewCell: View {
 									title: itemViewModel.username,
 									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
-									menuItems: [
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .person)),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .conversation)),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
-									]
+									menuItems: menuButtonItems
 								), menuButtonDelegate: menuButtonDelegate)
 								Spacer()
 							}
