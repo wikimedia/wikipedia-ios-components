@@ -114,7 +114,7 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 
 	let viewModel: WKWatchlistViewModel
     let emptyViewModel: WKEmptyViewModel
-    var emptyViewDelegate: WKEmptyViewDelegate? = nil {
+    weak var emptyViewDelegate: WKEmptyViewDelegate? = nil {
         didSet {
             rootView.emptyViewDelegate = emptyViewDelegate
         }
