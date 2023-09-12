@@ -179,7 +179,7 @@ class ViewController: WKCanvasViewController {
 
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
 
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self, menuButtonDelegate: self)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self)
 
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
