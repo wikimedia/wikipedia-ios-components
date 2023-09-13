@@ -7,7 +7,7 @@ public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
     func emptyViewDidTapSearch()
 	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt)
-	func watchlistUserDidTapUser(username: String, action: WKWatchlistUserButtonAction)
+	func watchlistUserDidTapUser(project: WKProject, username: String, action: WKWatchlistUserButtonAction)
 
 }
 
@@ -25,14 +25,16 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 	class MenuButtonHandler: WKMenuButtonDelegate {
 		weak var watchlistDelegate: WKWatchlistDelegate?
 		let menuButtonItems: [WKMenuButton.MenuItem]
+		let wkProjectMetadataKey: String
 
-		init(watchlistDelegate: WKWatchlistDelegate? = nil, menuButtonItems: [WKMenuButton.MenuItem]) {
+		init(watchlistDelegate: WKWatchlistDelegate? = nil, menuButtonItems: [WKMenuButton.MenuItem], wkProjectMetadataKey: String) {
 			self.watchlistDelegate = watchlistDelegate
 			self.menuButtonItems = menuButtonItems
+			self.wkProjectMetadataKey = wkProjectMetadataKey
 		}
 
 		func wkSwiftUIMenuButtonUserDidTap(configuration: WKMenuButton.Configuration, item: WKMenuButton.MenuItem?) {
-			guard let username = configuration.title, let tappedTitle = item?.title else {
+			guard let username = configuration.title, let tappedTitle = item?.title, let wkProject = configuration.metadata[wkProjectMetadataKey] as? WKProject else {
 				return
 			}
 
@@ -41,13 +43,13 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 			}
 
 			if tappedTitle == menuButtonItems[0].title {
-				watchlistDelegate?.watchlistUserDidTapUser(username: username, action: .userPage)
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userPage)
 			} else if tappedTitle == menuButtonItems[1].title {
-				watchlistDelegate?.watchlistUserDidTapUser(username: username, action: .userTalkPage)
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userTalkPage)
 			} else if tappedTitle == menuButtonItems[2].title {
-				watchlistDelegate?.watchlistUserDidTapUser(username: username, action: .userContributions)
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userContributions)
 			} else if tappedTitle == menuButtonItems[3].title {
-				watchlistDelegate?.watchlistUserDidTapUser(username: username, action: .thank)
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .thank)
 			}
 		}
 	}
@@ -85,7 +87,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 		self.delegate = delegate
 		self.reachabilityHandler = reachabilityHandler
 
-		let buttonHandler = MenuButtonHandler(watchlistDelegate: delegate, menuButtonItems: viewModel.menuButtonItems)
+		let buttonHandler = MenuButtonHandler(watchlistDelegate: delegate, menuButtonItems: viewModel.menuButtonItems, wkProjectMetadataKey: WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey)
 		self.buttonHandler = buttonHandler
 
         self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: buttonHandler)

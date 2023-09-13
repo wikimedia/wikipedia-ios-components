@@ -1,4 +1,5 @@
 import SwiftUI
+import WKData
 
 // MARK: - WKWatchlistView
 struct WKWatchlistView: View {
@@ -137,7 +138,8 @@ private struct WKWatchlistViewCell: View {
 									title: itemViewModel.username,
 									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
-									menuItems: menuButtonItems
+									menuItems: menuButtonItems,
+									metadata: [WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project]
 								), menuButtonDelegate: menuButtonDelegate)
 								Spacer()
 							}

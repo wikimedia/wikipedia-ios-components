@@ -31,14 +31,16 @@ public class WKMenuButton: WKComponentView {
         let image: UIImage?
         let primaryColor: KeyPath<WKTheme, UIColor>
         public let menuItems: [MenuItem]
+		public var metadata: [String: Any] = [:]
 
 		// MARK: - Public
 
-        public init(title: String? = nil, image: UIImage? = nil, primaryColor: KeyPath<WKTheme, UIColor>,  menuItems: [MenuItem]) {
+		public init(title: String? = nil, image: UIImage? = nil, primaryColor: KeyPath<WKTheme, UIColor>,  menuItems: [MenuItem], metadata: [String: Any] = [:]) {
             self.title = title
             self.image = image
             self.primaryColor = primaryColor
             self.menuItems = menuItems
+			self.metadata = metadata
         }
 		
 	}
