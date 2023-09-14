@@ -169,7 +169,7 @@ class ViewController: WKCanvasViewController {
                 : AttributedString("You have \(filters) filters")
         }
 
-        let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
+        let localizedStrings = WKWatchlistViewModel.LocalizedStrings(title: "Watchlist", filter: "Filter", userButtonUserPage: "User", userButtonTalkPage: "User Talk", userButtonContributions: "Contributions", userButtonThank: "Thank", byteChange: byteChange
         )
         let viewModel = WKWatchlistViewModel(localizedStrings: localizedStrings, presentationConfiguration: WKWatchlistViewModel.PresentationConfiguration())
 
@@ -180,7 +180,7 @@ class ViewController: WKCanvasViewController {
         let userInterfaceStyle = UserDefaults.standard.themeName == "Default" ? .unspecified : WKAppEnvironment.current.theme.userInterfaceStyle
         let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings, overrideUserInterfaceStyle: userInterfaceStyle)
 
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self, menuButtonDelegate: self)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self)
 
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
@@ -333,15 +333,13 @@ extension ViewController: WKWatchlistDelegate {
         print("Empty view: did tap search")
     }
 
-    func watchlistUserDidTapUser(username: String, action: Components.WKWatchlistUserButtonAction) {
-        print("Watchlist: user did tap \(username) → \(action)")
+	func watchlistUserDidTapUser (project: WKProject, username: String, action: Components.WKWatchlistUserButtonAction) {
+        print("Watchlist: user did tap \(project) → \(username) → \(action)")
     }
 
-
-    func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt) {
-        print("Watchlist: user did tap diff \(revisionID) → \(oldRevisionID)")
-    }
-
+	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt) {
+			print("Watchlist: user did tap diff \(project) → \(title) → \(revisionID) → \(oldRevisionID)")
+		}
 }
 
 extension ViewController: WKMenuButtonDelegate {

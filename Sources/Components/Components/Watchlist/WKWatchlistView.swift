@@ -1,4 +1,5 @@
 import SwiftUI
+import WKData
 
 // MARK: - WKWatchlistView
 struct WKWatchlistView: View {
@@ -16,17 +17,27 @@ struct WKWatchlistView: View {
 		ZStack {
 			Color(appEnvironment.theme.paperBackground)
 				.ignoresSafeArea()
-
-            if viewModel.sections.count > 0 {
-                WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
-            } else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
-                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
-            } else {
-                WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
-            }
-
+			contentView
+		}.onAppear {
+			viewModel.fetchWatchlist()
 		}
 	}
+
+	@ViewBuilder
+	var contentView: some View {
+		if viewModel.hasPerformedInitialFetch {
+			if viewModel.sections.count > 0 {
+				WKWatchlistContentView(viewModel: viewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+			} else if viewModel.sections.count == 0 && viewModel.activeFilterCount > 0 {
+				WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .filter)
+			} else {
+				WKEmptyView(viewModel: emptyViewModel, delegate: emptyViewDelegate, type: .noItems)
+			}
+		} else {
+			ProgressView()
+		}
+	}
+
 }
 
 // MARK: - Private: WKWatchlistContentView
@@ -50,10 +61,10 @@ private struct WKWatchlistContentView: View {
 							.padding([.top, .bottom], 6)
 							.frame(maxWidth: .infinity, alignment: .leading)
 						ForEach(section.items) { item in
-							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonDelegate: menuButtonDelegate)
+							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonItems: viewModel.menuButtonItems, menuButtonDelegate: menuButtonDelegate)
 								.contentShape(Rectangle())
 								.onTapGesture {
-									delegate?.watchlistUserDidTapDiff(revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
+									delegate?.watchlistUserDidTapDiff(project: item.project, title: item.title, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
 								}
 						}
 						.padding([.top, .bottom], 6)
@@ -76,6 +87,7 @@ private struct WKWatchlistViewCell: View {
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
 	let itemViewModel: WKWatchlistViewModel.ItemViewModel
 	let localizedStrings: WKWatchlistViewModel.LocalizedStrings
+	let menuButtonItems: [WKMenuButton.MenuItem]
 
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
@@ -126,12 +138,8 @@ private struct WKWatchlistViewCell: View {
 									title: itemViewModel.username,
 									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
-									menuItems: [
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .person)),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .conversation)),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
-										WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
-									]
+									menuItems: menuButtonItems,
+									metadata: [WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project]
 								), menuButtonDelegate: menuButtonDelegate)
 								Spacer()
 							}

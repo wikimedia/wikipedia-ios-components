@@ -27,7 +27,9 @@ public final class WKWatchlistViewModel: ObservableObject {
 		}
 	}
 
-	struct ItemViewModel: Identifiable {
+	public struct ItemViewModel: Identifiable {
+		public static let wkProjectMetadataKey = String(describing: WKProject.self)
+
 		public let id = UUID()
 
 		let title: String
@@ -107,17 +109,24 @@ public final class WKWatchlistViewModel: ObservableObject {
 
 	@Published var sections: [SectionViewModel] = []
     @Published public var activeFilterCount: Int = 0
+	@Published var hasPerformedInitialFetch = false
+
+	let menuButtonItems: [WKMenuButton.MenuItem]
 
 	// MARK: - Lifecycle
 
     public init(localizedStrings: LocalizedStrings, presentationConfiguration: PresentationConfiguration) {
 		self.localizedStrings = localizedStrings
         self.presentationConfiguration = presentationConfiguration
-		fetchWatchlist()
+		self.menuButtonItems = [
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonUserPage, image: WKSFSymbolIcon.for(symbol: .person)),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonTalkPage, image: WKSFSymbolIcon.for(symbol: .conversation)),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
+			WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
+		]
 	}
 
 	public func fetchWatchlist() {
-
         dataController.fetchWatchlist { result in
 			switch result {
 			case .success(let watchlist):
@@ -130,6 +139,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			case .failure(_):
 				break
 			}
+			self.hasPerformedInitialFetch = true
 		}
 	}
 

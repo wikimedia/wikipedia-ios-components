@@ -1,16 +1,58 @@
 import UIKit
 import SwiftUI
 import Combine
+import WKData
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
     func emptyViewDidTapSearch()
-	func watchlistUserDidTapDiff(revisionID: UInt, oldRevisionID: UInt)
-	func watchlistUserDidTapUser(username: String, action: WKWatchlistUserButtonAction)
+	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt)
+	func watchlistUserDidTapUser(project: WKProject, username: String, action: WKWatchlistUserButtonAction)
 
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
+
+	// MARK: - Nested Types
+
+	public enum PresentationState {
+		case appearing
+		case disappearing
+	}
+
+	public typealias ReachabilityHandler = ((PresentationState) -> ())?
+
+	class MenuButtonHandler: WKMenuButtonDelegate {
+		weak var watchlistDelegate: WKWatchlistDelegate?
+		let menuButtonItems: [WKMenuButton.MenuItem]
+		let wkProjectMetadataKey: String
+
+		init(watchlistDelegate: WKWatchlistDelegate? = nil, menuButtonItems: [WKMenuButton.MenuItem], wkProjectMetadataKey: String) {
+			self.watchlistDelegate = watchlistDelegate
+			self.menuButtonItems = menuButtonItems
+			self.wkProjectMetadataKey = wkProjectMetadataKey
+		}
+
+		func wkSwiftUIMenuButtonUserDidTap(configuration: WKMenuButton.Configuration, item: WKMenuButton.MenuItem?) {
+			guard let username = configuration.title, let tappedTitle = item?.title, let wkProject = configuration.metadata[wkProjectMetadataKey] as? WKProject else {
+				return
+			}
+
+			guard menuButtonItems.indices.count == 4 else {
+				fatalError("Unexpected number of menu button items")
+			}
+
+			if tappedTitle == menuButtonItems[0].title {
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userPage)
+			} else if tappedTitle == menuButtonItems[1].title {
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userTalkPage)
+			} else if tappedTitle == menuButtonItems[2].title {
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .userContributions)
+			} else if tappedTitle == menuButtonItems[3].title {
+				watchlistDelegate?.watchlistUserDidTapUser(project: wkProject, username: username, action: .thank)
+			}
+		}
+	}
 
 	// MARK: - Properties
 
@@ -19,7 +61,8 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     let filterViewModel: WKWatchlistFilterViewModel
     let emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
-	weak var menuButtonDelegate: WKMenuButtonDelegate?
+	var reachabilityHandler: ReachabilityHandler
+	let buttonHandler: MenuButtonHandler?
 
 	fileprivate lazy var filterBarButton = {
         let action = UIAction { [weak self] _ in
@@ -37,12 +80,17 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, menuButtonDelegate: WKMenuButtonDelegate?) {
+	public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, reachabilityHandler: ReachabilityHandler = nil) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
         self.emptyViewModel = emptyViewModel
 		self.delegate = delegate
-        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: menuButtonDelegate)
+		self.reachabilityHandler = reachabilityHandler
+
+		let buttonHandler = MenuButtonHandler(watchlistDelegate: delegate, menuButtonItems: viewModel.menuButtonItems, wkProjectMetadataKey: WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey)
+		self.buttonHandler = buttonHandler
+
+        self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: buttonHandler)
 		super.init()
 
         self.hostingViewController.emptyViewDelegate = self
@@ -51,7 +99,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 	required init?(coder: NSCoder) {
 		fatalError("init(coder:) has not been implemented")
 	}
-	
+
 	public override func viewDidLoad() {
 		super.viewDidLoad()
 		addComponent(hostingViewController, pinToEdges: true)
@@ -73,6 +121,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     public override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         
+		reachabilityHandler?(.appearing)
         if viewModel.presentationConfiguration.showNavBarUponAppearance {
             navigationController?.setNavigationBarHidden(false, animated: false)
         }
@@ -82,6 +131,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     public override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         
+		reachabilityHandler?(.disappearing)
         if viewModel.presentationConfiguration.hideNavBarUponDisappearance {
             self.navigationController?.setNavigationBarHidden(true, animated: false)
         }
@@ -100,7 +150,7 @@ fileprivate final class WKWatchlistHostingViewController: WKComponentHostingCont
 
 	let viewModel: WKWatchlistViewModel
     let emptyViewModel: WKEmptyViewModel
-    var emptyViewDelegate: WKEmptyViewDelegate? = nil {
+    weak var emptyViewDelegate: WKEmptyViewDelegate? = nil {
         didSet {
             rootView.emptyViewDelegate = emptyViewDelegate
         }
