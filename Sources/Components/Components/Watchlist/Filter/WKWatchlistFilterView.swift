@@ -22,7 +22,7 @@ struct WKWatchlistFilterView: View {
                             doneAction()
                         }) {
                             Text(viewModel.localizedStrings.doneTitle)
-                                .fontWeight(Font.Weight.semibold)
+                                .font(Font(WKFont.for(.headline)))
                                 .foregroundColor(Color(theme.link))
                             }
                 )
