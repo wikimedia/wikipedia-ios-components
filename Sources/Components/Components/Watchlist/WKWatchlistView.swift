@@ -139,7 +139,10 @@ private struct WKWatchlistViewCell: View {
 									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
 									menuItems: menuButtonItems,
-									metadata: [WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project]
+									metadata: [
+										WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project,
+										WKWatchlistViewModel.ItemViewModel.revisionIDMetadataKey: itemViewModel.revisionID
+									]
 								), menuButtonDelegate: menuButtonDelegate)
 								Spacer()
 							}

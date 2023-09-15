@@ -29,6 +29,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 
 	public struct ItemViewModel: Identifiable {
 		public static let wkProjectMetadataKey = String(describing: WKProject.self)
+		public static let revisionIDMetadataKey = "RevisionID"
 
 		public let id = UUID()
 
