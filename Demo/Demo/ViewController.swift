@@ -178,9 +178,9 @@ class ViewController: WKCanvasViewController {
         let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: viewModel.activeFilterCount)
 
         let userInterfaceStyle = UserDefaults.standard.themeName == "Default" ? .unspecified : WKAppEnvironment.current.theme.userInterfaceStyle
-        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings, overrideUserInterfaceStyle: userInterfaceStyle)
+        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings, overrideUserInterfaceStyle: userInterfaceStyle, loggingDelegate: nil)
 
-        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self)
+        let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self, loggingDelegate: nil)
 
 		navigationController?.pushViewController(watchlistViewController, animated: true)
     }
@@ -305,6 +305,10 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
 }
 
 extension ViewController: WKEmptyViewDelegate {
+    func didShow() {
+        
+    }
+    
     func didTapSearch() {
         let alert = UIAlertController(title: "Hello", message: "Pressed button", preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: "OK", style: .cancel, handler: nil))
@@ -333,7 +337,7 @@ extension ViewController: WKWatchlistDelegate {
         print("Empty view: did tap search")
     }
 
-	func watchlistUserDidTapUser (project: WKProject, username: String, action: Components.WKWatchlistUserButtonAction?) {
+	func watchlistUserDidTapUser (project: WKProject, username: String, action: Components.WKWatchlistUserButtonAction) {
         print("Watchlist: user did tap \(project) → \(username) → \(action)")
     }
 
@@ -348,3 +352,5 @@ extension ViewController: WKMenuButtonDelegate {
         print("WKMenuButton: user tapped \(String(describing: configuration.title)) → \(String(describing: item?.title))")
     }
 }
+
+

@@ -84,7 +84,7 @@ public final class WKWatchlistFilterViewModel {
     
     // MARK: - Public
 
-    public init(localizedStrings: LocalizedStrings, overrideUserInterfaceStyle: UIUserInterfaceStyle, loggingDelegate: WKWatchlistLoggingDelegate) {
+    public init(localizedStrings: LocalizedStrings, overrideUserInterfaceStyle: UIUserInterfaceStyle, loggingDelegate: WKWatchlistLoggingDelegate?) {
         self.localizedStrings = localizedStrings
         self.overrideUserInterfaceStyle = overrideUserInterfaceStyle
         self.loggingDelegate = loggingDelegate
