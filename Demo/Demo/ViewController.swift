@@ -332,7 +332,7 @@ extension ViewController: WKWatchlistDelegate {
         print("Empty view: did tap search")
     }
 
-	func watchlistUserDidTapUser (project: WKProject, username: String, action: Components.WKWatchlistUserButtonAction) {
+	func watchlistUserDidTapUser (project: WKProject, username: String, action: Components.WKWatchlistUserButtonAction?) {
         print("Watchlist: user did tap \(project) → \(username) → \(action)")
     }
 

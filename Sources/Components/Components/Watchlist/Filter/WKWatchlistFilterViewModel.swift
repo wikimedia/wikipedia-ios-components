@@ -78,12 +78,14 @@ public final class WKWatchlistFilterViewModel {
     let localizedStrings: LocalizedStrings
     private let projectViewModels: [WKProjectViewModel]
     let formViewModel: WKFormViewModel
+    weak var loggingDelegate: WKWatchlistLoggingDelegate?
     private let dataController = WKWatchlistDataController()
     
     // MARK: - Public
     
-    public init(localizedStrings: LocalizedStrings) {
+    public init(localizedStrings: LocalizedStrings, loggingDelegate: WKWatchlistLoggingDelegate) {
         self.localizedStrings = localizedStrings
+        self.loggingDelegate = loggingDelegate
         
         let filterSettings = dataController.loadFilterSettings()
         let allProjects = dataController.allWatchlistProjects()
@@ -106,30 +108,38 @@ public final class WKWatchlistFilterViewModel {
     }
     
     func saveNewFilterSettings() {
-        let currentFilterSettings = generateNewFilterSettings()
-        dataController.saveFilterSettings(currentFilterSettings)
+        let data = generateDataForNewFilterSettings()
+        
+        let newFilterSettings = data.filterSettings
+        dataController.saveFilterSettings(newFilterSettings)
+        
+        let onProjects = data.onProjects
+        loggingDelegate?.watchlistDidSaveFilterSettings(filterSettings: newFilterSettings, onProjects: onProjects)
     }
     
-    private func generateNewFilterSettings() -> WKWatchlistFilterSettings {
+    private func generateDataForNewFilterSettings() -> (filterSettings: WKWatchlistFilterSettings, onProjects: [WKProject]) {
         guard let sectionSelectViewModels = formViewModel.sections as? [WKFormSectionSelectViewModel],
               sectionSelectViewModels.count == 8 else {
             assertionFailure("Unexpected sections setup")
-            return WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+            return (WKWatchlistFilterSettings(offProjects: [], latestRevisions: .notTheLatestRevision, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: []), [])
         }
 
         var offProjects: [WKProject] = []
+        var onProjects: [WKProject] = []
         let wikimediaProjectsSection = sectionSelectViewModels[0]
         let wikipediasSection = sectionSelectViewModels[1]
 
         guard wikimediaProjectsSection.items.count == 2,
               wikipediasSection.items.count == projectViewModels.count - 2 else {
             assertionFailure("Unexpected projects section counts")
-            return  WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+            return  (WKWatchlistFilterSettings(offProjects: [], latestRevisions: .notTheLatestRevision, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: []),[])
         }
 
         for (index, item) in wikimediaProjectsSection.items.enumerated() {
             if !item.isSelected {
                 offProjects.append(projectViewModels[index].project)
+            } else {
+                onProjects.append(projectViewModels[index].project)
             }
         }
 
@@ -137,6 +147,8 @@ public final class WKWatchlistFilterViewModel {
             if !item.isSelected {
                 let offsetIndex = index + (wikimediaProjectsSection.items.count)
                 offProjects.append(projectViewModels[offsetIndex].project)
+            } else {
+                onProjects.append(projectViewModels[index].project)
             }
         }
 
@@ -154,18 +166,18 @@ public final class WKWatchlistFilterViewModel {
               userRegistrationSection.items.count == 3,
               typeOfChangeSection.items.count == 5 else {
             assertionFailure("Unexpected items count")
-            return WKWatchlistFilterSettings(offProjects: [], latestRevisions: .all, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: [])
+            return (WKWatchlistFilterSettings(offProjects: [], latestRevisions: .notTheLatestRevision, activity: .all, automatedContributions: .all, significance: .all, userRegistration: .all, offTypes: []),[])
         }
 
         let latestRevisionsRequest: WKWatchlistFilterSettings.LatestRevisions
         if latestRevisionsSection.items[0].isSelected {
-            latestRevisionsRequest = .all
+            latestRevisionsRequest = .notTheLatestRevision
         } else if latestRevisionsSection.items[1].isSelected {
             latestRevisionsRequest = .latestRevision
         } else if latestRevisionsSection.items[2].isSelected {
             latestRevisionsRequest = .notTheLatestRevision
         } else {
-            latestRevisionsRequest = .all
+            latestRevisionsRequest = .notTheLatestRevision
         }
 
         let activityRequest: WKWatchlistFilterSettings.Activity
@@ -233,13 +245,13 @@ public final class WKWatchlistFilterViewModel {
             offTypesRequest.append(.loggedActions)
         }
 
-        return WKWatchlistFilterSettings(offProjects: offProjects,
+        return (WKWatchlistFilterSettings(offProjects: offProjects,
                                         latestRevisions: latestRevisionsRequest,
                                         activity: activityRequest,
                                         automatedContributions: automatedContributionsRequest,
                                         significance: significanceRequest,
                                         userRegistration: userRegistrationRequest,
-                                        offTypes: offTypesRequest)
+                                        offTypes: offTypesRequest),[])
     }
 }
 
@@ -310,7 +322,7 @@ private extension WKWatchlistFilterViewModel {
 
     private static func section3(strings: WKWatchlistFilterViewModel.LocalizedStrings, filterSettings: WKWatchlistFilterSettings) -> WKFormSectionSelectViewModel {
         let items = [
-            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.latestRevisions == .all),
+            WKFormItemSelectViewModel(title: strings.commonAll, isSelected: filterSettings.latestRevisions == .notTheLatestRevision),
             WKFormItemSelectViewModel(title: strings.latestRevisionsLatestRevision, isSelected: filterSettings.latestRevisions == .latestRevision),
             WKFormItemSelectViewModel(title: strings.latestRevisionsNotLatestRevision, isSelected: filterSettings.latestRevisions == .notTheLatestRevision)
         ]

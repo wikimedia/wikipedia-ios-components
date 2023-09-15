@@ -1,5 +1,6 @@
 import Foundation
 import SwiftUI
+import WKData
 
 protocol WKWatchlistFilterDelegate: AnyObject {
     func watchlistFilterDidChange(_ hostingController: WKWatchlistFilterHostingController)
@@ -23,6 +24,5 @@ class WKWatchlistFilterHostingController: WKComponentHostingController<WKWatchli
     override func viewWillDisappear(_ animated: Bool) {
         super.viewWillDisappear(animated)
         viewModel.saveNewFilterSettings()
-        delegate?.watchlistFilterDidChange(self)
     }
 }

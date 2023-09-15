@@ -5,10 +5,18 @@ import WKData
 
 public protocol WKWatchlistDelegate: AnyObject {
 	func watchlistDidDismiss()
-    func emptyViewDidTapSearch()
 	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt)
 	func watchlistUserDidTapUser(project: WKProject, username: String, action: WKWatchlistUserButtonAction)
+    func emptyViewDidTapSearch()
+}
 
+public protocol WKWatchlistLoggingDelegate: AnyObject {
+    func logWatchlistDidTapNavBarFilterButton()
+    func watchlistDidSaveFilterSettings(filterSettings: WKWatchlistFilterSettings, onProjects: [WKProject])
+    func logWatchlistUserDidTapUserButton(project: WKProject)
+    func logWatchlistUserDidTapUserButtonAction(project: WKProject, action: WKWatchlistUserButtonAction)
+    func logEmptyViewDidShow()
+    func logEmptyViewDidTapModifyFilters()
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
@@ -24,17 +32,20 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	class MenuButtonHandler: WKMenuButtonDelegate {
 		weak var watchlistDelegate: WKWatchlistDelegate?
+        weak var watchlistLoggingDelegate: WKWatchlistLoggingDelegate?
 		let menuButtonItems: [WKMenuButton.MenuItem]
 		let wkProjectMetadataKey: String
 
-		init(watchlistDelegate: WKWatchlistDelegate? = nil, menuButtonItems: [WKMenuButton.MenuItem], wkProjectMetadataKey: String) {
+        init(watchlistDelegate: WKWatchlistDelegate? = nil, watchlistLoggingDelegate: WKWatchlistLoggingDelegate?, menuButtonItems: [WKMenuButton.MenuItem], wkProjectMetadataKey: String) {
 			self.watchlistDelegate = watchlistDelegate
+            self.watchlistLoggingDelegate = watchlistLoggingDelegate
 			self.menuButtonItems = menuButtonItems
 			self.wkProjectMetadataKey = wkProjectMetadataKey
 		}
 
 		func wkSwiftUIMenuButtonUserDidTap(configuration: WKMenuButton.Configuration, item: WKMenuButton.MenuItem?) {
-			guard let username = configuration.title, let tappedTitle = item?.title, let wkProject = configuration.metadata[wkProjectMetadataKey] as? WKProject else {
+			guard let username = configuration.title, let wkProject = configuration.metadata[wkProjectMetadataKey] as? WKProject,
+            let tappedTitle = item?.title else {
 				return
 			}
 
@@ -61,6 +72,7 @@ public final class WKWatchlistViewController: WKCanvasViewController {
     let filterViewModel: WKWatchlistFilterViewModel
     let emptyViewModel: WKEmptyViewModel
 	weak var delegate: WKWatchlistDelegate?
+    weak var loggingDelegate: WKWatchlistLoggingDelegate?
 	var reachabilityHandler: ReachabilityHandler
 	let buttonHandler: MenuButtonHandler?
 
@@ -80,14 +92,15 @@ public final class WKWatchlistViewController: WKCanvasViewController {
 
 	// MARK: - Lifecycle
 
-	public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, reachabilityHandler: ReachabilityHandler = nil) {
+    public init(viewModel: WKWatchlistViewModel, filterViewModel: WKWatchlistFilterViewModel, emptyViewModel: WKEmptyViewModel, delegate: WKWatchlistDelegate?, loggingDelegate: WKWatchlistLoggingDelegate?, reachabilityHandler: ReachabilityHandler = nil) {
 		self.viewModel = viewModel
         self.filterViewModel = filterViewModel
         self.emptyViewModel = emptyViewModel
 		self.delegate = delegate
+        self.loggingDelegate = loggingDelegate
 		self.reachabilityHandler = reachabilityHandler
 
-		let buttonHandler = MenuButtonHandler(watchlistDelegate: delegate, menuButtonItems: viewModel.menuButtonItems, wkProjectMetadataKey: WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey)
+        let buttonHandler = MenuButtonHandler(watchlistDelegate: delegate, watchlistLoggingDelegate: loggingDelegate, menuButtonItems: viewModel.menuButtonItems, wkProjectMetadataKey: WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey)
 		self.buttonHandler = buttonHandler
 
         self.hostingViewController = WKWatchlistHostingViewController(viewModel: viewModel, emptyViewModel: emptyViewModel, delegate: delegate, menuButtonDelegate: buttonHandler)
@@ -175,11 +188,17 @@ extension WKWatchlistViewController: WKWatchlistFilterDelegate {
 }
 
 extension WKWatchlistViewController: WKEmptyViewDelegate {
+    public func didShow() {
+        loggingDelegate?.logEmptyViewDidShow()
+    }
+    
+    
     public func didTapSearch() {
         delegate?.emptyViewDidTapSearch()
     }
     
     public func didTapFilters() {
         showFilterView()
+        loggingDelegate?.logEmptyViewDidTapModifyFilters()
     }
 }
