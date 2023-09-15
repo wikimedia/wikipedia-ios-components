@@ -177,7 +177,8 @@ class ViewController: WKCanvasViewController {
 
         let emptyViewModel = WKEmptyViewModel(localizedStrings: emptyViewLocalizedStrings, image: UIImage(named: "watchlist-empty-state") ?? UIImage(), numberOfFilters: viewModel.activeFilterCount)
 
-        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings)
+        let userInterfaceStyle = UserDefaults.standard.themeName == "Default" ? .unspecified : WKAppEnvironment.current.theme.userInterfaceStyle
+        let filterViewModel = WKWatchlistFilterViewModel(localizedStrings: .demoStrings, overrideUserInterfaceStyle: userInterfaceStyle)
 
         let watchlistViewController = WKWatchlistViewController(viewModel: viewModel, filterViewModel: filterViewModel, emptyViewModel: emptyViewModel, delegate: self)
 
