@@ -65,7 +65,7 @@ private struct WKWatchlistContentView: View {
 							.padding([.top, .bottom], 6)
 							.frame(maxWidth: .infinity, alignment: .leading)
 						ForEach(section.items) { item in
-							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuButtonItems: viewModel.menuButtonItems, menuButtonDelegate: menuButtonDelegate)
+							WKWatchlistViewCell(itemViewModel: item, localizedStrings: viewModel.localizedStrings, menuItemConfiguration: WKWatchlistViewCell.MenuItemConfiguration(userMenuItems: viewModel.menuButtonItems, anonOrBotMenuItems: viewModel.menuButtonItemsWithoutThank), menuButtonDelegate: menuButtonDelegate)
 								.contentShape(Rectangle())
 								.onTapGesture {
 									delegate?.watchlistUserDidTapDiff(project: item.project, title: item.title, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID)
@@ -86,12 +86,25 @@ private struct WKWatchlistContentView: View {
 
 // MARK: - Private: WKWatchlistViewCell
 
-private struct WKWatchlistViewCell: View {
+fileprivate struct WKWatchlistViewCell: View {
+
+	struct MenuItemConfiguration {
+		let userMenuItems: [WKMenuButton.MenuItem]
+		let anonOrBotMenuItems: [WKMenuButton.MenuItem]
+	}
 
 	@ObservedObject var appEnvironment = WKAppEnvironment.current
 	let itemViewModel: WKWatchlistViewModel.ItemViewModel
 	let localizedStrings: WKWatchlistViewModel.LocalizedStrings
-	let menuButtonItems: [WKMenuButton.MenuItem]
+	let menuItemConfiguration: MenuItemConfiguration
+
+	var menuItemsForRevisionAuthor: [WKMenuButton.MenuItem] {
+		if itemViewModel.isBot || itemViewModel.isAnonymous {
+			return menuItemConfiguration.anonOrBotMenuItems
+		} else {
+			return menuItemConfiguration.userMenuItems
+		}
+	}
 
 	weak var menuButtonDelegate: WKMenuButtonDelegate?
 
@@ -142,8 +155,11 @@ private struct WKWatchlistViewCell: View {
 									title: itemViewModel.username,
 									image: WKSFSymbolIcon.for(symbol: .personFilled),
 									primaryColor: \.link,
-									menuItems: menuButtonItems,
-									metadata: [WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project]
+									menuItems: menuItemsForRevisionAuthor,
+									metadata: [
+										WKWatchlistViewModel.ItemViewModel.wkProjectMetadataKey: itemViewModel.project,
+										WKWatchlistViewModel.ItemViewModel.revisionIDMetadataKey: itemViewModel.revisionID
+									]
 								), menuButtonDelegate: menuButtonDelegate)
 								Spacer()
 							}

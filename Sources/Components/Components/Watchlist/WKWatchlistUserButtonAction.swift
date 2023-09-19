@@ -5,5 +5,5 @@ public enum WKWatchlistUserButtonAction {
 	case userPage
 	case userTalkPage
 	case userContributions
-	case thank
+	case thank(revisionID: UInt)
 }

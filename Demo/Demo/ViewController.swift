@@ -342,8 +342,8 @@ extension ViewController: WKWatchlistDelegate {
     }
 
 	func watchlistUserDidTapDiff(project: WKProject, title: String, revisionID: UInt, oldRevisionID: UInt) {
-			print("Watchlist: user did tap diff \(project) → \(title) → \(revisionID) → \(oldRevisionID)")
-		}
+		print("Watchlist: user did tap diff \(project) → \(title) → \(revisionID) → \(oldRevisionID)")
+	}
 }
 
 extension ViewController: WKMenuButtonDelegate {

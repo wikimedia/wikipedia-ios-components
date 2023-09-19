@@ -37,13 +37,13 @@ public struct WKSwiftUIMenuButton: View {
 						.foregroundColor(Color(appEnvironment.theme[keyPath: configuration.primaryColor]))
 						.font(Font(WKFont.for(.boldFootnote)))
 				}
+				.padding([.leading, .trailing], 8)
+				.padding([.top, .bottom], 8)
+				.background(Color(appEnvironment.theme[keyPath: configuration.primaryColor].withAlphaComponent(0.15)))
 			})
 			.highPriorityGesture(TapGesture().onEnded {
 				menuButtonDelegate?.wkSwiftUIMenuButtonUserDidTap(configuration: configuration, item: nil)
 			})
-			.padding([.leading, .trailing], 8)
-			.padding([.top, .bottom], 8)
-			.background(Color(appEnvironment.theme[keyPath: configuration.primaryColor].withAlphaComponent(0.15)))
 			.cornerRadius(8)
 	}
 	

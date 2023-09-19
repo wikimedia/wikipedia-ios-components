@@ -29,6 +29,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 
 	public struct ItemViewModel: Identifiable {
 		public static let wkProjectMetadataKey = String(describing: WKProject.self)
+		public static let revisionIDMetadataKey = "RevisionID"
 
 		public let id = UUID()
 
@@ -37,17 +38,21 @@ public final class WKWatchlistViewModel: ObservableObject {
 		let commentWikitext: String
 		let timestamp: Date
 		let username: String
+		let isAnonymous: Bool
+		let isBot: Bool
 		let revisionID: UInt
 		let oldRevisionID: UInt
 		let byteChange: Int
 		let project: WKProject
 
-		public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, revisionID: UInt, oldRevisionID: UInt, byteChange: Int, project: WKProject) {
+		public init(title: String, commentHTML: String, commentWikitext: String, timestamp: Date, username: String, isAnonymous: Bool, isBot: Bool, revisionID: UInt, oldRevisionID: UInt, byteChange: Int, project: WKProject) {
 			self.title = title
 			self.commentHTML = commentHTML
 			self.commentWikitext = commentWikitext
 			self.timestamp = timestamp
 			self.username = username
+			self.isAnonymous = isAnonymous
+			self.isBot = isBot
 			self.revisionID = revisionID
 			self.oldRevisionID = oldRevisionID
 			self.byteChange = byteChange
@@ -112,6 +117,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 	@Published var hasPerformedInitialFetch = false
 
 	let menuButtonItems: [WKMenuButton.MenuItem]
+	var menuButtonItemsWithoutThank: [WKMenuButton.MenuItem]
 
 	// MARK: - Lifecycle
 
@@ -124,6 +130,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			WKMenuButton.MenuItem(title: localizedStrings.userButtonContributions, image: WKIcon.userContributions),
 			WKMenuButton.MenuItem(title: localizedStrings.userButtonThank, image: WKIcon.thank)
 		]
+		self.menuButtonItemsWithoutThank = self.menuButtonItems.dropLast()
 	}
 
     public func fetchWatchlist(_ completion: (() -> Void)? = nil) {
@@ -131,7 +138,7 @@ public final class WKWatchlistViewModel: ObservableObject {
 			switch result {
 			case .success(let watchlist):
 				self.items = watchlist.items.map { item in
-					let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
+					let viewModel = ItemViewModel(title: item.title, commentHTML: item.commentHtml, commentWikitext: item.commentWikitext, timestamp: item.timestamp, username: item.username, isAnonymous: item.isAnon, isBot: item.isBot, revisionID: item.revisionID, oldRevisionID: item.oldRevisionID, byteChange: Int(item.byteLength) - Int(item.oldByteLength), project: item.project)
 					return viewModel
 				}
 				self.sections = self.sortWatchlistItems()
