@@ -305,7 +305,7 @@ private extension WKWatchlistFilterViewModel.LocalizedStrings {
 }
 
 extension ViewController: WKEmptyViewDelegate {
-    func didShow() {
+    func didShow(type: Components.WKEmptyViewStateType) {
         
     }
     
