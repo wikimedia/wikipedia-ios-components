@@ -15,8 +15,10 @@ public protocol WKWatchlistLoggingDelegate: AnyObject {
     func watchlistDidSaveFilterSettings(filterSettings: WKWatchlistFilterSettings, onProjects: [WKProject])
     func logWatchlistUserDidTapUserButton(project: WKProject)
     func logWatchlistUserDidTapUserButtonAction(project: WKProject, action: WKWatchlistUserButtonAction)
-    func logEmptyViewDidShow()
+    func logEmptyViewDidShow(type: WKEmptyViewStateType)
+    func logEmptyViewDidTapSearch()
     func logEmptyViewDidTapModifyFilters()
+    func logWatchlistLoaded(itemCount: Int)
 }
 
 public final class WKWatchlistViewController: WKCanvasViewController {
@@ -188,13 +190,13 @@ extension WKWatchlistViewController: WKWatchlistFilterDelegate {
 }
 
 extension WKWatchlistViewController: WKEmptyViewDelegate {
-    public func didShow() {
-        loggingDelegate?.logEmptyViewDidShow()
+    public func didShow(type: WKEmptyViewStateType) {
+        loggingDelegate?.logEmptyViewDidShow(type: type)
     }
-    
     
     public func didTapSearch() {
         delegate?.emptyViewDidTapSearch()
+        loggingDelegate?.logEmptyViewDidTapSearch()
     }
     
     public func didTapFilters() {

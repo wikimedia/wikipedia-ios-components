@@ -3,7 +3,7 @@ import SwiftUI
 public protocol WKEmptyViewDelegate: AnyObject {
     func didTapSearch()
     func didTapFilters()
-    func didShow()
+    func didShow(type: WKEmptyViewStateType)
 }
 
 public struct WKEmptyView: View {
@@ -50,7 +50,7 @@ public struct WKEmptyView: View {
             }
         }
         .onAppear {
-            delegate?.didShow()
+            delegate?.didShow(type: type)
         }
     }
 
